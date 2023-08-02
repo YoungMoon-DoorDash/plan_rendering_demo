@@ -1,0 +1,32 @@
+<html>
+<head>
+    <title>{{title}}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <script>
+    $(document).ready(function(){
+        $("#home").click(function(){
+            setBtnStyle("home")
+        });
+        $("#about").click(function(){
+            setBtnStyle("about")
+        });
+        $("#services").click(function(){
+            setBtnStyle("services")
+        });
+    });
+
+    function setBtnStyle(selected){
+        $("#home").prop("class", getBtnStyle("home", selected))
+        $("#about").prop("class", getBtnStyle("about", selected))
+        $("#services").prop("class", getBtnStyle("services", selected))
+    }
+
+    function getBtnStyle(btnId, selected) {
+        return (btnId == selected) ? "btn btn-outline-primary active" : "btn btn-outline-primary"
+    }
+    </script>
+</head>
+<body>
