@@ -1,0 +1,26 @@
+{{> header}}
+
+{{{banner}}}
+
+<table style='margin-top:10px;'>
+<tr>
+    <td nowrap><b>{{title}}</b></td>
+    <td style='padding-left:12px;'>{{{add-screen-elements}}}</td>
+</tr>
+</table>
+
+<form style="width:640px;margin-top:10px;" class="text-start" action="{{form-action}}" method="post">
+<input type='hidden' name='form-section-type' value='{{form-section-type}}'>
+<input type='hidden' name='form-section-id' value='{{form-section-id}}'>
+
+{{{form-elements}}}
+
+<br>
+<center>
+<input type="submit" value="Submit">
+</center>
+</form>
+
+Echo: {{form-data}}
+
+{{> footer}}

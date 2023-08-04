@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ScreenElementDto(
-    val id: Long,
+    val id: Int,
     val sectionType: UIFlowScreenSectionType,
     val content: String
 )
