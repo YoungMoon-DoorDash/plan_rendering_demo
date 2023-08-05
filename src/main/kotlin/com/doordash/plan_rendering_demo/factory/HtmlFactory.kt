@@ -1,4 +1,4 @@
-package com.doordash.plan_rendering_demo.controller
+package com.doordash.plan_rendering_demo.factory
 
 import com.doordash.rpc.common.UIFlowScreenSectionType
 
@@ -7,6 +7,9 @@ object HtmlFactory {
         val sb = StringBuilder("<div class='btn-group' style='padding-right:2pt;'>")
         sb.append(getBtnLink("Home", "/", currentPage == "home"))
         sb.append(getBtnLink("Elements", "/elements", currentPage == "elements"))
+        sb.append(getBtnLink("Text", "/text", currentPage == "text"))
+        sb.append(getBtnLink("User", "/user", currentPage == "user"))
+        sb.append(getBtnLink("Experiment", "/experiment", currentPage == "experiment"))
         sb.append("</div>")
         return sb.toString()
     }

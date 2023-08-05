@@ -1,13 +1,14 @@
 package com.doordash.plan_rendering_demo.controller
 
-import com.doordash.plan_rendering_demo.model.ScreenElementDto
-import com.doordash.plan_rendering_demo.model.ScreenElementDtoText
+import com.doordash.plan_rendering_demo.factory.HtmlFactory
+import com.doordash.plan_rendering_demo.factory.ScreenElementFactory
+import com.doordash.plan_rendering_demo.model.ScreenElement
+import com.doordash.plan_rendering_demo.model.ScreenElementText
+import com.doordash.plan_rendering_demo.repository.ScreenElementRepository
 import com.doordash.rpc.common.UIFlowScreenSectionType
 import com.doordash.rpc.common.UIFlowScreenTextAlignment
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonNull.content
-import org.springframework.data.jpa.domain.AbstractPersistable_.id
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set
@@ -16,13 +17,21 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
-class ScreenElementController {
+class ScreenElementController(
+    private val screenElementRepository: ScreenElementRepository,
+) {
     @GetMapping("/elements")
     fun elementsHome(model: Model): String {
-        model["banner"] = HtmlFactory.getHomeBanner("elements")
-        model["title"] = "Elements"
-        model["add-screen-elements"] = HtmlFactory.getElementsDropDown()
+        addElementInfo(model, "elements", "Elements")
+
+        model["elements"] = screenElementRepository.findAll()
         return "elements"
+    }
+
+    private fun addElementInfo(model: Model, banner: String, title: String) {
+        model["banner"] = HtmlFactory.getHomeBanner(banner)
+        model["add-screen-elements"] = HtmlFactory.getElementsDropDown()
+        model["title"] = title
     }
 
     @GetMapping("/elements/add")
@@ -30,23 +39,17 @@ class ScreenElementController {
         runCatching {
             UIFlowScreenSectionType.forNumber(sectionType)
         }.getOrNull()?.let {
-            model["add-screen-elements"] = HtmlFactory.getElementsDropDown()
-            model["banner"] = HtmlFactory.getHomeBanner("elements-add")
-            model["title"] = "Elements > ${it.name}"
+            addElementInfo(model, "elements-add", "Elements > ${it.name}")
 
-            setFormParameters(it, model)
+            model["form-elements"] = ScreenElementFactory.getFormText(it)
+            model["form-section-type"] = it.ordinal
+            model["form-section-id"] = 0
+            model["form-action"] = ScreenElementFactory.getFormAction(it)
             model["form-data"] = ""
             return "elements-add"
         }
 
         return elementsHome(model)
-    }
-
-    private fun setFormParameters(uiFlowScreenSectionType: UIFlowScreenSectionType, model: Model) {
-        model["form-elements"] = ScreenElementFactory.getFormText(uiFlowScreenSectionType)
-        model["form-section-type"] = uiFlowScreenSectionType.ordinal
-        model["form-section-id"] = 0
-        model["form-action"] = ScreenElementFactory.getFormAction(uiFlowScreenSectionType)
     }
 
     @PostMapping("/elements/add/text")
@@ -60,24 +63,21 @@ class ScreenElementController {
         runCatching {
             UIFlowScreenSectionType.forNumber(sectionType)
         }.getOrNull()?.let {
-            model["add-screen-elements"] = HtmlFactory.getElementsDropDown()
-            model["banner"] = HtmlFactory.getHomeBanner("elements-add")
-            model["title"] = "Elements > ${it.name} > Post"
-            model["form-data"] = Json.encodeToString<ScreenElementDto>(
-                ScreenElementDto(
-                    id = sectionId,
-                    sectionType = it,
-                    content = Json.encodeToString<ScreenElementDtoText>(
-                        ScreenElementDtoText(
-                            alignment = UIFlowScreenTextAlignment.forNumber(alignmentType),
-                            content = sectionContent
-                        )
-                    )
+            val contentJson = Json.encodeToString<ScreenElementText>(
+                ScreenElementText(
+                    alignment = UIFlowScreenTextAlignment.forNumber(alignmentType),
+                    content = sectionContent
+                )
+            )
+            model["element"] = screenElementRepository.save(
+                ScreenElement(
+                    sectionType = it.ordinal,
+                    content = contentJson
                 )
             )
 
-            setFormParameters(it, model)
-            return "elements-add"
+            addElementInfo(model, "elements-info", "Elements > ${it.name}")
+            return "elements-info"
         }
 
         return elementsHome(model)

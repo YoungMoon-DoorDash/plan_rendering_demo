@@ -4,7 +4,7 @@ import com.doordash.rpc.common.UIFlowScreenTextAlignment
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ScreenElementDtoText(
+data class ScreenElementText(
     val content: String,
     val alignment: UIFlowScreenTextAlignment?
 )

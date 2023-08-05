@@ -6,10 +6,10 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 
 @Entity
-data class ScreenElement(
+data class Experiment(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
-    val sectionType: Int,
-    val content: String
+    val name: String,
+    val controls: String
 )

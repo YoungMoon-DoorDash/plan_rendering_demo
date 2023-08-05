@@ -1,0 +1,50 @@
+{{> header}}
+<script language='javascript' type='text/javascript'>
+    function on_search() {
+        var query = document.getElementById('search').value
+        location.href = '/experiment?search=' + query
+    }
+</script>
+{{> bodyheader}}
+{{{banner}}}
+
+<table style='margin-top:10px;'>
+    <tr>
+        <td nowrap><b>{{title}}</b></td>
+        <td style='text-align:right;' nowrap>
+            &nbsp; &nbsp;
+            <input type='text' id='search' value="{{search}}" placeholder='Search by name'/>
+            <button type='button' class='btn btn-outline-primary btn-sm' onclick='on_search()'>Find</button>
+            <a href='/experiment/add' class='btn btn-outline-primary btn-sm'>Add experiment</a>
+        </td>
+    </tr>
+</table>
+
+<table class="table table-striped table-bordered">
+    <thead>
+    <tr><th scope="col">ID</th><th scope="col">Name</th><th scope="col">Controls</th></tr>
+    </thead>
+    <tbody>
+    {{#experiments}}
+        <tr>
+            <td scope="row">{{id}}</td>
+            <td><a href='/experiment/info?id={{id}}' class='btn btn-outline-primary btn-sm'>{{name}}</a> &nbsp;</td>
+            <td>{{{controls}}}</td>
+        </tr>
+    {{/experiments}}
+    {{^experiments}}
+        <tr><td colspan=3 style='text-align:center;'>There's no registered experiments.</td></tr>
+    {{/experiments}}
+    </tbody>
+</table>
+
+<script>
+    var inputBox = document.getElementById('search')
+    inputBox.addEventListener("keyup", function (event) {
+        if (event.keyCode == 13) {
+            on_search()
+        }
+    });
+    inputBox.focus();
+</script>
+{{> footer}}

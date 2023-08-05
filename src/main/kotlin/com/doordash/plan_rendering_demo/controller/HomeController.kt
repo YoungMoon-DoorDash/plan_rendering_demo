@@ -1,5 +1,6 @@
 package com.doordash.plan_rendering_demo.controller
 
+import com.doordash.plan_rendering_demo.factory.HtmlFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set

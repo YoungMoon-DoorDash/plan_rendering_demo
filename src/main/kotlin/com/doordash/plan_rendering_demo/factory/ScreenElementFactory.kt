@@ -1,4 +1,4 @@
-package com.doordash.plan_rendering_demo.controller
+package com.doordash.plan_rendering_demo.factory
 
 import com.doordash.rpc.common.UIFlowScreenSectionType
 

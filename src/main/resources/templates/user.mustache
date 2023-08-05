@@ -1,0 +1,51 @@
+{{> header}}
+<script language='javascript' type='text/javascript'>
+    function on_search() {
+        var query = document.getElementById('search').value
+        location.href = '/user?search=' + query
+    }
+</script>
+{{> bodyheader}}
+{{{banner}}}
+
+<table style='margin-top:10px;'>
+<tr>
+    <td nowrap><b>{{title}}</b></td>
+    <td style='text-align:right;' nowrap>
+        &nbsp; &nbsp;
+        <input type='text' id='search' value="{{search}}" placeholder='Search by name'/>
+        <button type='button' class='btn btn-outline-primary btn-sm' onclick='on_search()'>Find</button>
+        <a href='/user/add' class='btn btn-outline-primary btn-sm'>Add user</a>
+    </td>
+</tr>
+</table>
+
+<table class="table table-striped table-bordered">
+<thead>
+    <tr><th scope="col">ID</th><th scope="col">Name</th><th scope="col">Email</th><th scope="col">Experiments</th></tr>
+</thead>
+<tbody>
+{{#users}}
+    <tr>
+        <td scope="row" nowrap>{{id}}</td>
+        <td nowrap><a href='/user/info?id={{id}}' class='btn btn-outline-primary btn-sm'>{{name}}</a> &nbsp;</td>
+        <td nowrap>{{email}}</td>
+        <td>{{{experiments}}}</td>
+    </tr>
+{{/users}}
+{{^users}}
+<tr><td colspan=3 style='text-align:center;'>There's no registered users.</td></tr>
+{{/users}}
+</tbody>
+</table>
+
+<script>
+    var inputBox = document.getElementById('search')
+    inputBox.addEventListener("keyup", function (event) {
+        if (event.keyCode == 13) {
+            on_search()
+        }
+     });
+     inputBox.focus();
+</script>
+{{> footer}}
