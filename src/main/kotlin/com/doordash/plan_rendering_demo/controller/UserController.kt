@@ -4,6 +4,8 @@ import com.doordash.plan_rendering_demo.factory.HtmlFactory
 import com.doordash.plan_rendering_demo.model.User
 import com.doordash.plan_rendering_demo.repository.ExperimentRepository
 import com.doordash.plan_rendering_demo.repository.UserRepository
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set
@@ -22,15 +24,13 @@ class UserController(
         if (search.isNullOrBlank()) {
             model["search"] = ""
             model["users"] = userRepository.findAll().map {
-                User(id = it.id,
-                    name = it.name,
-                    email = it.email,
-                    experiments = asExperimentList(it.experiments)
-                )
+                it.copy(experiments = asExperimentList(it.experiments))
             }
         } else {
             model["search"] = search
-            model["users"] = userRepository.searchByName('%' + search + '%')
+            model["users"] = userRepository.searchByName('%' + search + '%').map {
+                it.copy(experiments = asExperimentList(it.experiments))
+            }
         }
         return "user"
     }
@@ -49,23 +49,10 @@ class UserController(
         @RequestParam experiments: String,
         model: Model
     ): String {
-        val convertName = name.trim()
-        val convertEmail = email.trim()
-        val convertExperiments = filterExperiments(experiments)
-        val existingUser = userRepository.findUser(convertName, convertEmail)
-        existingUser?.let {
-            val saved = userRepository.save(
-                User(id = it.id, name = convertName, email = convertEmail, experiments = convertExperiments)
-            )
-            return showUser(model, saved)
-        }
-
-        val savedUser = userRepository.save(
-            User(name = convertName, email = convertEmail, experiments = convertExperiments)
-        )
-        return showUser(model, savedUser)
+        val saved = addOrUpdate(name, email, experiments)
+        return showUser(model, saved)
     }
-
+    
     @GetMapping("/user/info")
     fun userInfo(@RequestParam id: Long, model: Model): String {
         val findUser = userRepository.findById(id)
@@ -113,6 +100,46 @@ class UserController(
         return userHome(null, model)
     }
 
+    @GetMapping("/user/import")
+    fun userImportPage(model: Model): String {
+        setUserParams(model, "Import users from Json")
+        return "user-import"
+    }
+    
+    @Serializable
+    private data class ImportUserData(
+        val name: String,
+        val email: String,
+        val experiments: String
+    )
+
+    @PostMapping("/user/import")
+    fun userImport(
+        @RequestParam values: String,
+        model: Model
+    ): String {
+        Json.decodeFromString<List<ImportUserData>>(values).forEach{ user ->
+            addOrUpdate(user.name, user.email, user.experiments)
+        }
+
+        return userHome(null, model)
+    }
+    
+    private fun addOrUpdate(name: String, email: String, experiments: String): User {
+        val convertName = name.trim()
+        val convertEmail = email.trim()
+        val convertExperiments = filterExperiments(experiments)
+        return userRepository.findUser(convertName, convertEmail)?.let {
+            userRepository.save(
+                User(id = it.id, name = convertName, email = convertEmail, experiments = convertExperiments)
+            )
+        } ?: run {
+            userRepository.save(
+                User(name = convertName, email = convertEmail, experiments = convertExperiments)
+            )
+        }
+    }
+
     private fun showUser(model: Model, user: User): String {
         setUserParams(model, "Registered User > ${user.name}")
         model["user"] = user.copy(
@@ -149,6 +176,13 @@ class UserController(
             prefix = "<li>",
             postfix = "</li>",
             separator = "</li><li>"
-        ) { it.name }
+        ) { exp ->
+            val controls = exp.controls.split(",").joinToString(
+                prefix = "<li>",
+                postfix = "</li>",
+                separator = "</li><li>"
+            ) { it }
+            exp.name + "<ul>" + controls + "</ul>"
+        }
     }
 }

@@ -3,7 +3,8 @@ package com.doordash.plan_rendering_demo.controller
 import com.doordash.plan_rendering_demo.factory.HtmlFactory
 import com.doordash.plan_rendering_demo.model.Experiment
 import com.doordash.plan_rendering_demo.repository.ExperimentRepository
-import org.springframework.data.jpa.domain.AbstractPersistable_.id
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.ui.set
@@ -42,18 +43,7 @@ class ExperimentController(
         @RequestParam controls: String,
         model: Model
     ): String {
-        val filteredName = filterName(name)
-        val experiment = experimentRepository.findByName(filteredName)
-        experiment?.let {
-            val saved = experimentRepository.save(
-                Experiment(id = it.id, name = filteredName, controls = filterControls(controls))
-            )
-            return showExperiment(model, saved)
-        }
-
-        val saved = experimentRepository.save(
-            Experiment(name = filteredName, controls = filterControls(controls))
-        )
+        val saved = addOrUpdate(name, controls)
         return showExperiment(model, saved)
     }
 
@@ -98,6 +88,43 @@ class ExperimentController(
     ): String {
         experimentRepository.deleteById(id)
         return experimentHome(null, model)
+    }
+
+    @GetMapping("/experiment/import")
+    fun experimentImportPage(model: Model): String {
+        setExperimentParams(model, "Import experiments from Json")
+        return "experiment-import"
+    }
+
+    @Serializable
+    private data class ImportExperimentData(
+        val name: String,
+        val controls: String
+    )
+
+    @PostMapping("/experiment/import")
+    fun experimentImport(
+        @RequestParam values: String,
+        model: Model
+    ): String {
+        Json.decodeFromString<List<ImportExperimentData>>(values).forEach {
+            addOrUpdate(it.name, it.controls)
+        }
+
+        return experimentHome(null, model)
+    }
+    
+    private fun addOrUpdate(name: String, controls: String): Experiment {
+        val filteredName = filterName(name)
+        return experimentRepository.findByName(filteredName)?.let {
+            experimentRepository.save(
+                Experiment(id = it.id, name = filteredName, controls = filterControls(controls))
+            )
+        } ?: run {
+            experimentRepository.save(
+                Experiment(name = filteredName, controls = filterControls(controls))
+            )
+        }
     }
 
     private fun filterName(name: String): String =

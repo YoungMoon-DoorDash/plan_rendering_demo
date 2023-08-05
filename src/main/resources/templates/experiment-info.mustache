@@ -10,10 +10,10 @@
 
 {{{banner}}}
 
-<table style='margin-top:10px; width:100%;'>
+<table style='margin-top:10px; width:860px;'>
     <tr>
         <td nowrap><b>{{title}}</b></td>
-        <td style='text-align:right;' nowrap>
+        <td style='padding-left:16px;text-align:right;' nowrap>
             <a href='/experiment/add' class='btn btn-outline-primary btn-sm'>Add experiment</a>
             {{#experiment}}
                 <a href='/experiment/edit?id={{id}}' class='btn btn-outline-primary btn-sm'>Edit</a>
@@ -24,7 +24,7 @@
 </table>
 
 {{#experiment}}
-    <table style='border:1pt solid gray; width:100%; margin-top:6px; padding:3px; background-color:lightgray;'>
+    <table style='border:1pt solid gray; width:860px; margin-top:6px; padding:3px; background-color:lightgray;'>
         <tr><td style='width:100px;border:1pt solid gray;background-color:lightblue;text-align:right;padding:2px;'>Exp ID &nbsp;</td><td style='background-color:white;padding:2px;'>&nbsp; {{id}}</td></tr>
         <tr><td style='width:100px;border:1pt solid gray;background-color:lightblue;text-align:right;padding:2px;'>Name &nbsp;</td><td style='border:1pt solid gray;border:1pt solid gray;background-color:white;padding:2px;'>&nbsp; {{name}}</td></tr>
         <tr><td style='width:100px;border:1pt solid gray;background-color:lightblue;text-align:right;padding:2px;'>Controls &nbsp;</td><td style='border:1pt solid gray;background-color:white;padding:2px;'>{{{controls}}}</td></tr>

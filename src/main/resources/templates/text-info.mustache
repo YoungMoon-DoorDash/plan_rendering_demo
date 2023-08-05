@@ -1,0 +1,34 @@
+{{> header}}
+<script>
+    function on_delete(id) {
+        if (confirm("Are you want to remove this text!")) {
+            location.href = "/text/delete?id=" + id
+        }
+    }
+</script>
+{{> bodyheader}}
+
+{{{banner}}}
+
+<table style='margin-top:10px; width:860px;'>
+    <tr>
+        <td nowrap><b>{{title}}</b></td>
+        <td style='padding-left:16px;text-align:right;' nowrap>
+            <a href='/text/add' class='btn btn-outline-primary btn-sm'>Add text</a>
+            {{#text}}
+                <a href='/text/edit?id={{id}}' class='btn btn-outline-primary btn-sm'>Edit</a>
+                <button type="button" class='btn btn-outline-primary btn-sm' onclick="on_delete({{id}})">Remove</button>
+            {{/text}}
+        </td>
+    </tr>
+</table>
+
+{{#text}}
+    <table style='border:1pt solid gray; width:100%; margin-top:6px; padding:3px; background-color:lightgray;'>
+        <tr><td style='width:100px;border:1pt solid gray;background-color:lightblue;text-align:right;padding:2px;'>ID &nbsp;</td><td style='background-color:white;padding:2px;'>&nbsp; {{id}}</td></tr>
+        <tr><td style='width:100px;border:1pt solid gray;background-color:lightblue;text-align:right;padding:2px;'>Name &nbsp;</td><td style='border:1pt solid gray;border:1pt solid gray;background-color:white;padding:2px;'>&nbsp; {{name}}</td></tr>
+        <tr><td style='width:100px;border:1pt solid gray;background-color:lightblue;text-align:right;padding:2px;'>Value &nbsp;</td><td style='border:1pt solid gray;background-color:white;padding:2px;'>{{{value}}}</td></tr>
+    </table>
+{{/text}}
+
+{{> footer}}

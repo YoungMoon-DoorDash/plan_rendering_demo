@@ -1,0 +1,17 @@
+[
+  {
+    "name":  "Young Moon KO",
+    "email": "youngmoon.ko@doordash.com",
+    "experiments":  "sample_experiment:treatment_a,sample_experiment2:control,tfd_pricing:experiment_12"
+  },
+  {
+    "name": "Young Moon KO",
+    "email": "ymoon1972@gmail.com",
+    "experiments": ""
+  },
+  {
+    "name" : "Sachit Muckaden",
+    "email": "sachit.muckaden@doordash.com",
+    "experiments": "sample_experiment2:treatment,tfd_pricing:experiment_35"
+  }
+]

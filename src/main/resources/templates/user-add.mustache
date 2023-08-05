@@ -1,16 +1,19 @@
 {{> header}}
-<script>
-    getExperiments: function() {
-
-    }
-</script>
 {{> bodyheader}}
 
 {{{banner}}}
 
-<p style='margin-top:10px;font-weight:bold;'>{{title}}</p>
-
 <form style="width:640px;margin-top:10px;" class="text-start" action="/user/add" method="post">
+    <table style='margin-top:10px; width:860px;'>
+        <tr>
+            <td nowrap><b>{{title}}</b></td>
+            <td style='padding-left:16px;text-align:right;' nowrap>
+                <input type="submit" class='btn btn-outline-primary btn-sm' value="Submit">
+                <a type="button" class='btn btn-outline-primary btn-sm' href="/user">Cancel</a>
+            </td>
+        </tr>
+    </table>
+
     <div class="form-group">
         <label for="name">Name:</label>
         <input type="text" class="form-control" id="name" name="name" required />
@@ -26,15 +29,10 @@
     </div>
     <div class="alert alert-info d-flex" style="margin-top:10px;padding-bottom:0px;margin-bottom:0px;">
         <i class="bi-info-circle-fill"></i><div class="mx-2">Supported Experiments:
-        <ul style="margin-left:16px;">
+        <ul style="margin-left:2px;">
             {{{experimentList}}}
         </ul></div>
     </div>
-    <br>
-    <center>
-        <input type="submit" class='btn btn-outline-primary btn-sm' value="Submit">
-        <a type="button" class='btn btn-outline-primary btn-sm' href="/user">Cancel</a>
-    </center>
 </form>
 
 <script>

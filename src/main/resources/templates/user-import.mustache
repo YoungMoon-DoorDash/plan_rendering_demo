@@ -1,0 +1,27 @@
+{{> header}}
+{{> bodyheader}}
+
+{{{banner}}}
+
+<form style="width:640px;margin-top:10px;" class="text-start" action="/user/import" method="post">
+    <table style='margin-top:10px;width:860px;'>
+        <tr>
+            <td nowrap><b>{{title}}</b></td>
+            <td style='padding-left:16px;text-align:right;' nowrap>
+                <input type="submit" class='btn btn-outline-primary btn-sm' value="Import">
+                <a type="button" class='btn btn-outline-primary btn-sm' href="/user">Cancel</a>
+            </td>
+        </tr>
+    </table>
+
+    <div class="form-group">
+        <textarea class="form-control" id="values" name="values" rows="32" style='width:860px;' required></textarea>
+    </div>
+    <br>
+</form>
+
+<script>
+    document.getElementById('name').focus()
+</script>
+
+{{> footer}}

@@ -10,24 +10,24 @@
 
 {{{banner}}}
 
-<table style='margin-top:10px; width:100%;'>
+<table style='margin-top:10px; width:860px;'>
 <tr>
     <td nowrap><b>{{title}}</b></td>
-    <td style='text-align:right;' nowrap>
-    <a href='/user/add' class='btn btn-outline-primary btn-sm'>Add user</a>
-    {{#user}}
-    <a href='/user/edit?id={{id}}' class='btn btn-outline-primary btn-sm'>Edit</a>
-    <button type="button" class='btn btn-outline-primary btn-sm' onclick="on_delete({{id}})">Remove</button>
-    {{/user}}
+    <td style='padding-left:16px;text-align:right;' nowrap>
+        <a href='/user/add' class='btn btn-outline-primary btn-sm'>Add user</a>
+        {{#user}}
+        <a href='/user/edit?id={{id}}' class='btn btn-outline-primary btn-sm'>Edit</a>
+        <button type="button" class='btn btn-outline-primary btn-sm' onclick="on_delete({{id}})">Remove</button>
+        {{/user}}
     </td>
 </tr>
 </table>
 
 {{#user}}
 <table style='border:1pt solid gray; width:100%; margin-top:6px; padding:3px; background-color:lightgray;'>
-<tr><td style='width:100px;border:1pt solid gray;background-color:lightblue;text-align:right;padding:2px;'>Cx ID &nbsp;</td><td style='background-color:white;padding:2px;'>&nbsp; {{id}}</td></tr>
-<tr><td style='width:100px;border:1pt solid gray;background-color:lightblue;text-align:right;padding:2px;'>Name &nbsp;</td><td style='border:1pt solid gray;border:1pt solid gray;background-color:white;padding:2px;'>&nbsp; {{name}}</td></tr>
-<tr><td style='width:100px;border:1pt solid gray;background-color:lightblue;text-align:right;padding:2px;'>Email &nbsp;</td><td style='border:1pt solid gray;background-color:white;padding:2px;'>&nbsp; {{email}}</td></tr>
+    <tr><td style='width:100px;border:1pt solid gray;background-color:lightblue;text-align:right;padding:2px;'>Cx ID &nbsp;</td><td style='background-color:white;padding:2px;'>&nbsp; {{id}}</td></tr>
+    <tr><td style='width:100px;border:1pt solid gray;background-color:lightblue;text-align:right;padding:2px;'>Name &nbsp;</td><td style='border:1pt solid gray;border:1pt solid gray;background-color:white;padding:2px;'>&nbsp; {{name}}</td></tr>
+    <tr><td style='width:100px;border:1pt solid gray;background-color:lightblue;text-align:right;padding:2px;'>Email &nbsp;</td><td style='border:1pt solid gray;background-color:white;padding:2px;'>&nbsp; {{email}}</td></tr>
     <tr><td style='width:100px;border:1pt solid gray;background-color:lightblue;text-align:right;padding:2px;'>Experiments &nbsp;</td><td style='border:1pt solid gray;background-color:white;padding:2px;'>{{{experiments}}}</td></tr>
 </table>
 {{/user}}

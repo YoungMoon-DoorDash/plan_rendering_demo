@@ -7,13 +7,13 @@ import org.springframework.data.repository.query.Param
 
 interface ExperimentRepository: JpaRepository<Experiment, Long> {
     @Query(
-        value = "SELECT u.id, u.name, u.controls FROM experiment u WHERE lower(u.name)=lower(:name)",
+        value = "SELECT u.* FROM experiment u WHERE lower(u.name)=lower(:name)",
         nativeQuery = true
     )
     fun findByName(@Param("name") name: String): Experiment?
 
     @Query(
-        value = "SELECT u.id, u.name, u.controls FROM experiment u WHERE lower(u.name) like lower(:name)",
+        value = "SELECT u.* FROM experiment u WHERE lower(u.name) like lower(:name)",
         nativeQuery = true
     )
     fun searchByName(@Param("name") name: String): List<Experiment>

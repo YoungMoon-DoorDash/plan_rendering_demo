@@ -8,14 +8,14 @@
 {{> bodyheader}}
 {{{banner}}}
 
-<table style='margin-top:10px;'>
+<table style='margin-top:10px;width:860px;'>
     <tr>
         <td nowrap><b>{{title}}</b></td>
-        <td style='text-align:right;' nowrap>
-            &nbsp; &nbsp;
-            <input type='text' id='search' value="{{search}}" placeholder='Search by name'/>
+        <td style='padding-left:16px;text-align:right;' nowrap>
+            <input type='text' id='search' value="{{search}}" size='64' placeholder='Search by name'/>
             <button type='button' class='btn btn-outline-primary btn-sm' onclick='on_search()'>Find</button>
             <a href='/experiment/add' class='btn btn-outline-primary btn-sm'>Add experiment</a>
+            <a href='/experiment/import' class='btn btn-outline-primary btn-sm'>Import</a>
         </td>
     </tr>
 </table>

@@ -8,21 +8,21 @@
 {{> bodyheader}}
 {{{banner}}}
 
-<table style='margin-top:10px;'>
+<table style='margin-top:10px; width:860px;'>
 <tr>
     <td nowrap><b>{{title}}</b></td>
-    <td style='text-align:right;' nowrap>
-        &nbsp; &nbsp;
-        <input type='text' id='search' value="{{search}}" placeholder='Search by name'/>
+    <td style='padding-left:16px;text-align:right;' nowrap>
+        <input type='text' id='search' value="{{search}}" size='64' placeholder='Search by name'/>
         <button type='button' class='btn btn-outline-primary btn-sm' onclick='on_search()'>Find</button>
         <a href='/user/add' class='btn btn-outline-primary btn-sm'>Add user</a>
+        <a href='/user/import' class='btn btn-outline-primary btn-sm'>Import</a>
     </td>
 </tr>
 </table>
 
 <table class="table table-striped table-bordered">
 <thead>
-    <tr><th scope="col">ID</th><th scope="col">Name</th><th scope="col">Email</th><th scope="col">Experiments</th></tr>
+    <tr><th scope="col">Cx ID</th><th scope="col">Name</th><th scope="col">Email</th><th scope="col">Experiments</th></tr>
 </thead>
 <tbody>
 {{#users}}
