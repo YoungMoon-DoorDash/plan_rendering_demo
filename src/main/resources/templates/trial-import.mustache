@@ -3,13 +3,13 @@
 
 {{{banner}}}
 
-<form style="width:860px;margin-top:10px;" class="text-start" action="/text/import" method="post">
+<form style="width:860px;margin-top:10px;" class="text-start" action="/plan/trial/import" method="post">
     <table style='margin-top:10px;width:860px;'>
         <tr>
             <td nowrap><b>{{title}}</b></td>
             <td style='padding-left:16px;text-align:right;' nowrap>
                 <input type="submit" class='btn btn-outline-primary btn-sm' value="Import">
-                <a type="button" class='btn btn-outline-primary btn-sm' href="/text">Cancel</a>
+                <a type="button" class='btn btn-outline-primary btn-sm' href="/plan/trial">Cancel</a>
             </td>
         </tr>
     </table>
@@ -21,7 +21,7 @@
 </form>
 
 <script>
-    document.getElementById('name').focus()
+    document.getElementById('values').focus()
 </script>
 
 {{> footer}}

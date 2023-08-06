@@ -24,12 +24,12 @@
 </table>
 
 {{#user}}
-<table style='border:1pt solid gray; width:100%; margin-top:6px; padding:3px; background-color:lightgray;'>
-    <tr><td style='width:100px;border:1pt solid gray;background-color:lightblue;text-align:right;padding:2px;'>Cx ID &nbsp;</td><td style='background-color:white;padding:2px;'>&nbsp; {{id}}</td></tr>
-    <tr><td style='width:100px;border:1pt solid gray;background-color:lightblue;text-align:right;padding:2px;'>Name &nbsp;</td><td style='border:1pt solid gray;border:1pt solid gray;background-color:white;padding:2px;'>&nbsp; {{name}}</td></tr>
-    <tr><td style='width:100px;border:1pt solid gray;background-color:lightblue;text-align:right;padding:2px;'>Email &nbsp;</td><td style='border:1pt solid gray;background-color:white;padding:2px;'>&nbsp; {{email}}</td></tr>
-    <tr><td style='width:100px;border:1pt solid gray;background-color:lightblue;text-align:right;padding:2px;'>Experiments &nbsp;</td><td style='border:1pt solid gray;background-color:white;padding:2px;'>{{{experiments}}}</td></tr>
-</table>
+    <table class="table table-striped table-bordered btn-sm">
+        <tr><td scope="row" style="width:120px;text-align:right;font-weight:bold;" nowrap>Cx ID &nbsp;</td><td>&nbsp; {{id}}</td></tr>
+        <tr><td scope="row" style="width:120px;text-align:right;font-weight:bold;" nowrap>Name &nbsp;</td><td>&nbsp; {{name}}</td></tr>
+        <tr><td scope="row" style="width:120px;text-align:right;font-weight:bold;" nowrap>Email &nbsp;</td><td>&nbsp; {{email}}</td></tr>
+        <tr><td scope="row" style="width:120px;text-align:right;font-weight:bold;" nowrap>Experiments &nbsp;</td><td>{{{experiments}}}</td></tr>
+    </table>
 {{/user}}
 
 {{> footer}}

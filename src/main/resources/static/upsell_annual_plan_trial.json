@@ -1,0 +1,45 @@
+{
+  "name": "upsell_annual_plan_trial",
+  "displayTime": "MODAL",
+  "identifier": "dynamic",
+  "allowBackNavigation": "true",
+  "sections": [
+    {
+      "type": "BADGE",
+      "alignment": "LEFT",
+      "content": "@UPSELL_CONFIRMATION_TITLE_BADGE_TEXT"
+    },
+    {
+      "type": "BOLDED_TITLE_TEXT",
+      "alignment": "DEFAULT",
+      "content": "@UPSELL_CONFIRMATION_TITLE_ORDER_CART_ANNUAL_PLAN_TRIAL_UPSELL"
+    },
+    {
+      "type": "TEXT",
+      "alignment": "LEFT",
+      "content": "@UPSELL_CONFIRMATION_SUBTITLE_ORDER_CART_ANNUAL_PLAN_TRIAL_UPSELL"
+    }
+  ],
+  "actions": [
+    {
+      "type": "SELECT_RADIO_BUTTON_ACTION",
+      "displayType": "PRIMARY",
+      "postAction": "UNKNOWN_ACTION_IDENTIFIER",
+      "label": "@UPSELL_CONFIRMATION_ACTION_ORDER_CART_ANNUAL_PLAN_TRIAL_UPSELL_START_FREE_TRIAL"
+    }
+  ],
+  "commands": [
+    {
+      "target": "identifier",
+      "command": "upsell_annual_plan_trial_screen_identifier"
+    },
+    {
+      "target": "sections",
+      "command": "upsell_annual_plan_trial_upsell_confirmation_section_ratio_buttons"
+    },
+    {
+      "target": "sections",
+      "command": "upsell_annual_plan_trial_upsell_confirmation_terms_and_conditions"
+    }
+  ]
+}

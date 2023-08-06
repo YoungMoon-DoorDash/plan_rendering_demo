@@ -1,0 +1,972 @@
+[
+ {
+   "id": 34,
+   "created_at": "2018-08-31 00:54:24",
+   "updated_at": "2018-08-31 00:54:24",
+   "is_active": true,
+   "interval_type": "week",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 204
+ },
+ {
+   "id": 100,
+   "created_at": "2018-09-04 23:26:54",
+   "updated_at": "2018-09-04 23:26:54",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 105
+ },
+ {
+   "id": 101,
+   "created_at": "2018-09-04 23:42:16",
+   "updated_at": "2018-09-04 23:42:16",
+   "is_active": false,
+   "interval_type": "week",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 105
+ },
+ {
+   "id": 133,
+   "created_at": "2018-10-23 20:27:27",
+   "updated_at": "2018-10-23 20:27:27",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 3,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 138
+ },
+ {
+   "id": 166,
+   "created_at": "2018-10-30 21:32:53",
+   "updated_at": "2018-10-30 21:32:53",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 3,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 105
+ },
+ {
+   "id": 199,
+   "created_at": "2019-01-07 22:42:11",
+   "updated_at": "2019-01-07 22:42:11",
+   "is_active": true,
+   "interval_type": "week",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 171
+ },
+ {
+   "id": 232,
+   "created_at": "2019-01-24 19:59:56",
+   "updated_at": "2019-01-24 19:59:56",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 237
+ },
+ {
+   "id": 265,
+   "created_at": "2019-02-13 18:42:32",
+   "updated_at": "2019-02-13 18:42:32",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 270
+ },
+ {
+   "id": 298,
+   "created_at": "2019-02-28 07:44:23",
+   "updated_at": "2019-02-28 07:44:23",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 303
+ },
+ {
+   "id": 331,
+   "created_at": "2019-04-30 05:37:32",
+   "updated_at": "2019-04-30 05:37:32",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 336
+ },
+ {
+   "id": 364,
+   "created_at": "2019-05-01 23:10:02",
+   "updated_at": "2019-05-01 23:10:02",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 402
+ },
+ {
+   "id": 397,
+   "created_at": "2019-05-17 19:21:42",
+   "updated_at": "2019-05-17 19:21:42",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 435
+ },
+ {
+   "id": 430,
+   "created_at": "2019-05-17 19:57:40",
+   "updated_at": "2019-05-17 19:57:40",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 468
+ },
+ {
+   "id": 463,
+   "created_at": "2019-05-23 18:27:49",
+   "updated_at": "2019-05-23 18:27:49",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 501
+ },
+ {
+   "id": 661,
+   "created_at": "2019-07-16 00:14:14",
+   "updated_at": "2019-07-16 00:14:14",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 699
+ },
+ {
+   "id": 694,
+   "created_at": "2019-07-16 20:43:38",
+   "updated_at": "2019-07-16 20:43:38",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 732
+ },
+ {
+   "id": 695,
+   "created_at": "2019-07-16 21:37:12",
+   "updated_at": "2019-07-16 21:37:12",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 733
+ },
+ {
+   "id": 696,
+   "created_at": "2019-07-16 21:44:14",
+   "updated_at": "2019-07-16 21:44:14",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 734
+ },
+ {
+   "id": 727,
+   "created_at": "2019-08-05 18:45:26",
+   "updated_at": "2019-08-05 18:45:26",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 765
+ },
+ {
+   "id": 760,
+   "created_at": "2019-08-27 20:51:15",
+   "updated_at": "2019-08-27 20:51:15",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 798
+ },
+ {
+   "id": 793,
+   "created_at": "2019-09-11 04:23:08",
+   "updated_at": "2019-09-11 04:23:08",
+   "is_active": true,
+   "interval_type": "day",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 831
+ },
+ {
+   "id": 826,
+   "created_at": "2019-11-19 21:47:25",
+   "updated_at": "2019-11-19 21:47:25",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 3,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 932
+ },
+ {
+   "id": 827,
+   "created_at": "2019-11-19 23:32:25",
+   "updated_at": "2019-11-19 23:32:25",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 3,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 933
+ },
+ {
+   "id": 859,
+   "created_at": "2019-12-04 19:33:01",
+   "updated_at": "2019-12-04 19:33:01",
+   "is_active": true,
+   "interval_type": "week",
+   "interval_units": 2,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 963
+ },
+ {
+   "id": 892,
+   "created_at": "2020-05-19 17:40:52",
+   "updated_at": "2020-05-19 17:40:52",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 2,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1095
+ },
+ {
+   "id": 925,
+   "created_at": "2020-11-03 04:23:44",
+   "updated_at": "2020-11-03 04:23:44",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 2,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1260
+ },
+ {
+   "id": 926,
+   "created_at": "2020-11-03 04:28:52",
+   "updated_at": "2020-11-03 04:28:52",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 2,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1261
+ },
+ {
+   "id": 927,
+   "created_at": "2020-11-03 04:30:22",
+   "updated_at": "2020-11-03 04:30:22",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 2,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1262
+ },
+ {
+   "id": 958,
+   "created_at": "2020-11-06 05:07:39",
+   "updated_at": "2020-11-06 05:07:39",
+   "is_active": true,
+   "interval_type": "week",
+   "interval_units": 2,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1260
+ },
+ {
+   "id": 959,
+   "created_at": "2020-11-06 05:47:34",
+   "updated_at": "2020-11-06 05:47:34",
+   "is_active": true,
+   "interval_type": "week",
+   "interval_units": 2,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1261
+ },
+ {
+   "id": 960,
+   "created_at": "2020-11-06 05:47:34",
+   "updated_at": "2020-11-06 05:47:34",
+   "is_active": true,
+   "interval_type": "week",
+   "interval_units": 2,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1262
+ },
+ {
+   "id": 991,
+   "created_at": "2020-11-23 06:59:26",
+   "updated_at": "2020-11-23 06:59:26",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 2,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 435
+ },
+ {
+   "id": 1024,
+   "created_at": "2020-12-14 23:06:00",
+   "updated_at": "2020-12-14 23:06:00",
+   "is_active": true,
+   "interval_type": "week",
+   "interval_units": 2,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 435
+ },
+ {
+   "id": 1057,
+   "created_at": "2021-03-11 02:45:47",
+   "updated_at": "2021-03-11 02:45:47",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 3,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1293
+ },
+ {
+   "id": 1090,
+   "created_at": "2021-04-20 00:45:54",
+   "updated_at": "2021-04-20 00:45:54",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 12,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1327
+ },
+ {
+   "id": 1123,
+   "created_at": "2021-04-22 00:13:39",
+   "updated_at": "2021-04-22 00:13:39",
+   "is_active": true,
+   "interval_type": "week",
+   "interval_units": 2,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1359
+ },
+ {
+   "id": 1124,
+   "created_at": "2021-04-22 00:31:30",
+   "updated_at": "2021-04-22 00:31:30",
+   "is_active": true,
+   "interval_type": "week",
+   "interval_units": 4,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1359
+ },
+ {
+   "id": 1156,
+   "created_at": "2021-06-01 14:45:37",
+   "updated_at": "2021-06-01 14:45:37",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 2,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1425
+ },
+ {
+   "id": 1157,
+   "created_at": "2021-06-01 14:45:37",
+   "updated_at": "2021-06-01 14:45:37",
+   "is_active": true,
+   "interval_type": "week",
+   "interval_units": 2,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1425
+ },
+ {
+   "id": 1189,
+   "created_at": "2021-06-03 15:48:47",
+   "updated_at": "2021-06-03 15:48:47",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 3,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1458
+ },
+ {
+   "id": 1222,
+   "created_at": "2021-06-08 15:52:11",
+   "updated_at": "2021-06-08 15:52:11",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 3,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1492
+ },
+ {
+   "id": 1255,
+   "created_at": "2021-08-16 20:06:40",
+   "updated_at": "2021-08-16 20:06:40",
+   "is_active": true,
+   "interval_type": "day",
+   "interval_units": 30,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1425
+ },
+ {
+   "id": 1288,
+   "created_at": "2021-08-17 22:53:35",
+   "updated_at": "2021-08-17 22:53:35",
+   "is_active": true,
+   "interval_type": "day",
+   "interval_units": 30,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1524
+ },
+ {
+   "id": 1321,
+   "created_at": "2021-08-23 21:13:58",
+   "updated_at": "2021-08-23 21:13:58",
+   "is_active": true,
+   "interval_type": "day",
+   "interval_units": 30,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1425
+ },
+ {
+   "id": 1354,
+   "created_at": "2021-11-04 19:34:39",
+   "updated_at": "2021-11-04 19:34:39",
+   "is_active": true,
+   "interval_type": "day",
+   "interval_units": 60,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 468
+ },
+ {
+   "id": 1387,
+   "created_at": "2021-11-05 17:44:37",
+   "updated_at": "2021-11-05 17:44:37",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1623
+ },
+ {
+   "id": 1388,
+   "created_at": "2021-11-05 17:59:50",
+   "updated_at": "2021-11-05 17:59:50",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1624
+ },
+ {
+   "id": 1420,
+   "created_at": "2021-12-14 23:09:33",
+   "updated_at": "2021-12-14 23:09:33",
+   "is_active": true,
+   "interval_type": "year",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1694
+ },
+ {
+   "id": 1453,
+   "created_at": "2022-01-05 20:08:18",
+   "updated_at": "2022-01-05 20:08:18",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 3,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1755
+ },
+ {
+   "id": 1486,
+   "created_at": "2022-01-10 19:42:29",
+   "updated_at": "2022-01-10 19:42:29",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1788
+ },
+ {
+   "id": 10001487,
+   "created_at": "2022-01-28 02:06:42",
+   "updated_at": "2022-01-28 02:06:42",
+   "is_active": true,
+   "interval_type": "day",
+   "interval_units": 30,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10001888
+ },
+ {
+   "id": 10001488,
+   "created_at": "2022-01-28 02:10:48",
+   "updated_at": "2022-01-28 02:10:48",
+   "is_active": true,
+   "interval_type": "day",
+   "interval_units": 30,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10001855
+ },
+ {
+   "id": 10001520,
+   "created_at": "2022-02-01 03:08:53",
+   "updated_at": "2022-02-01 03:08:53",
+   "is_active": true,
+   "interval_type": "day",
+   "interval_units": 30,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10001921
+ },
+ {
+   "id": 10001553,
+   "created_at": "2022-02-08 01:54:03",
+   "updated_at": "2022-02-08 01:54:03",
+   "is_active": false,
+   "interval_type": "month",
+   "interval_units": 3,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1821
+ },
+ {
+   "id": 10001586,
+   "created_at": "2022-03-23 06:19:42",
+   "updated_at": "2022-03-23 06:19:42",
+   "is_active": true,
+   "interval_type": "day",
+   "interval_units": 30,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002089
+ },
+ {
+   "id": 10001587,
+   "created_at": "2022-03-23 06:49:21",
+   "updated_at": "2022-03-23 06:49:21",
+   "is_active": true,
+   "interval_type": "day",
+   "interval_units": 30,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002090
+ },
+ {
+   "id": 10001588,
+   "created_at": "2022-03-23 09:52:39",
+   "updated_at": "2022-03-23 09:52:39",
+   "is_active": true,
+   "interval_type": "day",
+   "interval_units": 30,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002086
+ },
+ {
+   "id": 10001619,
+   "created_at": "2022-03-31 19:04:19",
+   "updated_at": "2022-03-31 19:04:19",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002152
+ },
+ {
+   "id": 10001620,
+   "created_at": "2022-03-31 19:04:54",
+   "updated_at": "2022-03-31 19:04:54",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002153
+ },
+ {
+   "id": 10001621,
+   "created_at": "2022-03-31 19:05:24",
+   "updated_at": "2022-03-31 19:05:24",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002154
+ },
+ {
+   "id": 10001652,
+   "created_at": "2022-07-22 00:24:47",
+   "updated_at": "2022-07-22 00:24:47",
+   "is_active": true,
+   "interval_type": "day",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002185
+ },
+ {
+   "id": 10001653,
+   "created_at": "2022-08-24 06:52:55",
+   "updated_at": "2022-08-24 06:52:55",
+   "is_active": true,
+   "interval_type": "year",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002417
+ },
+ {
+   "id": 10001654,
+   "created_at": "2022-08-31 20:47:39",
+   "updated_at": "2022-08-31 20:47:39",
+   "is_active": true,
+   "interval_type": "year",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002422
+ },
+ {
+   "id": 10001663,
+   "created_at": "2022-09-15 22:53:10",
+   "updated_at": "2022-09-15 22:53:10",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002424
+ },
+ {
+   "id": 10001664,
+   "created_at": "2022-10-26 20:12:12",
+   "updated_at": "2022-10-26 20:12:12",
+   "is_active": false,
+   "interval_type": "month",
+   "interval_units": 6,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002430
+ },
+ {
+   "id": 10001665,
+   "created_at": "2022-10-28 20:22:33",
+   "updated_at": "2022-10-28 20:22:33",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 6,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002431
+ },
+ {
+   "id": 10001666,
+   "created_at": "2022-11-03 15:29:19",
+   "updated_at": "2022-11-03 15:29:19",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 3,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002434
+ },
+ {
+   "id": 10001667,
+   "created_at": "2022-11-08 01:42:58",
+   "updated_at": "2022-11-08 01:42:58",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002383
+ },
+ {
+   "id": 10001668,
+   "created_at": "2022-11-08 01:44:09",
+   "updated_at": "2022-11-08 01:44:09",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002384
+ },
+ {
+   "id": 10001669,
+   "created_at": "2022-11-22 20:35:02",
+   "updated_at": "2022-11-22 20:35:02",
+   "is_active": true,
+   "interval_type": "day",
+   "interval_units": 60,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002089
+ },
+ {
+   "id": 10001670,
+   "created_at": "2022-11-22 21:02:21",
+   "updated_at": "2022-11-22 21:02:21",
+   "is_active": true,
+   "interval_type": "year",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002435
+ },
+ {
+   "id": 10001671,
+   "created_at": "2022-11-29 22:47:07",
+   "updated_at": "2022-11-29 22:47:07",
+   "is_active": false,
+   "interval_type": "day",
+   "interval_units": 2,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002436
+ },
+ {
+   "id": 10001672,
+   "created_at": "2022-12-12 17:36:50",
+   "updated_at": "2022-12-12 17:36:50",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002436
+ },
+ {
+   "id": 10001673,
+   "created_at": "2023-01-03 21:26:23",
+   "updated_at": "2023-01-03 21:26:23",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 3,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002440
+ },
+ {
+   "id": 10001674,
+   "created_at": "2023-01-04 16:54:03",
+   "updated_at": "2023-01-04 16:54:03",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 6,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002441
+ },
+ {
+   "id": 10001675,
+   "created_at": "2023-01-05 21:17:25",
+   "updated_at": "2023-01-05 21:17:25",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 120,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002442
+ },
+ {
+   "id": 10001676,
+   "created_at": "2023-01-05 23:35:05",
+   "updated_at": "2023-01-05 23:35:05",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 2,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002443
+ },
+ {
+   "id": 10001677,
+   "created_at": "2023-01-09 23:13:44",
+   "updated_at": "2023-01-09 23:13:44",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 0,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002447
+ },
+ {
+   "id": 10001678,
+   "created_at": "2023-03-10 16:47:38",
+   "updated_at": "2023-03-10 16:47:38",
+   "is_active": true,
+   "interval_type": "day",
+   "interval_units": 60,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1788
+ },
+ {
+   "id": 10001679,
+   "created_at": "2023-03-17 04:23:34",
+   "updated_at": "2023-03-17 04:23:34",
+   "is_active": true,
+   "interval_type": "day",
+   "interval_units": 30,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002457
+ },
+ {
+   "id": 10001680,
+   "created_at": "2023-03-17 04:24:16",
+   "updated_at": "2023-03-17 04:24:16",
+   "is_active": true,
+   "interval_type": "day",
+   "interval_units": 30,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002458
+ },
+ {
+   "id": 10001681,
+   "created_at": "2023-04-24 22:08:47",
+   "updated_at": "2023-04-24 22:08:47",
+   "is_active": true,
+   "interval_type": "day",
+   "interval_units": 30,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002461
+ },
+ {
+   "id": 10001682,
+   "created_at": "2023-04-26 00:31:09",
+   "updated_at": "2023-04-26 00:31:09",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 12,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002462
+ },
+ {
+   "id": 10001683,
+   "created_at": "2023-04-26 00:32:07",
+   "updated_at": "2023-04-26 00:32:07",
+   "is_active": false,
+   "interval_type": "month",
+   "interval_units": 12,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002462
+ },
+ {
+   "id": 10001684,
+   "created_at": "2023-06-07 19:21:55",
+   "updated_at": "2023-06-07 19:21:55",
+   "is_active": true,
+   "interval_type": "day",
+   "interval_units": 30,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002464
+ },
+ {
+   "id": 10001685,
+   "created_at": "2023-06-07 21:00:26",
+   "updated_at": "2023-06-07 21:00:26",
+   "is_active": true,
+   "interval_type": "day",
+   "interval_units": 30,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002465
+ },
+ {
+   "id": 10001686,
+   "created_at": "2023-06-07 21:41:30",
+   "updated_at": "2023-06-07 21:41:30",
+   "is_active": true,
+   "interval_type": "day",
+   "interval_units": 30,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002466
+ },
+ {
+   "id": 10001687,
+   "created_at": "2023-06-07 21:46:41",
+   "updated_at": "2023-06-07 21:46:41",
+   "is_active": true,
+   "interval_type": "day",
+   "interval_units": 30,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002467
+ },
+ {
+   "id": 10001688,
+   "created_at": "2023-06-27 03:23:54",
+   "updated_at": "2023-06-27 03:23:54",
+   "is_active": false,
+   "interval_type": "month",
+   "interval_units": 12,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 932
+ },
+ {
+   "id": 10001689,
+   "created_at": "2023-06-30 20:33:02",
+   "updated_at": "2023-06-30 20:33:02",
+   "is_active": true,
+   "interval_type": "day",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 435
+ },
+ {
+   "id": 10001690,
+   "created_at": "2023-06-30 20:33:43",
+   "updated_at": "2023-06-30 20:33:43",
+   "is_active": true,
+   "interval_type": "day",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1230
+ },
+ {
+   "id": 10001691,
+   "created_at": "2023-06-30 20:34:43",
+   "updated_at": "2023-06-30 20:34:43",
+   "is_active": true,
+   "interval_type": "day",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 1524
+ },
+ {
+   "id": 10001692,
+   "created_at": "2023-07-10 18:55:14",
+   "updated_at": "2023-07-10 18:55:14",
+   "is_active": true,
+   "interval_type": "day",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002461
+ },
+ {
+   "id": 10001693,
+   "created_at": "2023-07-10 19:02:17",
+   "updated_at": "2023-07-10 19:02:17",
+   "is_active": true,
+   "interval_type": "day",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002089
+ },
+ {
+   "id": 10001694,
+   "created_at": "2023-07-19 21:06:06",
+   "updated_at": "2023-07-19 21:06:06",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 3,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002468
+ },
+ {
+   "id": 10001695,
+   "created_at": "2023-07-19 21:06:58",
+   "updated_at": "2023-07-19 21:06:58",
+   "is_active": true,
+   "interval_type": "month",
+   "interval_units": 1,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 10002469
+ },
+ {
+   "id": 10001696,
+   "created_at": "2023-07-26 23:03:31",
+   "updated_at": "2023-07-26 23:03:31",
+   "is_active": false,
+   "interval_type": "month",
+   "interval_units": 3,
+   "payment_provider_type": "",
+   "consumer_subscription_plan_id": 435
+ }
+]
