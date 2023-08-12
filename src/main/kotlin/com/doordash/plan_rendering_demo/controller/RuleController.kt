@@ -3,6 +3,7 @@ package com.doordash.plan_rendering_demo.controller
 import com.doordash.plan_rendering_demo.factory.HtmlFactory
 import com.doordash.plan_rendering_demo.factory.RuleEngine
 import com.doordash.plan_rendering_demo.factory.filterName
+import com.doordash.plan_rendering_demo.factory.rule.CommandRuleFactory
 import com.doordash.plan_rendering_demo.model.Rule
 import com.doordash.plan_rendering_demo.model.RuleType
 import com.doordash.plan_rendering_demo.model.toRuleType
@@ -43,6 +44,7 @@ class RuleController(
     fun ruleAddPage(model: Model): String {
         setRuleParams(model, "Registered a new rule")
         model["rule_types"] = HtmlFactory.getRuleTypeSelect(RuleType.CHECK)
+        addCommandList(model)
         return "rule-add"
     }
 
@@ -69,11 +71,13 @@ class RuleController(
 
     @GetMapping("/rule/edit")
     fun ruleEditPage(@RequestParam("id") id: Long, model: Model): String {
-        val rule = ruleRepository.findById(id)
-        if (rule.isPresent) {
+        val findRule = ruleRepository.findById(id)
+        if (findRule.isPresent) {
+            val rule = findRule.get()
             setRuleParams(model, "Edit rule information")
-            model["rule_types"] = HtmlFactory.getRuleTypeSelect(rule.get().type)
-            model["rule"] = rule.get()
+            model["rule_types"] = HtmlFactory.getRuleTypeSelect(rule.type)
+            model["rule"] = rule
+            addCommandList(model)
             return "rule-edit"
         }
 
@@ -196,5 +200,13 @@ class RuleController(
             if (isHome) "rule" else ""
         )
         model["title"] = title
+    }
+
+    private fun addCommandList(model: Model) {
+        model["commandList"] = CommandRuleFactory.getCommandList().joinToString(
+            prefix = "<li>",
+            postfix = "</li>",
+            separator = "</li><li>"
+        ) { it }
     }
 }

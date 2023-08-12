@@ -7,6 +7,9 @@ object CommandRuleFactory {
         "get_active_subscription_plan" to CommandGetActiveSubscriptionPlan()
     )
 
+    fun getCommandList(): List<String> =
+        commandMap.keys.toList()
+
     fun getCommand(command: String?): RuleHandler? =
         command?.let { commandMap[command] }
 }
