@@ -29,7 +29,6 @@
         <th scope="col">Partner Plan</th>
         <th scope="col">Corporate Plan</th>
         <th scope="col">Employee Only</th>
-        <th scope="col">Active</th>
         <th scope="col">Priority</th>
     </tr>
     </thead>
@@ -43,12 +42,11 @@
             <td>{{is_partner_plan}}</td>
             <td>{{is_corporate_plan}}</td>
             <td>{{employees_only}}</td>
-            <td>{{is_accepting_new_subscribers}}</td>
             <td>{{priority}}</td>
         </tr>
     {{/plans}}
     {{^plans}}
-        <tr><td colspan=10 style='text-align:center;'>There's no registered plans.</td></tr>
+        <tr><td colspan=9 style='text-align:center;'>There's no registered plans.</td></tr>
     {{/plans}}
     </tbody>
 </table>

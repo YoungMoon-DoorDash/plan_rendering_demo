@@ -1,6 +1,7 @@
 package com.doordash.plan_rendering_demo.controller
 
 import com.doordash.plan_rendering_demo.factory.HtmlFactory
+import com.doordash.plan_rendering_demo.factory.filterName
 import com.doordash.plan_rendering_demo.model.Text
 import com.doordash.plan_rendering_demo.repository.TextRepository
 import kotlinx.serialization.Serializable
@@ -75,7 +76,7 @@ class TextController(
         @RequestParam value: String,
         model: Model
     ): String {
-        val convertName = filterName(name)
+        val convertName = name.filterName()
         val convertValue = value.trim()
         val saved = textRepository.save(
             Text(id = id, name = convertName, value = convertValue)
@@ -115,7 +116,7 @@ class TextController(
     }
 
     private fun addOrUpdate(name: String, value: String): Text {
-        val convertName = filterName(name)
+        val convertName = name.filterName()
         val convertValue = value.trim()
         return textRepository.findText(convertName)?.let {
             textRepository.save(Text(id = it.id, name = convertName, value = convertValue))
@@ -123,9 +124,6 @@ class TextController(
             textRepository.save(Text(name = convertName, value = convertValue))
         }
     }
-
-    private fun filterName(name: String): String =
-        name.split("\\s".toRegex()).joinToString("_") { it.trim().uppercase() }
 
     private fun showText(model: Model, text: Text): String {
         setTextParams(model, "Registered Text > ${text.name}")

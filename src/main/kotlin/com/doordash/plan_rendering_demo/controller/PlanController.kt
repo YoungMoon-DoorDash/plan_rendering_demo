@@ -6,7 +6,6 @@ import com.doordash.plan_rendering_demo.model.subscription.SubscriptionPlanTrial
 import com.doordash.plan_rendering_demo.repository.SubscriptionPlanRepository
 import com.doordash.plan_rendering_demo.repository.SubscriptionPlanTrialRepository
 import kotlinx.serialization.json.Json
-import org.apache.naming.SelectorContext.prefix
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -24,7 +23,7 @@ class PlanController(
     fun planHome(@RequestParam search: String?, model: Model): String {
         setPlanParams(model, "Registered Plans", true)
         if (search.isNullOrBlank()) {
-            model["plans"] = subscriptionPlanRepository.findAll(Sort.by(Sort.Direction.ASC, "id"))
+            model["plans"] = subscriptionPlanRepository.findAllActive().sortedBy { it.id }
             model["search"] = ""
         } else {
             model["plans"] = subscriptionPlanRepository.searchByName('%' + search + '%').sortedBy { it.id }

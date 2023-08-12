@@ -1,6 +1,7 @@
 package com.doordash.plan_rendering_demo.controller
 
 import com.doordash.plan_rendering_demo.factory.HtmlFactory
+import com.doordash.plan_rendering_demo.factory.filterName
 import com.doordash.plan_rendering_demo.model.Experiment
 import com.doordash.plan_rendering_demo.repository.ExperimentRepository
 import kotlinx.serialization.Serializable
@@ -76,7 +77,7 @@ class ExperimentController(
         @RequestParam controls: String,
         model: Model
     ): String {
-        val filteredName = filterName(name)
+        val filteredName = name.filterName()
         val saved = experimentRepository.save(
             Experiment(id = id, name = filteredName, controls = filterControls(controls))
         )
@@ -115,7 +116,7 @@ class ExperimentController(
     }
     
     private fun addOrUpdate(name: String, controls: String): Experiment {
-        val filteredName = filterName(name)
+        val filteredName = name.filterName()
         return experimentRepository.findByName(filteredName)?.let {
             experimentRepository.save(
                 Experiment(id = it.id, name = filteredName, controls = filterControls(controls))
@@ -127,8 +128,6 @@ class ExperimentController(
         }
     }
 
-    private fun filterName(name: String): String =
-        name.split("\\s".toRegex()).joinToString("_") { it.trim().lowercase() }
     private fun filterControls(controls: String): String =
         controls.split(",").joinToString(",") { it.trim().lowercase() }
 

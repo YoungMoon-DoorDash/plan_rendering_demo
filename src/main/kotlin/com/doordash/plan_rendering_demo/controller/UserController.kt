@@ -24,12 +24,12 @@ class UserController(
         if (search.isNullOrBlank()) {
             model["search"] = ""
             model["users"] = userRepository.findAll().map {
-                it.copy(experiments = asExperimentList(it.experiments))
+                it.copy(experiments = asConfigurationList(it.experiments))
             }
         } else {
             model["search"] = search
             model["users"] = userRepository.searchByName('%' + search + '%').map {
-                it.copy(experiments = asExperimentList(it.experiments))
+                it.copy(experiments = asConfigurationList(it.experiments))
             }
         }
         return "user"
@@ -86,7 +86,7 @@ class UserController(
     ): String {
         val convertName = name.trim()
         val convertEmail = email.trim()
-        val convertExperiments = filterExperiments(experiments)
+        val convertExperiments = filterConfigurations(experiments)
         val savedUser = userRepository.save(
             User(id = id, name = convertName, email = convertEmail, experiments = convertExperiments)
         )
@@ -128,7 +128,7 @@ class UserController(
     private fun addOrUpdate(name: String, email: String, experiments: String): User {
         val convertName = name.trim()
         val convertEmail = email.trim()
-        val convertExperiments = filterExperiments(experiments)
+        val convertExperiments = filterConfigurations(experiments)
         return userRepository.findUser(convertName, convertEmail)?.let {
             userRepository.save(
                 User(id = it.id, name = convertName, email = convertEmail, experiments = convertExperiments)
@@ -143,7 +143,7 @@ class UserController(
     private fun showUser(model: Model, user: User): String {
         setUserParams(model, "Registered User > ${user.name}")
         model["user"] = user.copy(
-            experiments = asExperimentList(user.experiments)
+            experiments = asConfigurationList(user.experiments)
         )
         return "user-info"
     }
@@ -155,17 +155,17 @@ class UserController(
         model["title"] = title
     }
 
-    private fun filterExperiments(experiments: String): String =
+    private fun filterConfigurations(experiments: String): String =
         experiments.split(",").joinToString(",") { exp ->
             exp.split(":").joinToString(":") { it.trim().lowercase() }
         }
 
 
-    private fun asExperimentList(experiments: String): String =
-        if (experiments.isBlank())
+    private fun asConfigurationList(configuration: String): String =
+        if (configuration.isBlank())
             "&nbsp;"
         else
-            experiments.split(",").joinToString(
+            configuration.split(",").joinToString(
                 prefix = "<ul style='margin-bottom:0pt;'><li>",
                 postfix = "</li></ul>",
                 separator = "</li><li>"

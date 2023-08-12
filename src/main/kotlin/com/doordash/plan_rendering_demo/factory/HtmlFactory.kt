@@ -1,11 +1,13 @@
 package com.doordash.plan_rendering_demo.factory
 
+import com.doordash.plan_rendering_demo.model.RuleType
 import com.doordash.rpc.common.UIFlowScreenSectionType
 
 object HtmlFactory {
     fun getHomeBanner(currentPage: String): String {
         val sb = StringBuilder("<div class='btn-group' style='padding-right:2pt;'>")
         sb.append(getBtnLink("Home", "/", currentPage == "home"))
+        sb.append(getBtnLink("Rule", "/rule", currentPage == "rule"))
         sb.append(getBtnLink("Plan", "/plan", currentPage == "plan"))
         sb.append(getBtnLink("Trial", "/plan/trial", currentPage == "trial"))
         sb.append(getBtnLink("Text", "/text", currentPage == "text"))
@@ -39,6 +41,19 @@ object HtmlFactory {
             }
         }
         sb.append("</ul></div>")
+        return sb.toString()
+    }
+
+    fun getRuleTypeSelect(curSelect: RuleType): String {
+        val sb = StringBuilder("<select class='form-control' id='type' name='type'>")
+        RuleType.entries.forEach {
+            if (it == curSelect)
+                sb.append("<option value='${it.ordinal}' selected>${it.name}</option>")
+            else
+                sb.append("<option value='${it.ordinal}'>${it.name}</option>")
+        }
+
+        sb.append("</select>")
         return sb.toString()
     }
 }

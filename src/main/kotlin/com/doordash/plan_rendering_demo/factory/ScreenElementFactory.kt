@@ -2,6 +2,10 @@ package com.doordash.plan_rendering_demo.factory
 
 import com.doordash.rpc.common.UIFlowScreenSectionType
 
+fun String.filterName(): String =
+    this.split("\\s".toRegex()).joinToString("_") { it.trim().uppercase() }
+
+
 object ScreenElementFactory {
     fun getFormText(uiFlowScreenSectionType: UIFlowScreenSectionType): String = when(uiFlowScreenSectionType) {
         UIFlowScreenSectionType.TEXT, UIFlowScreenSectionType.BOLDED_TITLE_TEXT ->
