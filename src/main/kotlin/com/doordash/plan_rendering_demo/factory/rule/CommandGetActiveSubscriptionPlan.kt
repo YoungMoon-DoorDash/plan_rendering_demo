@@ -9,7 +9,7 @@ import kotlinx.serialization.json.Json
 class CommandGetActiveSubscriptionPlan: RuleHandler {
 
     override fun execute(rule: Rule, params: Map<String, String>): String {
-        val consumerId = params["context.consumer_id"]?.toLong() ?: 0
+        val consumerId = params["consumer_id"]?.toLong() ?: 0
         if (consumerId == 0L) {
             return "context.consumer_id parameter is missed."
         }
