@@ -6,15 +6,33 @@ import com.doordash.plan_rendering_demo.model.Rule
 import com.doordash.plan_rendering_demo.model.RuleType
 import com.doordash.plan_rendering_demo.repository.SubscriptionPlanRepository
 import com.doordash.plan_rendering_demo.repository.UserRepository
+import com.fasterxml.jackson.databind.ObjectMapper
 import kotlinx.serialization.json.Json
+import org.apache.catalina.mapper.Mapper
 
 interface RuleHandler {
-    fun execute(rule: Rule, params: Map<String, String>): String
+    fun execute(rule: Rule, sb: StringBuilder? = null): String
 }
 
 object RuleEngine {
+    private val _contextMap = HashMap<String, String>()
     private var _planRepository: SubscriptionPlanRepository? = null
     private var _userRepository: UserRepository? = null
+
+    fun hasContext(key: String):Boolean = _contextMap.containsKey(key.lowercase())
+
+    fun fromContext(key: String): String? = _contextMap[key.lowercase()]
+
+    fun toContext(key: String, value: String) {
+        _contextMap[key.lowercase()] = value
+    }
+
+    fun getContext(sb: StringBuilder) {
+        sb.append("\ncontext:")
+        _contextMap.forEach { (key, value) ->
+            sb.append("\n    ").append("$key=$value")
+        }
+    }
 
     fun setRepository(
         planRepository: SubscriptionPlanRepository,
@@ -34,12 +52,16 @@ object RuleEngine {
         return _userRepository as UserRepository
     }
 
-    fun execute(rule: Rule, parameters: Map<String, String>): String = when (rule.type) {
-        RuleType.CHECK -> RuleHandlerCheck().execute(rule, parameters)
+    fun execute(rule: Rule, sb: StringBuilder? = null): String = when (rule.type) {
+        RuleType.CHECK -> RuleHandlerCheck().execute(rule, sb)
         RuleType.COMMAND -> {
             val commandName = Json.decodeFromString<Map<String, String>>(rule.run)["command"] ?: "null"
-            CommandRuleFactory.getCommand(commandName)?.execute(rule, parameters)
-                ?: "Command not found: $commandName"
+            val msg = CommandRuleFactory.getCommand(commandName)?.execute(rule, sb)
+                ?: run {
+                    "Command not found: $commandName"
+                }
+            sb?.append("\n    Command.execute: rul=$rule, command=$commandName => $msg")
+            msg
         }
     }
 
@@ -49,10 +71,14 @@ object RuleEngine {
     }
 
     fun validate(ruleType: RuleType, run: Map<String, String>) {
-        val isValid = when (ruleType) {
-            RuleType.CHECK -> run.isNotEmpty()
-            RuleType.COMMAND -> run.isNotEmpty() && CommandRuleFactory.getCommand(run["command"]) != null
+        val (isValid, message) = when (ruleType) {
+            RuleType.CHECK -> RuleHandlerCheck.validate(run)
+            RuleType.COMMAND -> CommandRuleFactory.validate(run)
         }
-        check(isValid) { "Rule content is not valid: $run" }
+
+        check(isValid) { "Rule content is not valid: run: $run, error: $message" }
     }
+
+    fun formatToJson(values: Map<String, String>): String =
+        ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(values)
 }

@@ -38,6 +38,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
     implementation("com.google.protobuf:protobuf-java:3.21.12")
     implementation(files("lib/protobuf-common-2.4.285.jar"))
+    implementation("com.google.code.gson:gson:2.8.7")
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("com.h2database:h2")

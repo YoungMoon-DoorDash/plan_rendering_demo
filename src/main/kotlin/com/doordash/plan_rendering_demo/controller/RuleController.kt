@@ -11,7 +11,6 @@ import com.doordash.plan_rendering_demo.repository.RuleRepository
 import com.doordash.plan_rendering_demo.repository.SubscriptionPlanRepository
 import com.doordash.plan_rendering_demo.repository.UserRepository
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Controller
@@ -94,8 +93,16 @@ class RuleController(
     ): String {
         val convertName = name.filterName()
         val ruleType = type.toRuleType()
+
+        val convertRun = RuleEngine.convertRuleRun(run)
+        RuleEngine.validate(ruleType, convertRun)
         val saved = ruleRepository.save(
-            Rule(id = id, name = convertName, type = ruleType, run = run)
+            Rule(
+                id = id,
+                name = convertName,
+                type = ruleType,
+                run = RuleEngine.formatToJson(convertRun)
+            )
         )
         return showRule(model, saved)
     }
@@ -161,13 +168,19 @@ class RuleController(
 
         RuleEngine.setRepository(planRepository, userRepository)
 
+        val sb = StringBuilder()
+        Json.decodeFromString<Map<String, String>>(parameters).forEach { (key, value) ->
+            RuleEngine.toContext(key.lowercase(), value)
+        }
+
         val rule = findRule.get()
+        RuleEngine.getContext(sb)
+        sb.append("\n\n=============== Tracing:")
+        RuleEngine.execute(rule, sb)
+
         setRuleParams(model, "Simulate Rule > ${rule.name}")
         model["rule"] = rule
-        model["result"] = RuleEngine.execute(
-            rule,
-            Json.decodeFromString<Map<String, String>>(parameters)
-        )
+        model["result"] = sb.toString()
         model["parameters"] = parameters
         return "rule-check"
     }
@@ -187,7 +200,7 @@ class RuleController(
         val convertRun = RuleEngine.convertRuleRun(run)
         RuleEngine.validate(ruleType, convertRun)
 
-        val runValue = Json.encodeToString(convertRun)
+        val runValue = RuleEngine.formatToJson(convertRun)
         return ruleRepository.findRule(convertName)?.let {
             ruleRepository.save(Rule(id = it.id, name = convertName, type = ruleType, run = runValue))
         } ?: run {
