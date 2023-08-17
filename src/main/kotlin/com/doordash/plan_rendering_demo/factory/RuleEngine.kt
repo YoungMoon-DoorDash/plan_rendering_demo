@@ -1,14 +1,15 @@
 package com.doordash.plan_rendering_demo.factory
 
 import com.doordash.plan_rendering_demo.factory.rule.CommandRuleFactory
+import com.doordash.plan_rendering_demo.factory.rule.RuleConstants
 import com.doordash.plan_rendering_demo.factory.rule.RuleHandlerCheck
 import com.doordash.plan_rendering_demo.model.Rule
 import com.doordash.plan_rendering_demo.model.RuleType
+import com.doordash.plan_rendering_demo.model.subscription.SubscriptionPlan
 import com.doordash.plan_rendering_demo.repository.SubscriptionPlanRepository
 import com.doordash.plan_rendering_demo.repository.UserRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import kotlinx.serialization.json.Json
-import org.apache.catalina.mapper.Mapper
 
 interface RuleHandler {
     fun execute(rule: Rule, sb: StringBuilder? = null): String
@@ -62,6 +63,42 @@ object RuleEngine {
                 }
             sb?.append("\n    Command.execute: rul=$rule, command=$commandName => $msg")
             msg
+        }
+    }
+
+    fun populateContext(parameters: String) {
+        _contextMap.clear()
+        Json.decodeFromString<Map<String, String>>(parameters).forEach { (key, value) ->
+            val keyLower = key.lowercase()
+            toContext(keyLower, value)
+            when (keyLower) {
+                "consumer_id" -> populateUserConfiguration(value.toLong())
+            }
+        }
+    }
+
+    private fun populateUserConfiguration(consumerId: Long) {
+        val findUser = _userRepository?.findById(consumerId)
+        if (findUser?.isPresent == true) {
+            val user = findUser.get()
+            user.experiments.split(RuleConstants.OBJECT_VALUE_SEPARATOR).forEach {
+                val values = it.split(RuleConstants.NAME_VALUE_SEPARATOR)
+                if (values.size == 2) {
+                    val key = values[0].lowercase()
+                    toContext(key, values[1])
+                    if (key == "subscription_plan_id") {
+                        populateActiveSubscriptionPlan(values[1].toInt())
+                    }
+                }
+            }
+        }
+    }
+
+    private fun populateActiveSubscriptionPlan(planId: Int) {
+        val findPlan = _planRepository?.findById(planId)
+        if (findPlan?.isPresent == true) {
+            val plan = findPlan.get()
+            toContext("active_subscription_plan", Json.encodeToString(SubscriptionPlan.serializer(), plan))
         }
     }
 

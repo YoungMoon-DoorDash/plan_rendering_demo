@@ -9,4 +9,5 @@ object RuleConstants {
     const val OBJECT_PREFIX = '@'
     const val OBJECT_NAME_FIELD_SEPARATOR = '.'
     const val OBJECT_VALUE_SEPARATOR = ','
+    const val NAME_VALUE_SEPARATOR = ':'
 }

@@ -169,14 +169,13 @@ class RuleController(
         RuleEngine.setRepository(planRepository, userRepository)
 
         val sb = StringBuilder()
-        Json.decodeFromString<Map<String, String>>(parameters).forEach { (key, value) ->
-            RuleEngine.toContext(key.lowercase(), value)
-        }
+        RuleEngine.populateContext(parameters)
 
         val rule = findRule.get()
         RuleEngine.getContext(sb)
         sb.append("\n\n=============== Tracing:")
-        RuleEngine.execute(rule, sb)
+        val result = RuleEngine.execute(rule, sb)
+        sb.append("\n\n=============== Result: ${rule.name}: $result")
 
         setRuleParams(model, "Simulate Rule > ${rule.name}")
         model["rule"] = rule

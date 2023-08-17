@@ -10,10 +10,10 @@ import org.springframework.stereotype.Repository
 @Repository
 interface TextRepository: JpaRepository<Text, Long> {
     @Query(
-        value = "SELECT t.* FROM text t WHERE lower(t.name) like lower(:name)",
+        value = "SELECT t.* FROM text t WHERE lower(t.value) like lower(:value)",
         nativeQuery = true
     )
-    fun searchByName(@Param("name") name: String): List<Text>
+    fun serchByValue(@Param("value") value: String): List<Text>
 
 
     @Query(

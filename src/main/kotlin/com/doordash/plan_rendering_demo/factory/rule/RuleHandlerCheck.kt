@@ -33,19 +33,17 @@ class RuleHandlerCheck: RuleHandler {
         conditions.forEach { (key, value) ->
             if (isObject(key)) {
                 if (!isObjectMatched(key.lowercase(), value)) {
-                    sb?.append("\n    isObjectMatched: rule=$rule, key=$key, value=$value => false")
+                    sb?.append("\n    >> isObjectMatched FAILED: rule=$rule, key=$key, value=$value")
                     return "false"
                 }
-                sb?.append("\n    isObjectMatched: rule=$rule, key=$key, value=$value => true")
+                sb?.append("\n    isObjectMatched PASSED: rule=$rule, key=$key, value=$value => true")
             } else if (!isKeyValueMatched(key.lowercase(), value)) {
-                sb?.append("\n    isKeyValueMatched: rule=$rule, key=$key, value=$value => false")
+                sb?.append("\n    >> isKeyValueMatched FAILED: rule=$rule, key=$key, value=$value")
                 return "false"
             } else {
-                sb?.append("\n    isKeyValueMatched: rule=$rule, key=$key, value=$value => true")
+                sb?.append("\n    isKeyValueMatched PASSED: rule=$rule, key=$key, value=$value")
             }
         }
-
-        sb?.append("\n${rule.name} execute => true")
         return "true"
     }
 
@@ -54,10 +52,11 @@ class RuleHandlerCheck: RuleHandler {
         return when (pairs.size) {
             1 -> {
                 // check object existence
+                val objectExist = RuleEngine.hasContext(pairs[0])
                 if (value.lowercase() == "null") {
-                    RuleEngine.hasContext(key)
+                    !objectExist
                 } else {
-                    !RuleEngine.hasContext(key)
+                    objectExist
                 }
             }
 

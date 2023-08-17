@@ -26,7 +26,7 @@ class TextController(
             model["texts"] = textRepository.findAll(Sort.by(Sort.Direction.ASC, "name"))
         } else {
             model["search"] = search
-            model["texts"] = textRepository.searchByName('%' + search + '%').sortedBy { it.name }
+            model["texts"] = textRepository.serchByValue('%' + search + '%').sortedBy { it.name }
         }
         return "text"
     }
