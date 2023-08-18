@@ -1,0 +1,14 @@
+[
+  {
+    "name": "DP_ANNUAL_PLAN_UPSELL_NON_SUB_ORDER_CART_BE_ENABLED",
+    "controls": "true,false"
+  },
+  {
+    "name": "POST_CHECKOUT_TRIAL_UPSELL",
+    "controls": "control,experiment"
+  },
+  {
+    "name": "SUBSCRIPTION_SERVICE_TODP_UPSELL_FLAG",
+    "controls": "true,false"
+  }
+]
