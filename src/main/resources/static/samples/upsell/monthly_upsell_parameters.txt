@@ -1,0 +1,13 @@
+{
+  "upsell_default_select": "true",
+  "upsell_best_plan_id": "435",
+  "upsell_trial_id": "397",
+  "upsell_order_cart_id": "order-card-01",
+  "upsell_fee_currency": "USD",
+  "fee_unit_amount": "$9.99",
+  "country_code": "US",
+  "upsell_trial_interval_type": "MONTHLY",
+  "monthly_plan_fee": "$9.99",
+  "trial_interval_unit": "1",
+  "trial_interval_type": "month"
+}

@@ -1,0 +1,99 @@
+[
+  {
+    "type": "BADGE",
+    "content": "UPSELL_CONFIRMATION_TITLE_BADGE_TEXT",
+    "alignment":"LEFT"
+  },
+  {
+    "type": "BOLDED_TITLE_TEXT",
+    "content": "UPSELL_CONFIRMATION_TITLE_ORDER_CART_ANNUAL_PLAN_TRIAL_UPSELL",
+    "alignment":"LEFT"
+  },
+  {
+    "type": "TEXT",
+    "content": "UPSELL_CONFIRMATION_SUBTITLE_ORDER_CART_ANNUAL_PLAN_TRIAL_UPSELL",
+    "alignment":"LEFT"
+  },
+  {
+    "type": "RICH_CARD_RADIO_BUTTON",
+    "content": ["{upsell_default_select}", "{upsell_best_plan_id}"],
+    "alignment":"RIGHT",
+    "action": {
+        "label": "UPSELL_CONFIRMATION_ACTION_ORDER_CART_ANNUAL_PLAN_TRIAL_UPSELL_START_FREE_TRIAL",
+        "type": "SUBSCRIBE_TO_DASHPASS",
+        "display_type": "PRIMARY",
+        "parameters": [
+            {
+              "key": "PLAN_ID",
+              "value": "{upsell_best_plan_id}"
+            },
+            {
+              "key": "TRIAL_ID",
+              "value": "{upsell_trial_id}"
+            },
+            {
+              "key": "ORDER_CART_ID",
+              "value": "{upsell_order_cart_id}"
+            },
+            {
+              "key": "SUCCESS_MESSAGE",
+              "value": "UPSELL_CONFIRMATION_SUCCESS_MESSAGE_UPSELL_TYPE_TRIAL_SUCCESS_MESSAGE"
+            },
+            {
+              "key": "NATIVE_PAYMENT_STYLE",
+              "value": "true"
+            },
+            {
+              "key": "FEE_CURRENCY",
+              "value": "{upsell_fee_currency}"
+            },
+            {
+              "key": "FEE_UNIT_AMOUNT",
+              "value": "{fee_unit_amount}"
+            },
+            {
+              "key": "COUNTRY_CODE",
+              "value": "{country_code}"
+            },
+            {
+              "key": "TRIAL_INTERVAL_TYPE",
+              "value": "{upsell_trial_interval_type}"
+            }
+          ],
+        "post_action": "UNKNOWN_ACTION_IDENTIFIER"
+      },
+    "rich_content": [
+        {
+          "content": "UPSELL_CONFIRMATION_RADIO_BUTTON_INFORMATION_ANNUAL_PLAN_HEADER",
+          "format_type": "TYPE_TEXT",
+          "format_color": "COLOR_PRIMARY",
+          "alignment": "LEFT"
+        },
+        {
+          "content": "UPSELL_CONFIRMATION_RADIO_BUTTON_INFORMATION_ANNUAL_PLAN_BILLING_FIRST_PART",
+          "format_type": "TYPE_TEXT",
+          "format_color": "COLOR_SECONDARY",
+          "alignment": "LEFT"
+        },
+        {
+          "content": "UPSELL_CONFIRMATION_RADIO_BUTTON_INFORMATION_ANNUAL_PLAN_BILLING_SECOND_PART",
+          "format_type": "TYPE_TEXT",
+          "format_color": "COLOR_TERTIARY",
+          "alignment": "LEFT"
+        },
+        {
+          "content": "UPSELL_CONFIRMATION_RADIO_BUTTON_INFORMATION_ANNUAL_PLAN_TRIAL_INFO",
+          "format_type": "TYPE_TEXT",
+          "format_color": "COLOR_HIGHLIGHT",
+          "alignment": "LEFT"
+        },
+        {
+          "content": "UPSELL_CONFIRMATION_RADIO_BUTTON_INFORMATION_ANNUAL_PLAN_SAVING_INFO",
+          "format_type": "TYPE_BANNER",
+          "format_color": "COLOR_HIGHLIGHT",
+          "alignment": "LEFT"
+        }
+      ]
+  }
+
+]

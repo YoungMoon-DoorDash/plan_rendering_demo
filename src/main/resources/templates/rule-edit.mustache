@@ -4,38 +4,38 @@
 {{{banner}}}
 
 {{#rule}}
-    <form style="width:640px;margin-top:10px;" class="text-start" action="/rule/edit" method="post">
-        <table style='margin-top:10px; width:860px;'>
-            <tr>
-                <td nowrap><b>{{title}}</b></td>
-                <td style='padding-left:16px;text-align:right;' nowrap>
-                    <input type="submit" class='btn btn-outline-primary btn-sm' value="Update">
-                    <a type="button" class='btn btn-outline-primary btn-sm' href="/rule">Cancel</a>
-                </td>
-            </tr>
-        </table>
+<form style="width:860px;margin-top:10px;" class="text-start" action="/rule/edit" method="post">
+    <table style='margin-top:10px; width:860px;'>
+        <tr>
+            <td nowrap><b>{{title}}</b></td>
+            <td style='padding-left:16px;text-align:right;' nowrap>
+                <input type="submit" class='btn btn-outline-primary btn-sm' value="Update">
+                <a type="button" class='btn btn-outline-primary btn-sm' href="/rule">Cancel</a>
+            </td>
+        </tr>
+    </table>
 
-        <input type='hidden' name='id' value='{{id}}' />
-        <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" class="form-control" id="name" name="name" required value="{{name}}" />
-        </div>
-        <div class="form-group">
-            <label for="type">Name:</label>
-            {{{rule_types}}}
-        </div>
-        <div class="form-group">
-            <label for="controls">Run:</label>
-            <textarea class="form-control" id="run" name="run" rows="10" required>{{run}}</textarea>
-        </div>
+    <input type='hidden' name='id' value='{{id}}' />
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" id="name" name="name" required value="{{name}}" />
+    </div>
+    <div class="form-group">
+        <label for="type">Name:</label>
+        {{{rule_types}}}
+    </div>
+    <div class="form-group">
+        <label for="controls">Run:</label>
+        <textarea class="form-control" id="run" name="run" rows="10" required>{{run}}</textarea>
+    </div>
 
-        <div class="alert alert-info d-flex" style="margin-top:10px;padding-bottom:0px;margin-bottom:0px;">
-            <i class="bi-info-circle-fill"></i><div class="mx-2">Supported Commands:
-            <ul style="margin-left:2px;">
-                {{{commandList}}}
-            </ul></div>
-        </div>
-    </form>
+    <div class="alert alert-info d-flex" style="margin-top:10px;padding-bottom:0px;margin-bottom:0px;">
+        <i class="bi-info-circle-fill"></i><div class="mx-2">Supported Commands:
+        <ul style="margin-left:2px;">
+            {{{commandList}}}
+        </ul></div>
+    </div>
+</form>
 {{/rule}}
 
 <script>

@@ -1,0 +1,38 @@
+{{> header}}
+{{> bodyheader}}
+
+{{{banner}}}
+
+<form style="width:860px;margin-top:10px;" class="text-start" action="/screen/simulate" method="post">
+    <table style='margin-top:10px; width:860px;'>
+        <tr>
+            <td nowrap><b>{{title}}</b></td>
+            <td style='padding-left:16px;text-align:right;' nowrap>
+                <input type="submit" class='btn btn-outline-primary btn-sm' value="Execute">
+            </td>
+        </tr>
+    </table>
+
+    <div class="form-group">
+        <label for="parameters">Parameters:</label>
+        <textarea class="form-control" id="parameters" name="parameters"
+                  rows="8"
+                  style='width:860px;'
+                  placeholder="provide name-value paired input as json format"
+                  required>{{parameters}}</textarea>
+    </div>
+
+    {{{result}}}
+
+    {{#screen}}
+        <input type='hidden' name='id' value='{{id}}' />
+        <table class="table table-striped table-bordered btn-sm">
+            <tr><td scope="row" style="text-align:right;font-weight:bold;" nowrap>Name &nbsp;</td><td nowrap>&nbsp; {{name}}</td></tr>
+            <tr><td scope="row" style="text-align:right;font-weight:bold;" nowrap>Run &nbsp;</td><td><pre>{{elements}}</pre></td></tr>
+        </table>
+    {{/screen}}
+</form>
+<script>
+    document.getElementById('parameters').focus()
+</script>
+{{> footer}}

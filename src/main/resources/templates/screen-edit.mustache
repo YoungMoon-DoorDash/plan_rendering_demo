@@ -1,0 +1,40 @@
+{{> header}}
+<script src="/screen_info.js"></script>
+{{> bodyheader}}
+{{{banner}}}
+
+{{#screen}}
+<form style="width:860px;margin-top:10px;" class="text-start" action="/screen/edit" method="post">
+    <table style='margin-top:10px; width:860px;'>
+        <tr>
+            <td nowrap><b>{{title}}</b></td>
+            <td style='padding-left:16px;text-align:right;' nowrap>
+                <input type="submit" class='btn btn-outline-primary btn-sm' value="Submit">
+                <a type="button" class='btn btn-outline-primary btn-sm' href="/screen">Cancel</a>
+            </td>
+        </tr>
+    </table>
+
+    <input type='hidden' name='id' value='{{id}}' />
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" id="name" name="name" value="{{name}}"required />
+    </div>
+    <div class="form-group">
+        <label for="elements">Elements:</label>
+        <textarea class="form-control" id="elements" name="elements" rows="24" cols="128" required
+                  placeholder="Provide ui screen construction with json format: array of screen elements">{{elements}}</textarea>
+    </div>
+    <div class="form-group" style="margin-top:16pt;">
+        <label for="elementType">Supported Elements:</label>
+        {{{screenElements}}}
+    </div>
+    <div id="elementFormat"></div>
+</form>
+{{/screen}}
+
+<script>
+    document.getElementById('name').focus()
+    onScreenItemChanged()
+</script>
+{{> footer}}

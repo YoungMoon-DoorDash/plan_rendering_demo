@@ -1,9 +1,9 @@
 package com.doordash.plan_rendering_demo.controller
 
 import com.doordash.plan_rendering_demo.factory.HtmlFactory
-import com.doordash.plan_rendering_demo.factory.filterName
 import com.doordash.plan_rendering_demo.model.Text
 import com.doordash.plan_rendering_demo.repository.TextRepository
+import com.doordash.plan_rendering_demo.utils.filterName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.springframework.data.domain.Sort

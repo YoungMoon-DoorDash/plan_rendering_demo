@@ -2,13 +2,16 @@ package com.doordash.plan_rendering_demo.factory
 
 import com.doordash.plan_rendering_demo.model.RuleType
 import com.doordash.rpc.common.UIFlowScreenSectionType
+import com.doordash.rpc.common.UIFlowScreenTextAlignment
 import com.fasterxml.jackson.databind.ObjectMapper
+import kotlinx.serialization.json.JsonNull.content
 import org.springframework.web.bind.annotation.GetMapping
 
 object HtmlFactory {
     fun getHomeBanner(currentPage: String): String {
         val sb = StringBuilder("<div class='btn-group' style='padding-right:2pt;'>")
         sb.append(getBtnLink("Home", "/", currentPage == "home"))
+        sb.append(getBtnLink("Screen", "/screen", currentPage == "screen"))
         sb.append(getBtnLink("Rule", "/rule", currentPage == "rule"))
         sb.append(getBtnLink("Plan", "/plan", currentPage == "plan"))
         sb.append(getBtnLink("Trial", "/plan/trial", currentPage == "trial"))
@@ -26,23 +29,15 @@ object HtmlFactory {
             "<a href='$path' class='btn btn-outline-primary btn-sm'>$title</a> "
         }
 
-    fun getElementsDropDown(): String {
-        val sb = StringBuilder(
-"""
-    <div class='dropdown'>
-        <button type="button" class="btn btn-info btn-sm dropdown-toggle" id="dropdownScreenElements" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            New Screen Element
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownScreenElements">
-""".trimIndent()
-        )
-
-        UIFlowScreenSectionType.entries.forEach {
-            if (it.ordinal > 0 && it.name != "UNRECOGNIZED") {
-                sb.append("<li><a class='dropdown-item' href='/elements/add?section=${it.ordinal}'>${it.name}</a><li>")
+    fun getScreenElementsSelection(): String {
+        val sb = StringBuilder("<select name='elementType' id='elementType' onchange='onScreenItemChanged()'>")
+        UIFlowScreenSectionType.entries.sortedBy { it.name }
+            .forEach {
+                if (it.ordinal > 0 && it.name != "UNRECOGNIZED") {
+                    sb.append("<option value='${it.name}'>${it.name}</option>")
+                }
             }
-        }
-        sb.append("</ul></div>")
+        sb.append("</select>")
         return sb.toString()
     }
 
@@ -57,5 +52,14 @@ object HtmlFactory {
 
         sb.append("</select>")
         return sb.toString()
+    }
+
+    fun getAlignment(alignment: UIFlowScreenTextAlignment) = when (alignment) {
+        UIFlowScreenTextAlignment.RIGHT ->
+        "<div style='width:100%;text-align:right;border:1pt solid lightgray;'>"
+        UIFlowScreenTextAlignment.CENTER ->
+        "<div style='width:100%;text-align:center;border:1pt solid lightgray;'>"
+        else ->
+        "<div style='width:100%;border:1pt solid lightgray;'>"
     }
 }

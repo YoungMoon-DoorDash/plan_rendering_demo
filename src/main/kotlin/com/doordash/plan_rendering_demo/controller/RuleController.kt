@@ -2,14 +2,16 @@ package com.doordash.plan_rendering_demo.controller
 
 import com.doordash.plan_rendering_demo.factory.HtmlFactory
 import com.doordash.plan_rendering_demo.factory.RuleEngine
-import com.doordash.plan_rendering_demo.factory.filterName
 import com.doordash.plan_rendering_demo.factory.rule.CommandRuleFactory
 import com.doordash.plan_rendering_demo.model.Rule
 import com.doordash.plan_rendering_demo.model.RuleType
 import com.doordash.plan_rendering_demo.model.toRuleType
 import com.doordash.plan_rendering_demo.repository.RuleRepository
+import com.doordash.plan_rendering_demo.repository.ScreenRepository
 import com.doordash.plan_rendering_demo.repository.SubscriptionPlanRepository
+import com.doordash.plan_rendering_demo.repository.TextRepository
 import com.doordash.plan_rendering_demo.repository.UserRepository
+import com.doordash.plan_rendering_demo.utils.filterName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.springframework.data.domain.Sort
@@ -25,6 +27,8 @@ class RuleController(
     private val planRepository: SubscriptionPlanRepository,
     private val ruleRepository: RuleRepository,
     private val userRepository: UserRepository,
+    private val textRepository: TextRepository,
+    private val screenRepository: ScreenRepository
 ) {
     @GetMapping("/rule")
     fun ruleHome(@RequestParam search: String?, model: Model): String {
@@ -138,7 +142,7 @@ class RuleController(
         return ruleHome(null, model)
     }
 
-    @GetMapping("/rule/check")
+    @GetMapping("/rule/simulate")
     fun ruleSimulate(
         @RequestParam id: Long,
         model: Model
@@ -152,10 +156,10 @@ class RuleController(
         model["rule"] = findRule.get()
         model["result"] = "none"
         model["parameters"] = ""
-        return "rule-check"
+        return "rule-simulate"
     }
 
-    @PostMapping("/rule/check")
+    @PostMapping("/rule/simulate")
     fun ruleSimulateRun(
         @RequestParam id: Long,
         @RequestParam parameters: String,
@@ -166,7 +170,7 @@ class RuleController(
             return ruleHome(null, model)
         }
 
-        RuleEngine.setRepository(planRepository, userRepository)
+        RuleEngine.setRepository(planRepository, userRepository, textRepository, screenRepository)
 
         val sb = StringBuilder()
         RuleEngine.populateContext(parameters)
@@ -181,7 +185,7 @@ class RuleController(
         model["rule"] = rule
         model["result"] = sb.toString()
         model["parameters"] = parameters
-        return "rule-check"
+        return "rule-simulate"
     }
 
     private fun showRule(model: Model, rule: Rule): String {

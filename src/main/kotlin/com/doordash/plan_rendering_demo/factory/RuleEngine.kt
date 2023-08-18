@@ -5,11 +5,16 @@ import com.doordash.plan_rendering_demo.factory.rule.RuleConstants
 import com.doordash.plan_rendering_demo.factory.rule.RuleHandlerCheck
 import com.doordash.plan_rendering_demo.model.Rule
 import com.doordash.plan_rendering_demo.model.RuleType
+import com.doordash.plan_rendering_demo.model.Screen
 import com.doordash.plan_rendering_demo.model.subscription.SubscriptionPlan
+import com.doordash.plan_rendering_demo.repository.ScreenRepository
 import com.doordash.plan_rendering_demo.repository.SubscriptionPlanRepository
+import com.doordash.plan_rendering_demo.repository.TextRepository
 import com.doordash.plan_rendering_demo.repository.UserRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
+import java.awt.SystemColor.text
 
 interface RuleHandler {
     fun execute(rule: Rule, sb: StringBuilder? = null): String
@@ -19,6 +24,8 @@ object RuleEngine {
     private val _contextMap = HashMap<String, String>()
     private var _planRepository: SubscriptionPlanRepository? = null
     private var _userRepository: UserRepository? = null
+    private var _textRepository: TextRepository? = null
+    private var _screenRepository: ScreenRepository? = null
 
     fun hasContext(key: String):Boolean = _contextMap.containsKey(key.lowercase())
 
@@ -37,10 +44,14 @@ object RuleEngine {
 
     fun setRepository(
         planRepository: SubscriptionPlanRepository,
-        userRepository: UserRepository
+        userRepository: UserRepository,
+        textRepository: TextRepository,
+        screenRepository: ScreenRepository
     ) {
         _planRepository = planRepository
         _userRepository = userRepository
+        _textRepository = textRepository
+        _screenRepository = screenRepository
     }
 
     fun getPlanRepository(): SubscriptionPlanRepository {
@@ -51,6 +62,16 @@ object RuleEngine {
     fun getUserRepository(): UserRepository {
         checkNotNull(_userRepository) { "User repository object is not initialized yet" }
         return _userRepository as UserRepository
+    }
+
+    fun getTextRepository(): TextRepository {
+        checkNotNull(_textRepository) { "Text repository object is not initialized yet" }
+        return _textRepository as TextRepository
+    }
+
+    fun getScreenRepository(): ScreenRepository {
+        checkNotNull(_screenRepository) { "Screen repository object is not initialized yet" }
+        return _screenRepository as ScreenRepository
     }
 
     fun execute(rule: Rule, sb: StringBuilder? = null): String = when (rule.type) {
@@ -118,4 +139,17 @@ object RuleEngine {
 
     fun formatToJson(values: Map<String, String>): String =
         ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(values)
+
+    fun rendering(screen: Screen): String {
+        val buffer = StringBuilder("<div style='margin:10pt;padding:3pt;width:640px;border:1pt solid gray;'>")
+        ScreenElementFactory.toScreen(screen.elements).forEach {
+            buffer.append(it.render())
+        }
+        return buffer.append("</div>").toString()
+    }
+
+    fun getText(name: String): String =
+        (getTextRepository().findText(name)?.value ?: name).let {
+            _contextMap.entries.fold(it) { acc, (key, value) -> acc.replace("{$key}", value) }
+        }
 }

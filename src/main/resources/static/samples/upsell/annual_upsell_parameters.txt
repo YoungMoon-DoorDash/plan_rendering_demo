@@ -1,0 +1,15 @@
+{
+  "upsell_default_select": "true",
+  "upsell_best_plan_id": "1694",
+  "upsell_trial_id": "1420",
+  "upsell_order_cart_id": "order-card-01",
+  "upsell_fee_currency": "USD",
+  "fee_unit_amount": "$9.99",
+  "country_code": "US",
+  "upsell_trial_interval_type": "year",
+  "annual_plan_monthly_charge": "$9.99",
+  "annual_plan_fee": "$100.0",
+  "trial_interval_unit": "1",
+  "trial_interval_type": "year",
+  "annual_savings_percentage": "16.6"
+}
