@@ -12,6 +12,7 @@ object HtmlFactory {
         val sb = StringBuilder("<div class='btn-group' style='padding-right:2pt;'>")
         sb.append(getBtnLink("Home", "/", currentPage == "home"))
         sb.append(getBtnLink("Screen", "/screen", currentPage == "screen"))
+        sb.append(getBtnLink("Flow", "/flow", currentPage == "flow"))
         sb.append(getBtnLink("Rule", "/rule", currentPage == "rule"))
         sb.append(getBtnLink("Plan", "/plan", currentPage == "plan"))
         sb.append(getBtnLink("Trial", "/plan/trial", currentPage == "trial"))
