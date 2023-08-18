@@ -12,6 +12,7 @@ import com.doordash.rpc.common.UIFlowScreenTextAlignment
 import com.fasterxml.jackson.databind.ObjectMapper
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonNull.content
+import java.awt.SystemColor.text
 import javax.script.ScriptEngine
 
 interface ScreenElement {
@@ -32,7 +33,7 @@ data class ElementCenteredImage(
     val type: UIFlowScreenSectionType = UIFlowScreenSectionType.CENTERED_IMAGE,
     val content: String
 ): ScreenElement {
-    override fun render(): String = "<div style='width:100%;text-align:center;border:1pt solid lightgray;'><img src='" +
+    override fun render(): String = "<div style='width:100%;margin:2pt;text-align:center;border:1pt solid lightgray;'><img src='" +
         RuleEngine.getText(content) + "'/></div>"
 }
 
@@ -47,7 +48,7 @@ data class ElementListItemWithImage(
 ): ScreenElement {
     override fun render(): String {
         val objString = ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this)
-        return "<div style='width:100%;text-align:center;'><img src='" + RuleEngine.getText(content) +
+        return "<div style='width:100%;margin:2pt;text-align:center;'><img src='" + RuleEngine.getText(content) +
             "'/><pre>$objString</pre></div>border:1pt solid lightgray;"
     }
 }
@@ -57,7 +58,7 @@ data class ElementRadioButton(
     val type: UIFlowScreenSectionType = UIFlowScreenSectionType.RADIO_BUTTON,
     val content: String
 ): ScreenElement {
-    override fun render(): String = "<div style='width:100%;text-align:center;border:1pt solid lightgray;'><input type='radio' value='" +
+    override fun render(): String = "<div style='width:100%;margin:2pt;text-align:center;border:1pt solid lightgray;'><input type='radio' value='" +
         RuleEngine.getText(content) + "' /></div>"
 }
 
@@ -66,7 +67,7 @@ data class ElementUserInputTextBox(
     val type: UIFlowScreenSectionType = UIFlowScreenSectionType.USER_INPUT_TEXT_BOX,
     val content: String
 ): ScreenElement {
-    override fun render(): String = "<div style='width:100%;text-align:center;border:1pt solid lightgray;'><input type='input' value='" +
+    override fun render(): String = "<div style='width:100%;margin:2pt;text-align:center;border:1pt solid lightgray;'><input type='input' value='" +
         RuleEngine.getText(content) + "' readonly/></div>"
 }
 
@@ -74,14 +75,14 @@ data class ElementUserInputTextBox(
 data class ElementDividerRuler(
     val type: UIFlowScreenSectionType = UIFlowScreenSectionType.DIVIDER_RULER
 ): ScreenElement {
-    override fun render(): String = "<div style='width:100%;text-align:center;border:1pt solid lightgray;'>$type</div>"
+    override fun render(): String = "<div style='width:100%;margin:2pt;text-align:center;border:1pt solid lightgray;padding-right:6pt;'>$type</div>"
 }
 
 @Serializable
 data class ElementDividerSpacer(
     val type: UIFlowScreenSectionType = UIFlowScreenSectionType.DIVIDER_SPACER
 ): ScreenElement {
-    override fun render(): String = "<div style='width:100%;text-align:center;border:1pt solid lightgray;'>$type</div>"
+    override fun render(): String = "<div style='width:100%;margin:2pt;text-align:center;border:1pt solid lightgray;padding-right:6pt;'>$type</div>"
 }
 
 @Serializable
@@ -90,7 +91,7 @@ data class ElementHeaderImage(
     val content: List<String>
 ): ScreenElement {
     override fun render(): String {
-        val sb = StringBuilder("<div style='width:100%;border:1pt solid lightgray;'>")
+        val sb = StringBuilder("<div style='width:100%;margin:2pt;border:1pt solid lightgray;'>")
         content.forEach{
             sb.append("<img src='" + RuleEngine.getText(it) + "'>")
         }
@@ -104,7 +105,7 @@ data class ElementBanner(
     val content: List<String>
 ): ScreenElement {
     override fun render(): String {
-        val sb = StringBuilder("<div style='width:100%;border:1pt solid lightgray;'>$type:<br/>")
+        val sb = StringBuilder("<div style='width:100%;margin:2pt;border:1pt solid lightgray;padding-right:6pt;'>$type:<br/>")
         content.forEach{
             sb.append(RuleEngine.getText(it) + "<br/>")
         }
@@ -118,7 +119,7 @@ data class ElementTextWithSeparateLabelOrAction(
     val content: List<String>
 ): ScreenElement {
     override fun render(): String {
-        val sb = StringBuilder("<div style='width:100%;border:1pt solid lightgray;'>$type:<br/>")
+        val sb = StringBuilder("<div style='width:100%;margin:2pt;border:1pt solid lightgray;padding-right:6pt;'>$type:<br/>")
         content.forEach{
             sb.append(RuleEngine.getText(it) + "<br/>")
         }
@@ -147,7 +148,7 @@ data class ElementActionParameter(
     val value: String
 ): ScreenElement {
     override fun render(): String =
-        "$key: " + RuleEngine.getText(value) + "<br/>"
+        "$key : " + RuleEngine.getText(value) + "<br/>"
 }
 
 @Serializable
@@ -159,13 +160,13 @@ data class ElementAction(
     val post_action: UIFlowScreenActionIdentifier
 ): ScreenElement {
     override fun render(): String {
-        val sb = StringBuilder("<div style='width:100%;padding-right:6pt;'>")
+        val sb = StringBuilder("<div style='width:100%;margin:2pt;border:1pt solid lightblue;padding-right:6pt;'>")
         sb.append(RuleEngine.getText(label) + "<br/>")
-        sb.append("type: $type, display_type: $display_type<br/>")
+        sb.append("type : $type<br/>display_type : $display_type<br/>")
         parameters.forEach {
             sb.append(it.render())
         }
-        sb.append("post_action: $post_action<br/>")
+        sb.append("post_action : $post_action<br/>")
         return sb.append("</div>").toString()
     }
 }
@@ -177,11 +178,14 @@ data class ElementRichContent(
     val format_color: FormatColor = FormatColor.COLOR_UNKNOWN,
     val alignment: UIFlowScreenTextAlignment = UIFlowScreenTextAlignment.DEFAULT
 ): ScreenElement {
-    override fun render(): String {
-        val sb = StringBuilder(HtmlFactory.getAlignment(alignment))
-        sb.append("<font color='" + getColor() + "'>" + RuleEngine.getText(content) + "</font>")
-        return sb.append("</div>").toString()
-    }
+    override fun render(): String =
+        if (content.isBlank()) {
+            ""
+        } else {
+            val sb = StringBuilder(HtmlFactory.getAlignment(alignment, "lightgreen"))
+            sb.append("<font color='" + getColor() + "'>" + RuleEngine.getText(content) + "</font>")
+            sb.append("</div>").toString()
+        }
 
     private fun getColor(): String = when(format_color) {
         FormatColor.COLOR_PRIMARY -> "blue"
@@ -204,7 +208,7 @@ data class ElementRichCardRadioButton(
     override fun render(): String {
         val sb = StringBuilder(HtmlFactory.getAlignment(alignment))
         content.forEach{
-            sb.append(RuleEngine.getText(it) + "<br/>")
+            sb.append(it + " : " + RuleEngine.getText(it) + "<br/>")
         }
         sb.append(action.render())
         rich_content.forEach {

@@ -54,12 +54,12 @@ object HtmlFactory {
         return sb.toString()
     }
 
-    fun getAlignment(alignment: UIFlowScreenTextAlignment) = when (alignment) {
+    fun getAlignment(alignment: UIFlowScreenTextAlignment, borderColor:String = "lightgray") = when (alignment) {
         UIFlowScreenTextAlignment.RIGHT ->
-        "<div style='width:100%;text-align:right;border:1pt solid lightgray;'>"
+            "<div style='width:100%;margin:2pt;text-align:right;border:1pt solid $borderColor;padding-right:6pt;'>"
         UIFlowScreenTextAlignment.CENTER ->
-        "<div style='width:100%;text-align:center;border:1pt solid lightgray;'>"
+            "<div style='width:100%;margin:2pt;text-align:center;border:1pt solid $borderColor;padding-right:6pt;'>"
         else ->
-        "<div style='width:100%;border:1pt solid lightgray;'>"
+            "<div style='width:100%;margin:2pt;border:1pt solid $borderColor;padding-right:6pt;'>"
     }
 }
