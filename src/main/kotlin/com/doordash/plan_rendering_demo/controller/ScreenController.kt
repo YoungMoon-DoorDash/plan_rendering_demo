@@ -153,7 +153,7 @@ class ScreenController(
     }
 
     private fun showScreen(model: Model, screen: Screen): String {
-        setScreenParams(model, "Registered screen > ${screen.name}")
+        setScreenParams(model, screen.name)
         model["screen"] = screen
         return "screen-info"
     }

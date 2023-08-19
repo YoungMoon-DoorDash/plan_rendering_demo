@@ -7,10 +7,9 @@
     }
 </script>
 {{> bodyheader}}
-
 {{{banner}}}
 
-<table style='margin-top:10px; width:860px;'>
+<table style='margin-top:10px; width:100%;'>
 <tr>
     <td nowrap><b>{{title}}</b></td>
     <td style='padding-left:16px;text-align:right;' nowrap>
@@ -27,7 +26,6 @@
     <table class="table table-striped table-bordered btn-sm">
         <tr><td scope="row" style="width:120px;text-align:right;font-weight:bold;" nowrap>Cx ID &nbsp;</td><td>&nbsp; {{id}}</td></tr>
         <tr><td scope="row" style="width:120px;text-align:right;font-weight:bold;" nowrap>Name &nbsp;</td><td>&nbsp; {{name}}</td></tr>
-        <tr><td scope="row" style="width:120px;text-align:right;font-weight:bold;" nowrap>Email &nbsp;</td><td>&nbsp; {{email}}</td></tr>
         <tr><td scope="row" style="width:120px;text-align:right;font-weight:bold;" nowrap>Configuration &nbsp;</td><td>{{{experiments}}}</td></tr>
     </table>
 {{/user}}

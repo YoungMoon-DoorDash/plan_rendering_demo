@@ -12,7 +12,6 @@ data class User(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L,
     val name: String,
-    val email: String,
     val experiments: String = ""
 ) {
     fun toMap(): Map<String, String> =

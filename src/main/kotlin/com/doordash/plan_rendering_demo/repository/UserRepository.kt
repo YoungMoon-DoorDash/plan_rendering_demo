@@ -15,8 +15,8 @@ interface UserRepository: JpaRepository<User, Long> {
     fun searchByName(@Param("name") name: String): List<User>
 
     @Query(
-        value = "SELECT u.* FROM user u where lower(u.name) = lower(:name) and lower(u.email) = lower(:email)",
+        value = "SELECT u.* FROM user u where lower(u.name) = lower(:name)",
         nativeQuery = true
     )
-    fun findUser(@Param("name") name: String, @Param("email") email: String): User?
+    fun findUser(@Param("name") name: String): User?
 }

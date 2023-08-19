@@ -20,6 +20,12 @@ class TextController(
 ) {
     @GetMapping("/text")
     fun textHome(@RequestParam search: String?, model: Model): String {
+        model["html-title-line"] = HtmlFactory.getTitleLine(
+            "/text",
+            "text",
+            search ?: "",
+            placeHolder = "Search by content"
+        )
         setTextParams(model, "Registered Texts", true)
         if (search.isNullOrBlank()) {
             model["search"] = ""
@@ -126,7 +132,7 @@ class TextController(
     }
 
     private fun showText(model: Model, text: Text): String {
-        setTextParams(model, "Registered Text > ${text.name}")
+        setTextParams(model, text.name)
         model["text"] = text
         return "text-info"
     }

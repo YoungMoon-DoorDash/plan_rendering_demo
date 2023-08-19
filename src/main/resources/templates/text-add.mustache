@@ -1,11 +1,18 @@
 {{> header}}
 {{> bodyheader}}
-
 {{{banner}}}
 
-<p style='margin-top:10px;font-weight:bold;'>{{title}}</p>
+<form style="width:100%;margin-top:10px;" class="text-start" action="/text/add" method="post">
+    <table style='margin-top:10px; width:100%;'>
+        <tr>
+            <td nowrap><b>{{title}}</b></td>
+            <td style='padding-left:16px;text-align:right;' nowrap>
+                <input type="submit" class='btn btn-outline-primary btn-sm' value="Submit">
+                <a type="button" class='btn btn-outline-primary btn-sm' href="/text">Cancel</a>
+            </td>
+        </tr>
+    </table>
 
-<form style="width:860px;margin-top:10px;" class="text-start" action="/text/add" method="post">
     <div class="form-group">
         <label for="name">Name:</label>
         <input type="text" class="form-control" id="name" name="name" required />
@@ -14,11 +21,6 @@
         <label for="value">Text:</label>
         <textarea class="form-control" id="value" name="value" rows="5" required></textarea>
     </div>
-    <br>
-    <center>
-        <input type="submit" class='btn btn-outline-primary btn-sm' value="Submit">
-        <a type="button" class='btn btn-outline-primary btn-sm' href="/text">Cancel</a>
-    </center>
 </form>
 
 <script>

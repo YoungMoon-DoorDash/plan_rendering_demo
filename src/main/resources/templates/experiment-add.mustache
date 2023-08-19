@@ -3,9 +3,16 @@
 
 {{{banner}}}
 
-<p style='margin-top:10px;font-weight:bold;'>{{title}}</p>
-
-<form style="width:860px;margin-top:10px;" class="text-start" action="/experiment/add" method="post">
+<form style="width:100%;margin-top:10px;" class="text-start" action="/experiment/add" method="post">
+    <table style='margin-top:10px; width:100%;'>
+        <tr>
+            <td><b>{{title}}</b></td>
+            <td style='padding-left:16px;text-align:right;' nowrap>
+                <input type="submit" class='btn btn-outline-primary btn-sm' value="Submit">
+                <a type="button" class='btn btn-outline-primary btn-sm' href="/experiment">Cancel</a>
+            </td>
+        </tr>
+    </table>
 
     <div class="form-group">
         <label for="name">Name:</label>
@@ -15,12 +22,6 @@
         <label for="controls">Controls:</label>
         <input type="text" class="form-control" id="controls" name="controls" value="control,treatment" required />
     </div>
-
-    <br>
-    <center>
-        <input type="submit" class='btn btn-outline-primary btn-sm' value="Submit">
-        <a type="button" class='btn btn-outline-primary btn-sm' href="/experiment">Cancel</a>
-    </center>
 </form>
 
 <script>

@@ -19,6 +19,12 @@ class ExperimentController(
 ) {
     @GetMapping("/experiment")
     fun experimentHome(@RequestParam search: String?, model: Model): String {
+        model["html-title-line"] = HtmlFactory.getTitleLine(
+            "/experiment",
+            "experiment",
+            search ?: "",
+            placeHolder = "Search by experiment name"
+        )
         setExperimentParams(model, "Registered Experiments", true)
         if (search.isNullOrBlank()) {
             model["search"] = ""
@@ -132,7 +138,7 @@ class ExperimentController(
         controls.split(",").joinToString(",") { it.trim().lowercase() }
 
     private fun showExperiment(model: Model, experiment: Experiment): String {
-        setExperimentParams(model, "Registered Experiment > ${experiment.name}")
+        setExperimentParams(model, experiment.name)
         model["experiment"] = experiment.copy(
             controls = asControlList(experiment.controls)
         )

@@ -20,6 +20,12 @@ class UserController(
 ) {
     @GetMapping("/user")
     fun userHome(@RequestParam search: String?, model: Model): String {
+        model["html-title-line"] = HtmlFactory.getTitleLine(
+            "/user",
+            "user",
+            search ?: "",
+            placeHolder = "Search by user name"
+        )
         setUserParams(model, "Registered Users", true)
         if (search.isNullOrBlank()) {
             model["search"] = ""
@@ -45,11 +51,10 @@ class UserController(
     @PostMapping("/user/add")
     fun userRegister(
         @RequestParam name: String,
-        @RequestParam email: String,
         @RequestParam experiments: String,
         model: Model
     ): String {
-        val saved = addOrUpdate(name, email, experiments)
+        val saved = addOrUpdate(name, experiments)
         return showUser(model, saved)
     }
     
@@ -80,15 +85,13 @@ class UserController(
     fun userUpdate(
         @RequestParam id: Long,
         @RequestParam name: String,
-        @RequestParam email: String,
         @RequestParam experiments: String,
         model: Model
     ): String {
         val convertName = name.trim()
-        val convertEmail = email.trim()
         val convertExperiments = filterConfigurations(experiments)
         val savedUser = userRepository.save(
-            User(id = id, name = convertName, email = convertEmail, experiments = convertExperiments)
+            User(id = id, name = convertName, experiments = convertExperiments)
         )
         return showUser(model, savedUser)
     }
@@ -119,29 +122,28 @@ class UserController(
         model: Model
     ): String {
         Json.decodeFromString<List<ImportUserData>>(values).forEach{ user ->
-            addOrUpdate(user.name, user.email, user.experiments)
+            addOrUpdate(user.name, user.experiments)
         }
 
         return userHome(null, model)
     }
     
-    private fun addOrUpdate(name: String, email: String, experiments: String): User {
+    private fun addOrUpdate(name: String, experiments: String): User {
         val convertName = name.trim()
-        val convertEmail = email.trim()
         val convertExperiments = filterConfigurations(experiments)
-        return userRepository.findUser(convertName, convertEmail)?.let {
+        return userRepository.findUser(convertName)?.let {
             userRepository.save(
-                User(id = it.id, name = convertName, email = convertEmail, experiments = convertExperiments)
+                User(id = it.id, name = convertName, experiments = convertExperiments)
             )
         } ?: run {
             userRepository.save(
-                User(name = convertName, email = convertEmail, experiments = convertExperiments)
+                User(name = convertName, experiments = convertExperiments)
             )
         }
     }
 
     private fun showUser(model: Model, user: User): String {
-        setUserParams(model, "Registered User > ${user.name}")
+        setUserParams(model, user.name)
         model["user"] = user.copy(
             experiments = asConfigurationList(user.experiments)
         )

@@ -32,6 +32,12 @@ class RuleController(
 ) {
     @GetMapping("/rule")
     fun ruleHome(@RequestParam search: String?, model: Model): String {
+        model["html-title-line"] = HtmlFactory.getTitleLine(
+            "/rule",
+            "rule",
+            search ?: "",
+            placeHolder = "Search by rule name"
+        )
         setRuleParams(model, "Registered Rules")
         if (search.isNullOrBlank()) {
             model["search"] = ""
@@ -154,7 +160,6 @@ class RuleController(
 
         setRuleParams(model, "Simulate Rule > ${findRule.get().name}")
         model["rule"] = findRule.get()
-        model["result"] = "none"
         model["parameters"] = ""
         return "rule-simulate"
     }
@@ -189,7 +194,7 @@ class RuleController(
     }
 
     private fun showRule(model: Model, rule: Rule): String {
-        setRuleParams(model, "Registered Rule > ${rule.name}")
+        setRuleParams(model, rule.name)
         model["rule"] = rule
         return "rule-info"
     }

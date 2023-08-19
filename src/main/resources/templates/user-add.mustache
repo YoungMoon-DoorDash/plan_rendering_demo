@@ -1,10 +1,9 @@
 {{> header}}
 {{> bodyheader}}
-
 {{{banner}}}
 
-<form style="width:860px;margin-top:10px;" class="text-start" action="/user/add" method="post">
-    <table style='margin-top:10px; width:860px;'>
+<form style="width:100%;margin-top:10px;" class="text-start" action="/user/add" method="post">
+    <table style='margin-top:10px; width:100%;'>
         <tr>
             <td nowrap><b>{{title}}</b></td>
             <td style='padding-left:16px;text-align:right;' nowrap>
@@ -17,10 +16,6 @@
     <div class="form-group">
         <label for="name">Name:</label>
         <input type="text" class="form-control" id="name" name="name" required />
-    </div>
-    <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" class="form-control" id="email" name="email" required />
     </div>
     <div class="form-group">
         <label for="experiments">Configuration:</label>

@@ -1,17 +1,10 @@
 [
   {
     "name":  "Young Moon KO",
-    "email": "youngmoon.ko@doordash.com",
     "experiments":  "dp_annual_plan_upsell_non_sub_order_cart_be_enabled:true,post_checkout_trial_upsell:treatment"
   },
   {
-    "name": "Young Moon KO",
-    "email": "ymoon1972@gmail.com",
-    "experiments": "subscription_plan_id:435"
-  },
-  {
     "name" : "Sachit Muckaden",
-    "email": "sachit.muckaden@doordash.com",
     "experiments": "dp_annual_plan_upsell_non_sub_order_cart_be_enabled:true,subscription_plan_id:1524"
   }
 ]

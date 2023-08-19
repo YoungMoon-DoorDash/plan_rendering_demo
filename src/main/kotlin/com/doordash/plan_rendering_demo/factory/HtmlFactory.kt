@@ -3,9 +3,7 @@ package com.doordash.plan_rendering_demo.factory
 import com.doordash.plan_rendering_demo.model.RuleType
 import com.doordash.rpc.common.UIFlowScreenSectionType
 import com.doordash.rpc.common.UIFlowScreenTextAlignment
-import com.fasterxml.jackson.databind.ObjectMapper
-import kotlinx.serialization.json.JsonNull.content
-import org.springframework.web.bind.annotation.GetMapping
+import org.apache.coyote.http11.Constants.a
 
 object HtmlFactory {
     fun getHomeBanner(currentPage: String): String {
@@ -15,7 +13,7 @@ object HtmlFactory {
         sb.append(getBtnLink("Flow", "/flow", currentPage == "flow"))
         sb.append(getBtnLink("Rule", "/rule", currentPage == "rule"))
         sb.append(getBtnLink("Plan", "/plan", currentPage == "plan"))
-        sb.append(getBtnLink("Trial", "/plan/trial", currentPage == "trial"))
+        sb.append(getBtnLink("Trial", "/trial", currentPage == "trial"))
         sb.append(getBtnLink("Text", "/text", currentPage == "text"))
         sb.append(getBtnLink("User", "/user", currentPage == "user"))
         sb.append(getBtnLink("Experiment", "/experiment", currentPage == "experiment"))
@@ -29,6 +27,33 @@ object HtmlFactory {
         } else {
             "<a href='$path' class='btn btn-outline-primary btn-sm'>$title</a> "
         }
+
+    fun getTitleLine(
+        basePath: String,
+        title: String,
+        search: String,
+        withAdd: Boolean = true,
+        withImport: Boolean = true,
+        placeHolder:String = "Search by name"
+    ): String {
+        val sb = StringBuilder(
+            """
+<table style='margin-top:10px;width:100%;'>
+    <tr>
+        <td nowrap><b>Registered $title</b></td>
+        <td style='padding-left:16px;text-align:right;' nowrap>
+            <input type='text' id='search' value="$search" size='32' placeholder='$placeHolder'/>
+            <button type='button' class='btn btn-outline-primary btn-sm' onclick='on_search()'>Find</button>
+"""
+        )
+        if (withAdd) {
+            sb.append("<a href='$basePath/add' class='btn btn-outline-primary btn-sm'>Add $title</a>")
+        }
+        if (withImport) {
+            sb.append("<a href='$basePath/import' class='btn btn-outline-primary btn-sm'>Import</a>")
+        }
+        return sb.append("</td></tr></table>").toString()
+    }
 
     fun getScreenElementsSelection(): String {
         val sb = StringBuilder("<select name='elementType' id='elementType' onchange='onScreenItemChanged()'>")
