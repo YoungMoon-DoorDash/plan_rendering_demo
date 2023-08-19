@@ -9,9 +9,9 @@ object HtmlFactory {
     fun getHomeBanner(currentPage: String): String {
         val sb = StringBuilder("<div class='btn-group' style='padding-right:2pt;'>")
         sb.append(getBtnLink("Home", "/", currentPage == "home"))
-        sb.append(getBtnLink("Screen", "/screen", currentPage == "screen"))
         sb.append(getBtnLink("Flow", "/flow", currentPage == "flow"))
         sb.append(getBtnLink("Rule", "/rule", currentPage == "rule"))
+        sb.append(getBtnLink("Screen", "/screen", currentPage == "screen"))
         sb.append(getBtnLink("Plan", "/plan", currentPage == "plan"))
         sb.append(getBtnLink("Trial", "/trial", currentPage == "trial"))
         sb.append(getBtnLink("Text", "/text", currentPage == "text"))

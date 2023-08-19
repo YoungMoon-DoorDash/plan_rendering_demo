@@ -15,6 +15,11 @@ interface TextRepository: JpaRepository<Text, Long> {
     )
     fun serchByValue(@Param("value") value: String): List<Text>
 
+    @Query(
+        value = "SELECT t.* FROM text t WHERE lower(t.name) like lower(:name)",
+        nativeQuery = true
+    )
+    fun serchByName(@Param("name") name: String): List<Text>
 
     @Query(
         value = "SELECT t.* FROM text t where lower(t.name) = lower(:name)",

@@ -3,6 +3,11 @@ function onScreenItemChanged() {
     document.getElementById('elementFormat').innerHTML = '<pre style="font-size:small;">{\n' + elementFormat + '}</pre>'
 }
 
+function screenElementCopyToClipboard() {
+    let elementFormat = getElementFormat(document.getElementById('elementType').value)
+    navigator.clipboard.writeText('{\n' + elementFormat + '}')
+}
+
 function getElementFormat(elementType) {
     switch(elementType) {
         case "CENTERED_IMAGE":

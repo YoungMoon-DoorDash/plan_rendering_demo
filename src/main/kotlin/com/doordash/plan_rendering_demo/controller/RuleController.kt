@@ -38,7 +38,7 @@ class RuleController(
             search ?: "",
             placeHolder = "Search by rule name"
         )
-        setRuleParams(model, "Registered Rules")
+        setRuleParams(model, "Registered Rules", true)
         if (search.isNullOrBlank()) {
             model["search"] = ""
             model["rules"] = ruleRepository.findAll(Sort.by(Sort.Direction.ASC, "name"))
@@ -160,7 +160,7 @@ class RuleController(
 
         setRuleParams(model, "Simulate Rule > ${findRule.get().name}")
         model["rule"] = findRule.get()
-        model["parameters"] = ""
+        model["parameters"] = "{\n}"
         return "rule-simulate"
     }
 

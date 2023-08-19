@@ -20,13 +20,15 @@
     </div>
     <div class="form-group">
         <label for="elements">Elements:</label>
-        <textarea class="form-control" id="elements" name="elements" rows="48" cols="128" required
+        <textarea class="form-control" id="elements" name="elements" rows="36" cols="128" required
                   style="font-size:small;"
                   placeholder="Provide ui screen construction with json format: array of screen elements"></textarea>
     </div>
     <div class="form-group" style="margin-top:16pt;">
         <label for="elementType">Supported Elements:</label>
         {{{screenElements}}}
+        <button type="button" class='btn btn-outline-primary btn-sm' onclick="screenElementCopyToClipboard()">Copy to Clipboard</button>
+        <a type="button" class='btn btn-outline-primary btn-sm' href="https://jsonformatter.org/json-editor" target="_jsonEditor">Open Json Editor</a>
     </div>
     <div id="elementFormat"></div>
 </form>

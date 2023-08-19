@@ -24,7 +24,7 @@ class TextController(
             "/text",
             "text",
             search ?: "",
-            placeHolder = "Search by content"
+            placeHolder = "Search by content or name"
         )
         setTextParams(model, "Registered Texts", true)
         if (search.isNullOrBlank()) {
@@ -32,7 +32,12 @@ class TextController(
             model["texts"] = textRepository.findAll(Sort.by(Sort.Direction.ASC, "name"))
         } else {
             model["search"] = search
-            model["texts"] = textRepository.serchByValue('%' + search + '%').sortedBy { it.name }
+            if (search.startsWith("name:")) {
+                val name = search.substring(5)
+                model["texts"] = textRepository.serchByName('%' + name + '%').sortedBy { it.name }
+            } else {
+                model["texts"] = textRepository.serchByValue('%' + search + '%').sortedBy { it.name }
+            }
         }
         return "text"
     }

@@ -113,7 +113,7 @@ class ScreenController(
         setScreenParams(model, "Simulate Screen > ${findScreen.get().name}")
         model["screen"] = findScreen.get()
         model["result"] = ""
-        model["parameters"] = ""
+        model["parameters"] = "{\n}"
         return "screen-simulate"
     }
 
