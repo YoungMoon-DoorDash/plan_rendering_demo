@@ -1,5 +1,5 @@
 {{> header}}
-<script src="/screen_info.js"></script>
+<script src="/screen_edit.js"></script>
 {{> bodyheader}}
 {{{banner}}}
 
@@ -20,7 +20,8 @@
     </div>
     <div class="form-group">
         <label for="elements">Elements:</label>
-        <textarea class="form-control" id="elements" name="elements" rows="24" cols="128" required
+        <textarea class="form-control" id="elements" name="elements" rows="48" cols="128" required
+                  style="font-size:small;"
                   placeholder="Provide ui screen construction with json format: array of screen elements"></textarea>
     </div>
     <div class="form-group" style="margin-top:16pt;">

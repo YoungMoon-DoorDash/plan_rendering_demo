@@ -7,6 +7,7 @@ import com.doordash.rpc.common.FormatType
 import com.doordash.rpc.common.UIFlowScreenActionDisplayType
 import com.doordash.rpc.common.UIFlowScreenActionIdentifier
 import com.doordash.rpc.common.UIFlowScreenActionParameterType
+import com.doordash.rpc.common.UIFlowScreenSection
 import com.doordash.rpc.common.UIFlowScreenSectionType
 import com.doordash.rpc.common.UIFlowScreenTextAlignment
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -25,7 +26,12 @@ data class ElementText(
     val content: String,
     val alignment: UIFlowScreenTextAlignment = UIFlowScreenTextAlignment.DEFAULT
 ): ScreenElement {
-    override fun render(): String = HtmlFactory.getAlignment(alignment) + RuleEngine.getText(content) + "</div>"
+    override fun render(): String = when(type) {
+        UIFlowScreenSectionType.BOLDED_TITLE_TEXT ->
+            HtmlFactory.getAlignment(alignment) + "<span style='font-size:14pt;font-weight:bold;'>" + RuleEngine.getText(content) + "</span></div>"
+        else ->
+            HtmlFactory.getAlignment(alignment) + RuleEngine.getText(content) + "</div>"
+    }
 }
 
 @Serializable
@@ -161,8 +167,12 @@ data class ElementAction(
 ): ScreenElement {
     override fun render(): String {
         val sb = StringBuilder("<div style='width:100%;margin:2pt;border:1pt solid lightblue;padding-right:6pt;'>")
-        sb.append(RuleEngine.getText(label) + "<br/>")
-        sb.append("type : $type<br/>display_type : $display_type<br/>")
+        val btnType = when(display_type) {
+            UIFlowScreenActionDisplayType.FLAT_SECONDARY -> "btn-outline-secondary"
+            UIFlowScreenActionDisplayType.TERTIARY -> "btn-outline-success"
+            else -> "btn-outline-primary"
+        }
+        sb.append("<button type='button' class='btn $btnType btn-sm'>" + RuleEngine.getText(label) + "</button><br/>")
         parameters.forEach {
             sb.append(it.render())
         }

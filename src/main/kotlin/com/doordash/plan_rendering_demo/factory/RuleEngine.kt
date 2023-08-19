@@ -141,11 +141,11 @@ object RuleEngine {
         ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(values)
 
     fun rendering(screen: Screen): String {
-        val buffer = StringBuilder("<div style='margin:10pt;padding:3pt;width:640px;border:1pt solid gray;'>")
+        val buffer = StringBuilder("<center><div style='text-align:left;margin:10pt;padding:3pt;width:640px;border:1pt solid gray;'>")
         ScreenElementFactory.toScreen(screen.elements).forEach {
             buffer.append(it.render())
         }
-        return buffer.append("</div>").toString()
+        return buffer.append("</div></center>").toString()
     }
 
     fun getText(name: String): String =

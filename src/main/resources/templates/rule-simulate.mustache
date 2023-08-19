@@ -24,7 +24,8 @@
     <div class="form-group">
         <label for="parameters">Parameters:</label>
         <textarea class="form-control" id="parameters" name="parameters"
-                  rows="8"
+                  rows="16"
+                  style="font-size:small;width:100%;"
                   placeholder="provide name-value paired input as json format"
                   required>{{parameters}}</textarea>
     </div>
@@ -32,7 +33,7 @@
 {{#result}}
     <div class="form-group">
         <label for="result">Result:</label><br/>
-        <textarea id="result" name="result" rows="32" style="width:100%;background-color:lightblue;" readonly>{{result}}</textarea>
+        <textarea id="result" name="result" rows="32" style="font-size:small;width:100%;background-color:#EEEEEE;" readonly>{{result}}</textarea>
     </div>
 {{/result}}
 </form>
