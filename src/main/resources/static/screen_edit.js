@@ -1,3 +1,24 @@
+function onValidateScreen() {
+    fetch("/screen/validate", {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json; character=UTF-8'
+        },
+        body: document.getElementById('elements').value
+    }).then((response) => {
+        return response.json()
+    }).then((res) => {
+        if (res.status === 200) {
+            alert("Valid screen!")
+        } else {
+            alert("Rule validation failed:\n" + res.message)
+        }
+    }).catch((error) => {
+        alert("Rule validation failed:\n" + error)
+    })
+}
+
 function onScreenItemChanged() {
     let elementFormat = getElementFormat(document.getElementById('elementType').value)
     document.getElementById('elementFormat').innerHTML = '<pre style="font-size:small;">{\n' + elementFormat + '}</pre>'

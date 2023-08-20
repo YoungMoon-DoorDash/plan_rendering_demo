@@ -1,6 +1,5 @@
 {{> header}}
 {{> bodyheader}}
-
 {{{banner}}}
 
 {{#user}}
@@ -22,8 +21,9 @@
     </div>
     <div class="form-group">
         <label for="experiments">Configuration:</label>
-        <textarea type="input" class="form-control" id="experiments" name="experiments" rows="5"
-          placeholder="add experiment mappings with exp_name:control pair with comma separated."
+        <textarea class="form-control" id="experiments" name="experiments" rows="5"
+                  style="width:100%;font-size:small;"
+                  placeholder="add experiment mappings with exp_name:control pair with comma separated."
         >{{experiments}}</textarea>
     </div>
     <div class="alert alert-info d-flex" style="margin-top:10px;padding-bottom:0px;margin-bottom:0px;">

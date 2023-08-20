@@ -11,6 +11,7 @@
     </tr>
 </table>
 
+{{#trials}}
 <table class="table table-striped table-bordered btn-sm" style="width:100%;">
     <thead>
     <tr>
@@ -25,7 +26,6 @@
     </tr>
     </thead>
     <tbody>
-    {{#trials}}
         <tr>
             <td scope="row" nowrap>{{id}}</td>
             <td nowrap>{{created_at}}</td>
@@ -36,11 +36,8 @@
             <td>{{payment_provider_type}}</td>
             <td><a href='/plan/info?id={{consumer_subscription_plan_id}}' style='width:100%;' class="btn btn-outline-primary btn-sm">{{consumer_subscription_plan_id}}</a></td>
         </tr>
-    {{/trials}}
-    {{^trials}}
-        <tr><td colspan=8 style='text-align:center;'>There's no registered trials.</td></tr>
-    {{/trials}}
     </tbody>
 </table>
+{{/trials}}
 
 {{> footer}}

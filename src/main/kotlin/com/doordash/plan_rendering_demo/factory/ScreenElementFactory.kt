@@ -21,11 +21,12 @@ import com.doordash.plan_rendering_demo.utils.toUIFlowScreenActionParameterType
 import com.doordash.plan_rendering_demo.utils.toUIFlowScreenSectionType
 import com.doordash.plan_rendering_demo.utils.toUIFlowScreenTextAlignment
 import com.doordash.rpc.common.UIFlowScreenSectionType
+import com.fasterxml.jackson.databind.ObjectMapper
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 
 object ScreenElementFactory {
     fun toScreen(jsonString: String): List<ScreenElement> =
@@ -34,55 +35,55 @@ object ScreenElementFactory {
         }.toList()
     
     private fun toScreenElement(jsonObject: JsonObject): ScreenElement =
-        when(val elementType = getProperty("type", jsonObject).toUIFlowScreenSectionType()) {
+        when(val elementType = getPropertyString("type", jsonObject).toUIFlowScreenSectionType()) {
             UIFlowScreenSectionType.CENTERED_IMAGE ->
-                ElementCenteredImage(content = getProperty("content", jsonObject))
+                ElementCenteredImage(content = getPropertyString("content", jsonObject))
 
             UIFlowScreenSectionType.LIST_ITEM_WITH_IMAGE ->
                 ElementListItemWithImage(
-                    content = getProperty("content", jsonObject),
-                    action_label = getProperty("action_label", jsonObject),
+                    content = getPropertyString("content", jsonObject),
+                    action_label = getPropertyString("action_label", jsonObject),
                     action_display_type =
-                        getPropertyWithDefaultValue(
+                        getPropertyStringWithDefault(
                             "action_display_type", jsonObject, "UNKNOWN_ACTION_DISPLAY_TYPE"
                         ).toUIFlowScreenActionDisplayType(),
                     action_parameter_type =
-                        getPropertyWithDefaultValue(
+                        getPropertyStringWithDefault(
                             "action_parameter_type", jsonObject, "UNKNOWN_ACTION_PARAMETER_TYPE"
                         ).toUIFlowScreenActionParameterType(),
-                    action_parameter_value = getPropertyWithDefaultValue("action_parameter_value", jsonObject)
+                    action_parameter_value = getPropertyStringWithDefault("action_parameter_value", jsonObject)
                 )
 
             UIFlowScreenSectionType.RADIO_BUTTON ->
-                ElementRadioButton(content = getProperty("content", jsonObject))
+                ElementRadioButton(content = getPropertyString("content", jsonObject))
 
             UIFlowScreenSectionType.USER_INPUT_TEXT_BOX ->
-                ElementUserInputTextBox(content = getProperty("content", jsonObject))
+                ElementUserInputTextBox(content = getPropertyString("content", jsonObject))
 
             UIFlowScreenSectionType.DIVIDER_RULER -> ElementDividerRuler()
             UIFlowScreenSectionType.DIVIDER_SPACER -> ElementDividerSpacer()
             UIFlowScreenSectionType.HEADER_IMAGE->
                 ElementImage(
-                    content = Json.decodeFromString<List<String>>(getProperty("content", jsonObject))
+                    content = Json.decodeFromString<List<String>>(getPropertyString("content", jsonObject))
                 )
             UIFlowScreenSectionType.BANNER->
                 ElementBanner(
-                    content = Json.decodeFromString<List<String>>(getProperty("content", jsonObject))
+                    content = Json.decodeFromString<List<String>>(getPropertyString("content", jsonObject))
                 )
             UIFlowScreenSectionType.TEXT_WITH_SEPARATE_LABEL_OR_ACTION ->
                 ElementTextWithSeparateLabelOrAction(
-                    content = Json.decodeFromString<List<String>>(getProperty("content", jsonObject))
+                    content = Json.decodeFromString<List<String>>(getPropertyString("content", jsonObject))
                 )
             UIFlowScreenSectionType.IMAGE ->
                 ElementImage(
-                    content = Json.decodeFromString<List<String>>(getProperty("content", jsonObject)),
-                    alignment = getPropertyWithDefaultValue("alignment", jsonObject, "DEFAULT")
+                    content = Json.decodeFromString<List<String>>(getPropertyString("content", jsonObject)),
+                    alignment = getPropertyStringWithDefault("alignment", jsonObject, "DEFAULT")
                         .toUIFlowScreenTextAlignment()
                 )
             UIFlowScreenSectionType.RICH_CARD_RADIO_BUTTON ->
                 ElementRichCardRadioButton(
-                    content = Json.decodeFromString<List<String>>(getProperty("content", jsonObject)),
-                    alignment = getPropertyWithDefaultValue("alignment", jsonObject, "DEFAULT")
+                    content = getPropertyListString("content", jsonObject),
+                    alignment = getPropertyStringWithDefault("alignment", jsonObject, "DEFAULT")
                         .toUIFlowScreenTextAlignment(),
                     action = getElementAction(jsonObject),
                     rich_content = getElementRichContext(jsonObject)
@@ -91,8 +92,8 @@ object ScreenElementFactory {
             else ->
                 ElementText(
                     type = elementType,
-                    content = getProperty("content", jsonObject),
-                    alignment = getPropertyWithDefaultValue("alignment", jsonObject, "DEFAULT")
+                    content = getPropertyString("content", jsonObject),
+                    alignment = getPropertyStringWithDefault("alignment", jsonObject, "DEFAULT")
                         .toUIFlowScreenTextAlignment()
                 )
         }
@@ -103,46 +104,59 @@ object ScreenElementFactory {
         }
 
         return ElementAction(
-            label = getProperty("label", actionObject),
-            type = getPropertyWithDefaultValue("type", actionObject, "UNKNOWN_ACTION_IDENTIFIER")
+            label = getPropertyString("label", actionObject),
+            type = getPropertyStringWithDefault("type", actionObject, "UNKNOWN_ACTION_IDENTIFIER")
                 .toUIFlowScreenActionIdentifier(),
-            display_type = getPropertyWithDefaultValue("display_type", actionObject, "UNKNOWN_ACTION_DISPLAY_TYPE")
+            display_type = getPropertyStringWithDefault("display_type", actionObject, "UNKNOWN_ACTION_DISPLAY_TYPE")
                 .toUIFlowScreenActionDisplayType(),
-            parameters = getElementActionParameters(actionObject["parameters"]),
-            post_action = getPropertyWithDefaultValue("post_action", actionObject, "UNKNOWN_ACTION_IDENTIFIER")
+            parameters = getElementActionParameters(actionObject),
+            post_action = getPropertyStringWithDefault("post_action", actionObject, "UNKNOWN_ACTION_IDENTIFIER")
                 .toUIFlowScreenActionIdentifier()
         )
     }
 
-    private fun getElementActionParameters(parameters: JsonElement?): List<ElementActionParameter> {
-        requireNotNull(parameters) { "parameters field is not valid" }
-        return parameters.jsonArray.map {
+    private fun getElementActionParameters(jsonObject: JsonObject): List<ElementActionParameter> {
+        val parametersObject = jsonObject["parameters"]?.jsonArray ?: run {
+            val objectString = ObjectMapper().writerWithDefaultPrettyPrinter()
+                .writeValueAsString(jsonObject)
+            throw IllegalArgumentException("Can't parse 'parameters' object for action: $objectString.")
+        }
+
+        return parametersObject.map {
             Json.decodeFromJsonElement(ElementActionParameter.serializer(), it)
         }.toList()
     }
 
     private fun getElementRichContext(parameters: JsonObject): List<ElementRichContent> {
         val richContentObject = parameters["rich_content"]?.jsonArray ?: run {
-            throw IllegalArgumentException("Can't parse 'rich_content' object.")
+            val objectString = ObjectMapper().writerWithDefaultPrettyPrinter()
+                .writeValueAsString(parameters)
+            throw IllegalArgumentException("Can't parse 'rich_content' object: $objectString.")
         }
         return richContentObject.map {
             Json.decodeFromJsonElement(ElementRichContent.serializer(), it)
         }.toList()
     }
 
-    private fun getProperty(key: String, jsonObject: JsonObject): String =
-        jsonObject.getOrDefault(key, null)?.toString()?.let {
-            if (it.startsWith('"')) {
-                it.substring(1, it.length - 1)
-            } else it
-        } ?: run {
-            throw IllegalArgumentException("Can't find $key from the current object.")
+    private fun getPropertyString(key: String, jsonObject: JsonObject): String =
+        jsonObject.getOrDefault(key, null)?.jsonPrimitive?.content ?: run {
+            val objectString = ObjectMapper().writerWithDefaultPrettyPrinter()
+                .writeValueAsString(jsonObject)
+            throw IllegalArgumentException("Can't find '$key' field from the current object: $objectString")
         }
 
-    private fun getPropertyWithDefaultValue(key: String, jsonObject: JsonObject, defaultValue: String = ""): String =
-        jsonObject.getOrDefault(key, null)?.toString()?.let {
-            if (it.startsWith('"')) {
-                it.substring(1, it.length - 1)
-            } else it
-        } ?: defaultValue
+    private fun getPropertyListString(key: String, jsonObject: JsonObject): List<String> {
+        val arrayObject = jsonObject[key]?.jsonArray ?: run {
+            val objectString = ObjectMapper().writerWithDefaultPrettyPrinter()
+                .writeValueAsString(jsonObject)
+            throw IllegalArgumentException("Can't find '$key' field from the current object: $objectString")
+        }
+
+        return arrayObject.map {
+            it.jsonPrimitive.content
+        }.toList()
+    }
+
+    private fun getPropertyStringWithDefault(key: String, jsonObject: JsonObject, defaultValue: String = ""): String =
+        jsonObject.getOrDefault(key, null)?.jsonPrimitive?.content ?: defaultValue
 }
