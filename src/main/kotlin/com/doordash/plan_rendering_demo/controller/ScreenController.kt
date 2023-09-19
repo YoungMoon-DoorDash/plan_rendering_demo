@@ -100,7 +100,7 @@ class ScreenController(
         return screenHome(null, model)
     }
 
-    @GetMapping("/screen/simulateg")
+    @GetMapping("/screen/simulate")
     fun screenSimulate(
         @RequestParam id: Long,
         model: Model
