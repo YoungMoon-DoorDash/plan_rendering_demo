@@ -8,7 +8,6 @@
 {{{banner}}}
 {{{html-title-line}}}
 
-{{#plans}}
 <table class="table table-striped table-bordered btn-sm" style="width:100%;">
     <thead>
     <tr>
@@ -23,6 +22,7 @@
     </tr>
     </thead>
     <tbody>
+{{#plans}}
         <tr>
             <td scope="row" nowrap><a href='/plan/info?id={{id}}' style='width:100%;' class="btn btn-outline-primary btn-sm">{{id}}</a></td>
             <td>{{integration_name}}</td>
@@ -33,9 +33,9 @@
             <td>{{employees_only}}</td>
             <td>{{priority}}</td>
         </tr>
+{{/plans}}
     </tbody>
 </table>
-{{/plans}}
 
 <script>
     let inputBox = document.getElementById('search')

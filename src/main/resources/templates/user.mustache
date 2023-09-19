@@ -8,20 +8,20 @@
 {{{banner}}}
 {{{html-title-line}}}
 
-{{#users}}
 <table class="table table-striped table-bordered" style="width:100%;">
 <thead>
     <tr><th scope="col">Cx ID</th><th scope="col">Name</th><th scope="col">Configuration</th></tr>
 </thead>
 <tbody>
+{{#users}}
     <tr>
         <td scope="row" nowrap>{{id}}</td>
         <td nowrap><a href='/user/info?id={{id}}' class='btn btn-outline-primary btn-sm'>{{name}}</a> &nbsp;</td>
         <td>{{{experiments}}}</td>
     </tr>
+{{/users}}
 </tbody>
 </table>
-{{/users}}
 
 <script>
     let inputBox = document.getElementById('search')
