@@ -7,16 +7,14 @@ import com.doordash.rpc.common.FormatType
 import com.doordash.rpc.common.UIFlowScreenActionDisplayType
 import com.doordash.rpc.common.UIFlowScreenActionIdentifier
 import com.doordash.rpc.common.UIFlowScreenActionParameterType
-import com.doordash.rpc.common.UIFlowScreenSection
 import com.doordash.rpc.common.UIFlowScreenSectionType
 import com.doordash.rpc.common.UIFlowScreenTextAlignment
 import com.fasterxml.jackson.databind.ObjectMapper
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonNull.content
-import java.awt.SystemColor.text
-import javax.script.ScriptEngine
 
 interface ScreenElement {
+    fun isElement(typeToCheck: UIFlowScreenSectionType): Boolean
+
     fun render(): String
 }
 
@@ -26,7 +24,11 @@ data class ElementText(
     val content: String,
     val alignment: UIFlowScreenTextAlignment = UIFlowScreenTextAlignment.DEFAULT
 ): ScreenElement {
+    override fun isElement(typeToCheck: UIFlowScreenSectionType): Boolean = (type == typeToCheck)
+
     override fun render(): String = when(type) {
+
+        UIFlowScreenSectionType.BADGE -> RuleEngine.getText(content)
         UIFlowScreenSectionType.BOLDED_TITLE_TEXT ->
             HtmlFactory.getAlignment(alignment) + "<span style='font-size:14pt;font-weight:bold;'>" + RuleEngine.getText(content) + "</span></div>"
         else ->
@@ -39,6 +41,8 @@ data class ElementCenteredImage(
     val type: UIFlowScreenSectionType = UIFlowScreenSectionType.CENTERED_IMAGE,
     val content: String
 ): ScreenElement {
+    override fun isElement(typeToCheck: UIFlowScreenSectionType): Boolean = (type == typeToCheck)
+
     override fun render(): String = "<div style='width:100%;margin:2pt;text-align:center;border:1pt solid lightgray;'><img src='" +
         RuleEngine.getText(content) + "'/></div>"
 }
@@ -52,6 +56,8 @@ data class ElementListItemWithImage(
     val action_parameter_type: UIFlowScreenActionParameterType,
     val action_parameter_value: String
 ): ScreenElement {
+    override fun isElement(typeToCheck: UIFlowScreenSectionType): Boolean = (type == typeToCheck)
+
     override fun render(): String {
         val objString = ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(this)
         return "<div style='width:100%;margin:2pt;text-align:center;'><img src='" + RuleEngine.getText(content) +
@@ -64,6 +70,8 @@ data class ElementRadioButton(
     val type: UIFlowScreenSectionType = UIFlowScreenSectionType.RADIO_BUTTON,
     val content: String
 ): ScreenElement {
+    override fun isElement(typeToCheck: UIFlowScreenSectionType): Boolean = (type == typeToCheck)
+
     override fun render(): String = "<div style='width:100%;margin:2pt;text-align:center;border:1pt solid lightgray;'><input type='radio' value='" +
         RuleEngine.getText(content) + "' /></div>"
 }
@@ -73,6 +81,8 @@ data class ElementUserInputTextBox(
     val type: UIFlowScreenSectionType = UIFlowScreenSectionType.USER_INPUT_TEXT_BOX,
     val content: String
 ): ScreenElement {
+    override fun isElement(typeToCheck: UIFlowScreenSectionType): Boolean = (type == typeToCheck)
+
     override fun render(): String = "<div style='width:100%;margin:2pt;text-align:center;border:1pt solid lightgray;'><input type='input' value='" +
         RuleEngine.getText(content) + "' readonly/></div>"
 }
@@ -81,6 +91,8 @@ data class ElementUserInputTextBox(
 data class ElementDividerRuler(
     val type: UIFlowScreenSectionType = UIFlowScreenSectionType.DIVIDER_RULER
 ): ScreenElement {
+    override fun isElement(typeToCheck: UIFlowScreenSectionType): Boolean = (type == typeToCheck)
+
     override fun render(): String = "<div style='width:100%;margin:2pt;text-align:center;border:1pt solid lightgray;padding-right:6pt;'>$type</div>"
 }
 
@@ -88,6 +100,8 @@ data class ElementDividerRuler(
 data class ElementDividerSpacer(
     val type: UIFlowScreenSectionType = UIFlowScreenSectionType.DIVIDER_SPACER
 ): ScreenElement {
+    override fun isElement(typeToCheck: UIFlowScreenSectionType): Boolean = (type == typeToCheck)
+
     override fun render(): String = "<div style='width:100%;margin:2pt;text-align:center;border:1pt solid lightgray;padding-right:6pt;'>$type</div>"
 }
 
@@ -96,12 +110,14 @@ data class ElementHeaderImage(
     val type: UIFlowScreenSectionType = UIFlowScreenSectionType.HEADER_IMAGE,
     val content: List<String>
 ): ScreenElement {
+    override fun isElement(typeToCheck: UIFlowScreenSectionType): Boolean = (type == typeToCheck)
+
     override fun render(): String {
-        val sb = StringBuilder("<div style='width:100%;margin:2pt;border:1pt solid lightgray;'>")
+        val sb = StringBuilder()
         content.forEach{
             sb.append("<img src='" + RuleEngine.getText(it) + "'>")
         }
-        return sb.append("</div>").toString()
+        return sb.toString()
     }
 }
 
@@ -110,6 +126,8 @@ data class ElementBanner(
     val type: UIFlowScreenSectionType = UIFlowScreenSectionType.BANNER,
     val content: List<String>
 ): ScreenElement {
+    override fun isElement(typeToCheck: UIFlowScreenSectionType): Boolean = (type == typeToCheck)
+
     override fun render(): String {
         val sb = StringBuilder("<div style='width:100%;margin:2pt;border:1pt solid lightgray;padding-right:6pt;'>$type:<br/>")
         content.forEach{
@@ -124,6 +142,8 @@ data class ElementTextWithSeparateLabelOrAction(
     val type: UIFlowScreenSectionType = UIFlowScreenSectionType.TEXT_WITH_SEPARATE_LABEL_OR_ACTION,
     val content: List<String>
 ): ScreenElement {
+    override fun isElement(typeToCheck: UIFlowScreenSectionType): Boolean = (type == typeToCheck)
+
     override fun render(): String {
         val sb = StringBuilder("<div style='width:100%;margin:2pt;border:1pt solid lightgray;padding-right:6pt;'>$type:<br/>")
         content.forEach{
@@ -139,6 +159,8 @@ data class ElementImage(
     val content: List<String>,
     val alignment: UIFlowScreenTextAlignment = UIFlowScreenTextAlignment.DEFAULT
 ): ScreenElement {
+    override fun isElement(typeToCheck: UIFlowScreenSectionType): Boolean = (type == typeToCheck)
+
     override fun render(): String {
         val sb = StringBuilder(HtmlFactory.getAlignment(alignment))
         content.forEach{
@@ -153,6 +175,8 @@ data class ElementActionParameter(
     val key: UIFlowScreenActionParameterType,
     val value: String
 ): ScreenElement {
+    override fun isElement(typeToCheck: UIFlowScreenSectionType): Boolean = false
+
     override fun render(): String =
         "$key : " + RuleEngine.getText(value) + "<br/>"
 }
@@ -165,6 +189,8 @@ data class ElementAction(
     val parameters: List<ElementActionParameter>,
     val post_action: UIFlowScreenActionIdentifier
 ): ScreenElement {
+    override fun isElement(typeToCheck: UIFlowScreenSectionType): Boolean = false
+
     override fun render(): String {
         val sb = StringBuilder("<div style='width:100%;margin:2pt;border:1pt solid lightblue;padding-right:6pt;'>")
         val btnType = when(display_type) {
@@ -188,6 +214,8 @@ data class ElementRichContent(
     val format_color: FormatColor = FormatColor.COLOR_UNKNOWN,
     val alignment: UIFlowScreenTextAlignment = UIFlowScreenTextAlignment.DEFAULT
 ): ScreenElement {
+    override fun isElement(typeToCheck: UIFlowScreenSectionType): Boolean = false
+
     override fun render(): String =
         if (content.isBlank()) {
             ""
@@ -215,6 +243,8 @@ data class ElementRichCardRadioButton(
     val action: ElementAction,
     val rich_content: List<ElementRichContent>
 ): ScreenElement {
+    override fun isElement(typeToCheck: UIFlowScreenSectionType): Boolean = (type == typeToCheck)
+
     override fun render(): String {
         val sb = StringBuilder(HtmlFactory.getAlignment(alignment))
         content.forEach{

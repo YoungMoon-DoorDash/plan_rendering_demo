@@ -1,18 +1,22 @@
 package com.doordash.plan_rendering_demo.factory
 
+import com.doordash.plan_rendering_demo.factory.RuleEngine.getTextRepository
 import com.doordash.plan_rendering_demo.factory.rule.CommandRuleFactory
 import com.doordash.plan_rendering_demo.factory.rule.RuleConstants
 import com.doordash.plan_rendering_demo.factory.rule.RuleHandlerCheck
 import com.doordash.plan_rendering_demo.model.Rule
 import com.doordash.plan_rendering_demo.model.RuleType
 import com.doordash.plan_rendering_demo.model.Screen
+import com.doordash.plan_rendering_demo.model.elements.ElementCenteredImage
 import com.doordash.plan_rendering_demo.model.subscription.SubscriptionPlan
 import com.doordash.plan_rendering_demo.repository.ScreenRepository
 import com.doordash.plan_rendering_demo.repository.SubscriptionPlanRepository
 import com.doordash.plan_rendering_demo.repository.TextRepository
 import com.doordash.plan_rendering_demo.repository.UserRepository
+import com.doordash.rpc.common.UIFlowScreenSectionType
 import com.fasterxml.jackson.databind.ObjectMapper
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonNull.content
 import kotlinx.serialization.json.JsonObject
 import java.awt.SystemColor.text
 
@@ -141,9 +145,19 @@ object RuleEngine {
         ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(values)
 
     fun rendering(screen: Screen): String {
-        val buffer = StringBuilder("<center><div style='text-align:left;margin:10pt;padding:3pt;width:640px;border:1pt solid gray;'>")
-        ScreenElementFactory.toScreen(screen.elements).forEach {
-            buffer.append(it.render())
+        val elements = ScreenElementFactory.toScreen(screen.elements)
+        val buffer = elements.firstOrNull {
+            it.isElement(UIFlowScreenSectionType.CENTERED_IMAGE)
+        }?.let {
+            val centeredImage = it as ElementCenteredImage
+            val imageUrl = getText(centeredImage.content)
+            StringBuilder("<center><div style='text-align:left;margin:10pt;padding:3pt;width:640px;border:1pt solid gray;background-image: url(\"$imageUrl\")'>")
+        } ?: StringBuilder("<center><div style='text-align:left;margin:10pt;padding:3pt;width:640px;border:1pt solid gray;'>")
+
+        elements.forEach {
+            if (!it.isElement(UIFlowScreenSectionType.CENTERED_IMAGE)) {
+                buffer.append(it.render())
+            }
         }
         return buffer.append("</div></center>").toString()
     }

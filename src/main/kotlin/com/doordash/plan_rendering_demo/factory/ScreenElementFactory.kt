@@ -6,6 +6,7 @@ import com.doordash.plan_rendering_demo.model.elements.ElementBanner
 import com.doordash.plan_rendering_demo.model.elements.ElementCenteredImage
 import com.doordash.plan_rendering_demo.model.elements.ElementDividerRuler
 import com.doordash.plan_rendering_demo.model.elements.ElementDividerSpacer
+import com.doordash.plan_rendering_demo.model.elements.ElementHeaderImage
 import com.doordash.plan_rendering_demo.model.elements.ElementImage
 import com.doordash.plan_rendering_demo.model.elements.ElementListItemWithImage
 import com.doordash.plan_rendering_demo.model.elements.ElementRadioButton
@@ -63,20 +64,20 @@ object ScreenElementFactory {
             UIFlowScreenSectionType.DIVIDER_RULER -> ElementDividerRuler()
             UIFlowScreenSectionType.DIVIDER_SPACER -> ElementDividerSpacer()
             UIFlowScreenSectionType.HEADER_IMAGE->
-                ElementImage(
-                    content = Json.decodeFromString<List<String>>(getPropertyString("content", jsonObject))
+                ElementHeaderImage(
+                    content = getPropertyListString("content", jsonObject)
                 )
             UIFlowScreenSectionType.BANNER->
                 ElementBanner(
-                    content = Json.decodeFromString<List<String>>(getPropertyString("content", jsonObject))
+                    content = getPropertyListString("content", jsonObject)
                 )
             UIFlowScreenSectionType.TEXT_WITH_SEPARATE_LABEL_OR_ACTION ->
                 ElementTextWithSeparateLabelOrAction(
-                    content = Json.decodeFromString<List<String>>(getPropertyString("content", jsonObject))
+                    content = getPropertyListString("content", jsonObject)
                 )
             UIFlowScreenSectionType.IMAGE ->
                 ElementImage(
-                    content = Json.decodeFromString<List<String>>(getPropertyString("content", jsonObject)),
+                    content = getPropertyListString("content", jsonObject),
                     alignment = getPropertyStringWithDefault("alignment", jsonObject, "DEFAULT")
                         .toUIFlowScreenTextAlignment()
                 )
