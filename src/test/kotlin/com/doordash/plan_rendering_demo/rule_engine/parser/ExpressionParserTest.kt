@@ -41,10 +41,10 @@ class ExpressionParserTest {
             id = 1,
             name = "plan_eligibility_1",
             expression = "{treatment new_trial_upsell_messaging_experiment in (control, treatment1)} and\n" +
-                "        {min_subtotal >= 35} and\n" +
+                "        {min_subtotal >= 35.99} and\n" +
                 "        {not have membership_sharing}"
         )
-        val expected = "[(new_trial_upsell_messaging_experiment), treatment, (control,treatment1), in, min_subtotal, (35), >=, membership_sharing, have, not, and, and]"
+        val expected = "[(new_trial_upsell_messaging_experiment), treatment, (control,treatment1), in, min_subtotal, (35.99), >=, membership_sharing, have, not, and, and]"
 
         val postfix = ExpressionParser().convertToInfix(expression.expression)
         assertEquals(expected, postfix.toString())

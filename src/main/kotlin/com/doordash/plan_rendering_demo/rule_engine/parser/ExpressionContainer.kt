@@ -10,7 +10,8 @@ data class ExpressionContainer(
     val type: ExpressionContainerType,
     val operator: ExpressionOperator = ExpressionOperator.UNDEFINED,
     val operand: ExpressionOperand = ExpressionOperand.UNDEFINED,
-    val values: List<String> = listOf()
+    val values: List<String> = listOf(),
+    val index: Int,
 ) {
     override fun toString(): String = when (type) {
         ExpressionContainerType.OPERATOR -> operator.value
