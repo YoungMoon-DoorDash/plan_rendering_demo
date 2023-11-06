@@ -2,7 +2,7 @@ package com.doordash.plan_rendering_demo.rule_engine.parser
 
 import java.util.*
 
-class ParserException(message: String) : Exception(message)
+class ExpressionException(message: String) : Exception(message)
 
 class ExpressionParser {
     companion object {
@@ -23,7 +23,9 @@ class ExpressionParser {
         )
     }
 
-    fun convertToInfix(expression: String): List<ExpressionContainer> {
+    fun convertToInfix(expression: String) = convertToPostfixInternal(expression.lowercase())
+
+    private fun convertToPostfixInternal(expression: String): List<ExpressionContainer> {
         val context = Context(
             index = 0,
             expression = expression,
@@ -75,7 +77,7 @@ class ExpressionParser {
                     if (expression[i].isLetterOrDigit() || expression[i] in operandNameChar) {
                         word.append(expression[i])
                     } else if (expression[i] != '\n') {
-                        throw ParserException("Find an invalid character ${expression[i]} at $i-th position.")
+                        throw ExpressionException("Find an invalid character ${expression[i]} at $i-th position.")
                     }
                 }
             }
@@ -131,6 +133,7 @@ class ExpressionParser {
             ExpressionOperand.SUBSCRIPTION_STATUS.value -> context.addOperand(ExpressionOperand.SUBSCRIPTION_STATUS)
             ExpressionOperand.TRANSITION.value -> context.addOperand(ExpressionOperand.TRANSITION)
             ExpressionOperand.TREATMENT.value -> context.addOperand(ExpressionOperand.TREATMENT)
+            ExpressionOperand.TRIAL.value -> context.addOperand(ExpressionOperand.TRIAL)
 
             // values
             else -> context.addValues(listOf(token))
@@ -164,7 +167,7 @@ class ExpressionParser {
             }
 
             if (values.isEmpty()) {
-                throw ParserException("Empty values in '()' is not allowed!")
+                throw ExpressionException("Empty values in '()' is not allowed at $firstIndex!")
             }
 
             postfix.add(

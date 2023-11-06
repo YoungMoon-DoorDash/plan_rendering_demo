@@ -11,7 +11,7 @@ data class ExpressionContainer(
     val operator: ExpressionOperator = ExpressionOperator.UNDEFINED,
     val operand: ExpressionOperand = ExpressionOperand.UNDEFINED,
     val values: List<String> = listOf(),
-    val index: Int,
+    val index: Int = -1,
 ) {
     override fun toString(): String = when (type) {
         ExpressionContainerType.OPERATOR -> operator.value
