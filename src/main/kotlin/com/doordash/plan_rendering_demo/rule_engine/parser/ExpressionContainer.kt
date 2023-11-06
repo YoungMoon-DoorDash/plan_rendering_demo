@@ -3,7 +3,8 @@ package com.doordash.plan_rendering_demo.rule_engine.parser
 enum class ExpressionContainerType {
     OPERATOR,
     OPERAND,
-    VALUE
+    VALUE,
+    PROPERTY,
 }
 
 data class ExpressionContainer(
@@ -16,6 +17,6 @@ data class ExpressionContainer(
     override fun toString(): String = when (type) {
         ExpressionContainerType.OPERATOR -> operator.value
         ExpressionContainerType.OPERAND -> operand.value
-        ExpressionContainerType.VALUE -> values.joinToString(",", prefix = "(", postfix = ")")
+        ExpressionContainerType.PROPERTY, ExpressionContainerType.VALUE -> values.joinToString(",", prefix = "(", postfix = ")")
     }
 }

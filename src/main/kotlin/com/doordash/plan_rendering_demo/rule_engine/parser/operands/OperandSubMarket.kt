@@ -8,5 +8,5 @@ class OperandSubMarket(
     override fun getType(): OperandType = OperandType.NUMBER
 
     override fun getProperty(propertyName: String): ValueContainer =
-        ValueContainer(number = context.subMarketId ?: 0)
+        ValueContainer(type = ValueType.NUMBER, number = context.subMarketId ?: 0)
 }

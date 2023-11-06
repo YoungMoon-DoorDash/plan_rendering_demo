@@ -141,38 +141,18 @@ class ExpressionParser {
     private fun addObject(words: List<String>, context: Context) {
         // object access. e.g. benefit.name
         val objectName = words[0]
-        val properties = words.subList(1, words.size)
+        val values = listOf(words.subList(1, words.size).joinToString("."))
         when (objectName) {
-            ExpressionOperand.BENEFIT.value -> {
-                context.addOperand(ExpressionOperand.BENEFIT)
-                context.addValues(properties)
-            }
-            ExpressionOperand.MEMBERSHIP_SHARING.value -> {
-                context.addOperand(ExpressionOperand.MEMBERSHIP_SHARING)
-                context.addValues(properties)
-            }
-            ExpressionOperand.PAYMENT_SCHEDULE.value -> {
-                context.addOperand(ExpressionOperand.PAYMENT_SCHEDULE)
-                context.addValues(properties)
-            }
-            ExpressionOperand.PLAN.value -> {
-                context.addOperand(ExpressionOperand.PLAN)
-                context.addValues(properties)
-            }
-            ExpressionOperand.SUBSCRIPTION.value -> {
-                context.addOperand(ExpressionOperand.SUBSCRIPTION)
-                context.addValues(properties)
-            }
-            ExpressionOperand.TRANSITION.value -> {
-                context.addOperand(ExpressionOperand.TRANSITION)
-                context.addValues(properties)
-            }
-            ExpressionOperand.TRIAL.value -> {
-                context.addOperand(ExpressionOperand.TRIAL)
-                context.addValues(properties)
-            }
+            ExpressionOperand.BENEFIT.value -> context.addOperand(ExpressionOperand.BENEFIT)
+            ExpressionOperand.MEMBERSHIP_SHARING.value -> context.addOperand(ExpressionOperand.MEMBERSHIP_SHARING)
+            ExpressionOperand.PAYMENT_SCHEDULE.value -> context.addOperand(ExpressionOperand.PAYMENT_SCHEDULE)
+            ExpressionOperand.PLAN.value -> context.addOperand(ExpressionOperand.PLAN)
+            ExpressionOperand.SUBSCRIPTION.value -> context.addOperand(ExpressionOperand.SUBSCRIPTION)
+            ExpressionOperand.TRANSITION.value -> context.addOperand(ExpressionOperand.TRANSITION)
+            ExpressionOperand.TRIAL.value -> context.addOperand(ExpressionOperand.TRIAL)
             else -> throw ExpressionException("Unsupported object $objectName at ${context.index}")
         }
+        context.addValues(values, ExpressionContainerType.PROPERTY)
     }
 
     private data class Context(
@@ -198,6 +178,7 @@ class ExpressionParser {
                     }
 
                     ExpressionContainerType.OPERAND -> values.add(container.operand.value)
+                    ExpressionContainerType.PROPERTY -> values.addAll(container.values)
                 }
             }
 
@@ -273,10 +254,10 @@ class ExpressionParser {
             )
         }
 
-        fun addValues(values: List<String>) {
+        fun addValues(values: List<String>, type: ExpressionContainerType = ExpressionContainerType.VALUE) {
             stack.push(
                 ExpressionContainer(
-                    type = ExpressionContainerType.VALUE,
+                    type = type,
                     values = values,
                     index = index,
                 )

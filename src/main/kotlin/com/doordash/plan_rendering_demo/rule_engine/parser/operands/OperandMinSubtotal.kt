@@ -8,7 +8,7 @@ class OperandMinSubtotal(
     override fun getType(): OperandType = OperandType.NUMBER
 
     override fun getProperty(propertyName: String): ValueContainer =
-        ValueContainer(number = getMinSubtotal())
+        ValueContainer(type = ValueType.NUMBER, number = getMinSubtotal())
 
     private fun getMinSubtotal(): Long =
         context.overrideConfig["override_min_subtotal"]?.toLongOrNull() ?: 0

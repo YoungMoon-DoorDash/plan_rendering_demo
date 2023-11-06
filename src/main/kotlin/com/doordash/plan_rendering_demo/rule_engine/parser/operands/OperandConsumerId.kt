@@ -8,5 +8,5 @@ class OperandConsumerId(
     override fun getType(): OperandType = OperandType.NUMBER
 
     override fun getProperty(propertyName: String): ValueContainer =
-        ValueContainer(number = context.consumerId)
+        ValueContainer(type = ValueType.NUMBER, number = context.consumerId)
 }

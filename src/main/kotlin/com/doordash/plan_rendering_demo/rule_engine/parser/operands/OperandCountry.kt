@@ -8,5 +8,5 @@ class OperandCountry(
     override fun getType(): OperandType = OperandType.STRING
 
     override fun getProperty(propertyName: String): ValueContainer =
-        ValueContainer(value = context.country)
+        ValueContainer(type = ValueType.STRING, value = context.country)
 }

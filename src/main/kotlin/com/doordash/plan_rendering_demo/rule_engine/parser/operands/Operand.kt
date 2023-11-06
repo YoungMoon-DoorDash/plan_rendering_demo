@@ -1,5 +1,7 @@
 package com.doordash.plan_rendering_demo.rule_engine.parser.operands
 
+import com.doordash.plan_rendering_demo.rule_engine.parser.ExpressionException
+
 enum class OperandType {
     BOOLEAN,
     NUMBER,
@@ -7,7 +9,14 @@ enum class OperandType {
     STRING
 }
 
+enum class ValueType {
+    BOOLEAN,
+    NUMBER,
+    STRING
+}
+
 data class ValueContainer(
+    val type: ValueType,
     val number: Long = 0,
     val value: String = "",
     val flag: Boolean = false,
@@ -18,12 +27,12 @@ interface Operand {
     fun getType(): OperandType
 
     fun getType(propertyName: String): OperandType {
-        throw IllegalStateException("Unsupported interface getPropertyType() is called.")
+        throw ExpressionException("Unsupported interface getPropertyType() is called.")
     }
 
     fun haveObject(): Boolean = false
 
     fun getProperty(propertyName: String): ValueContainer {
-        throw IllegalStateException("Unsupported interface getProperty() is called.")
+        throw ExpressionException("Unsupported interface getProperty() is called.")
     }
 }
