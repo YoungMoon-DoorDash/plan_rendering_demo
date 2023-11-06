@@ -384,11 +384,10 @@ class ExpressionRunnerTest {
             name = "plan_eligibility_1",
             expression = "{schedule.type in (monthly, yearly)} and\n" +
                 "        {schedule.payment_method in (CreditCard, ApplePay, GooglePay)} and\n" +
-                "        {have subscription or transition to partner_plan}"
+                "        {have subscription or have transition to partner_plan}"
         )
         val postFix = ExpressionParser().convertToInfix(expression.expression)
 
-        /*
         assertTrue(
             ExpressionRunner(
                 RuleEngineContext(
@@ -435,7 +434,6 @@ class ExpressionRunnerTest {
                 )
             ).run(postFix)
         )
-        */
 
         // only subscription is not matched
         assertTrue(

@@ -180,12 +180,18 @@ class ExpressionRunner(
             throw ExpressionException("Expected operand, but got ${container.type} at ${container.index}")
         }
 
-        val operand = container.operand.toOperand(context)
-        if (operand.supportHave()) {
-            return operand.isExist()
+        return when(container.operand) {
+            ExpressionOperand.BOOLEAN_TRUE -> true
+            ExpressionOperand.BOOLEAN_FALSE -> false
+            else -> {
+                val operand = container.operand.toOperand(context)
+                if (operand.supportHave()) {
+                    operand.isExist()
+                } else {
+                    throw ExpressionException("Expected operand supporting 'have' operation, but got ${container.operand} at ${container.index}")
+                }
+            }
         }
-
-        throw ExpressionException("Expected operand supporting 'have' operation, but got ${container.operand} at ${container.index}")
     }
 
     private fun getContainerValue(stack: Stack<ExpressionContainer>): String {

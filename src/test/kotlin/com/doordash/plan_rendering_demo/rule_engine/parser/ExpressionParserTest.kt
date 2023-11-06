@@ -85,9 +85,9 @@ class ExpressionParserTest {
             name = "plan_eligibility_1",
             expression = "{schedule.type in (monthly, yearly)} and\n" +
                 "        {schedule.payment_method in (CreditCard, ApplePay, GooglePay)} and\n" +
-                "        {have subscription or transition to partner_plan}"
+                "        {have subscription or have transition to partner_plan}"
         )
-        val expected = "[schedule.type, (monthly,yearly), in, schedule.payment_method, (applepay,creditcard,googlepay), in, subscription, have, transition, (partner_plan), to, or, and, and]"
+        val expected = "[schedule.type, (monthly,yearly), in, schedule.payment_method, (applepay,creditcard,googlepay), in, subscription, have, transition, (partner_plan), to, have, or, and, and]"
 
         val postfix = ExpressionParser().convertToInfix(expression.expression)
         assertEquals(expected, postfix.toString())
