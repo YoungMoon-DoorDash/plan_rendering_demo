@@ -18,8 +18,7 @@ class ExpressionParser {
             ExpressionOperator.LESS to 1,
             ExpressionOperator.GREATER to 1,
             ExpressionOperator.LESS_OR_EQUAL to 1,
-            ExpressionOperator.GREATER_OR_EQUAL to 1,
-            ExpressionOperator.TO to 1
+            ExpressionOperator.GREATER_OR_EQUAL to 1
         )
     }
 
@@ -112,31 +111,67 @@ class ExpressionParser {
             ExpressionOperator.GREATER.value -> context.addOperator(ExpressionOperator.GREATER)
             ExpressionOperator.LESS_OR_EQUAL.value -> context.addOperator(ExpressionOperator.LESS_OR_EQUAL)
             ExpressionOperator.GREATER_OR_EQUAL.value -> context.addOperator(ExpressionOperator.GREATER_OR_EQUAL)
-            ExpressionOperator.TO.value -> context.addOperator(ExpressionOperator.TO)
 
             // check operands
-            ExpressionOperand.COUNTRY.value -> context.addOperand(ExpressionOperand.COUNTRY)
+            ExpressionOperand.BENEFIT.value -> context.addOperand(ExpressionOperand.BENEFIT)
             ExpressionOperand.CONSUMER_ID.value -> context.addOperand(ExpressionOperand.CONSUMER_ID)
+            ExpressionOperand.COUNTRY.value -> context.addOperand(ExpressionOperand.COUNTRY)
             ExpressionOperand.MEMBERSHIP_SHARING.value -> context.addOperand(ExpressionOperand.MEMBERSHIP_SHARING)
             ExpressionOperand.MINIMUM_SUBTOTAL.value -> context.addOperand(ExpressionOperand.MINIMUM_SUBTOTAL)
-            ExpressionOperand.PLAN_CAN_BE_PAUSED.value -> context.addOperand(ExpressionOperand.PLAN_CAN_BE_PAUSED)
-            ExpressionOperand.PLAN_EMPLOYEE_ONLY.value -> context.addOperand(ExpressionOperand.PLAN_EMPLOYEE_ONLY)
-            ExpressionOperand.PLAN_NAME.value -> context.addOperand(ExpressionOperand.PLAN_NAME)
-            ExpressionOperand.PLAN_PRIORITY.value -> context.addOperand(ExpressionOperand.PLAN_PRIORITY)
-            ExpressionOperand.PLAN_TYPE.value -> context.addOperand(ExpressionOperand.PLAN_TYPE)
-            ExpressionOperand.PLAN_TRIAL.value -> context.addOperand(ExpressionOperand.PLAN_TRIAL)
-            ExpressionOperand.SCHEDULE_TYPE.value -> context.addOperand(ExpressionOperand.SCHEDULE_TYPE)
-            ExpressionOperand.SCHEDULE_STATUS.value -> context.addOperand(ExpressionOperand.SCHEDULE_STATUS)
-            ExpressionOperand.SCHEDULE_PAYMENT_METHOD.value -> context.addOperand(ExpressionOperand.SCHEDULE_PAYMENT_METHOD)
+            ExpressionOperand.PAYMENT_SCHEDULE.value -> context.addOperand(ExpressionOperand.PAYMENT_SCHEDULE)
+            ExpressionOperand.PLAN.value -> context.addOperand(ExpressionOperand.PLAN)
             ExpressionOperand.SUB_MARKET.value -> context.addOperand(ExpressionOperand.SUB_MARKET)
             ExpressionOperand.SUBSCRIPTION.value -> context.addOperand(ExpressionOperand.SUBSCRIPTION)
-            ExpressionOperand.SUBSCRIPTION_STATUS.value -> context.addOperand(ExpressionOperand.SUBSCRIPTION_STATUS)
             ExpressionOperand.TRANSITION.value -> context.addOperand(ExpressionOperand.TRANSITION)
             ExpressionOperand.TREATMENT.value -> context.addOperand(ExpressionOperand.TREATMENT)
             ExpressionOperand.TRIAL.value -> context.addOperand(ExpressionOperand.TRIAL)
 
             // values
-            else -> context.addValues(listOf(token))
+            else -> {
+                val words = token.split('.')
+                if (words.size > 1) {
+                    addObject(words, context)
+                } else {
+                    context.addValues(listOf(token))
+                }
+            }
+        }
+    }
+
+    private fun addObject(words: List<String>, context: Context) {
+        // object access. e.g. benefit.name
+        val objectName = words[0]
+        val properties = words.subList(1, words.size)
+        when (objectName) {
+            ExpressionOperand.BENEFIT.value -> {
+                context.addOperand(ExpressionOperand.BENEFIT)
+                context.addValues(properties)
+            }
+            ExpressionOperand.MEMBERSHIP_SHARING.value -> {
+                context.addOperand(ExpressionOperand.MEMBERSHIP_SHARING)
+                context.addValues(properties)
+            }
+            ExpressionOperand.PAYMENT_SCHEDULE.value -> {
+                context.addOperand(ExpressionOperand.PAYMENT_SCHEDULE)
+                context.addValues(properties)
+            }
+            ExpressionOperand.PLAN.value -> {
+                context.addOperand(ExpressionOperand.PLAN)
+                context.addValues(properties)
+            }
+            ExpressionOperand.SUBSCRIPTION.value -> {
+                context.addOperand(ExpressionOperand.SUBSCRIPTION)
+                context.addValues(properties)
+            }
+            ExpressionOperand.TRANSITION.value -> {
+                context.addOperand(ExpressionOperand.TRANSITION)
+                context.addValues(properties)
+            }
+            ExpressionOperand.TRIAL.value -> {
+                context.addOperand(ExpressionOperand.TRIAL)
+                context.addValues(properties)
+            }
+            else -> throw ExpressionException("Unsupported object $objectName at ${context.index}")
         }
     }
 

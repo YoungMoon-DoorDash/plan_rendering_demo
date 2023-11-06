@@ -11,11 +11,12 @@ class ExpressionParserTest {
             id = 1,
             name = "plan_eligibility_1",
             expression = "country in (US, USA, CA, CAN) and\n" +
-                "        not plan.is_employee_only and\n" +
+                "        plan.is_employee_only is false and\n" +
                 "        plan.type in (standard_plan, annual_plan) and\n" +
-                "        have plan.trial"
+                "        have plan.signup_email_campaign_id"
         )
-        val expected = "[country, (ca,can,us,usa), in, plan.is_employee_only, not, plan.type, (annual_plan,standard_plan), in, plan.trial, have, and, and, and]"
+        val expected = "[country, (ca,can,us,usa), in, (is_employee_only), plan, (false), is, (type), plan, (annual_plan,standard_plan), in, " +
+            "(signup_email_campaign_id), plan, have, and, and, and]"
 
         val postfix = ExpressionParser().convertToInfix(expression.expression)
         assertEquals(expected, postfix.toString())
@@ -26,10 +27,11 @@ class ExpressionParserTest {
         val expression = Expression(
             id = 1,
             name = "plan_eligibility_1",
-            expression = "{country in (US, USA, CA, CAN) and {is plan.is_employee_only}} or\n" +
-                "        {plan.type in (standard_plan, annual_plan) and have plan.trial}\n"
+            expression = "{country in (US, USA, CA, CAN) and {plan.is_employee_only is false}} or\n" +
+                "        {plan.type in (standard_plan, annual_plan) and have plan.signup_email_campaign_id}\n"
         )
-        val expected = "[country, (ca,can,us,usa), in, plan.is_employee_only, is, and, plan.type, (annual_plan,standard_plan), in, plan.trial, have, and, or]"
+        val expected = "[country, (ca,can,us,usa), in, (is_employee_only), plan, (false), is, and, (type), plan, (annual_plan,standard_plan), in, " +
+            "(signup_email_campaign_id), plan, have, and, or]"
 
         val postfix = ExpressionParser().convertToInfix(expression.expression)
         assertEquals(expected, postfix.toString())
@@ -43,7 +45,7 @@ class ExpressionParserTest {
             expression = "sub_market in (1, 2, 10, 80) and\n" +
                 "        plan.name in (DASHPASS_STUDENT_PLAN, DASHPASS_CORPORATE_PLAN)\n"
         )
-        val expected = "[sub_market, (1,10,2,80), in, plan.name, (dashpass_corporate_plan,dashpass_student_plan), in, and]"
+        val expected = "[sub_market, (1,10,2,80), in, (name), plan, (dashpass_corporate_plan,dashpass_student_plan), in, and]"
 
         val postfix = ExpressionParser().convertToInfix(expression.expression)
         assertEquals(expected, postfix.toString())
@@ -54,10 +56,11 @@ class ExpressionParserTest {
         val expression = Expression(
             id = 1,
             name = "plan_eligibility_1",
-            expression = "{country in (US, USA, CA, CAN) and {not plan.is_employee_only}} or\n" +
-                "        {plan.type in (standard_plan, annual_plan) and is trial}\n"
+            expression = "{country in (US, USA, CA, CAN) and {plan.is_employee_only is true}} or\n" +
+                "        {plan.type in (standard_plan, annual_plan) and have trial}\n"
         )
-        val expected = "[country, (ca,can,us,usa), in, plan.is_employee_only, not, and, plan.type, (annual_plan,standard_plan), in, trial, is, and, or]"
+        val expected = "[country, (ca,can,us,usa), in, (is_employee_only), plan, (true), is, and, (type), plan, (annual_plan,standard_plan), in, " +
+            "trial, have, and, or]"
 
         val postfix = ExpressionParser().convertToInfix(expression.expression)
         assertEquals(expected, postfix.toString())
@@ -72,7 +75,8 @@ class ExpressionParserTest {
                 "        {min_subtotal >= 3599} and\n" +
                 "        {not have membership_sharing}"
         )
-        val expected = "[(new_trial_upsell_messaging_experiment), treatment, (control,treatment1), in, min_subtotal, (3599), >=, membership_sharing, have, not, and, and]"
+        val expected = "[(new_trial_upsell_messaging_experiment), treatment, (control,treatment1), in, min_subtotal, (3599), >=, " +
+            "membership_sharing, have, not, and, and]"
 
         val postfix = ExpressionParser().convertToInfix(expression.expression)
         assertEquals(expected, postfix.toString())
@@ -83,11 +87,12 @@ class ExpressionParserTest {
         val expression = Expression(
             id = 1,
             name = "plan_eligibility_1",
-            expression = "{schedule.type in (monthly, yearly)} and\n" +
-                "        {schedule.payment_method in (CreditCard, ApplePay, GooglePay)} and\n" +
-                "        {have subscription or have transition to partner_plan}"
+            expression = "{payment_schedule.type in (monthly, yearly)} and\n" +
+                "        {payment_schedule.payment_method in (CreditCard, ApplePay, GooglePay)} and\n" +
+                "        {have subscription or {have transition and transition.type is partner_plan}}"
         )
-        val expected = "[schedule.type, (monthly,yearly), in, schedule.payment_method, (applepay,creditcard,googlepay), in, subscription, have, transition, (partner_plan), to, have, or, and, and]"
+        val expected = "[(type), payment_schedule, (monthly,yearly), in, (payment_method), payment_schedule, (applepay,creditcard,googlepay), in, " +
+            "subscription, have, transition, have, (type), transition, (partner_plan), is, and, or, and, and]"
 
         val postfix = ExpressionParser().convertToInfix(expression.expression)
         assertEquals(expected, postfix.toString())

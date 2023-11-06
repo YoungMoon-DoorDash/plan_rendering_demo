@@ -1,29 +1,29 @@
 package com.doordash.plan_rendering_demo.rule_engine.parser.operands
 
 enum class OperandType {
+    BOOLEAN,
     NUMBER,
-    STRING,
-    BOOLEAN
+    OBJECT,
+    STRING
 }
 
+data class ValueContainer(
+    val number: Long = 0,
+    val value: String = "",
+    val flag: Boolean = false,
+    val values: List<String> = emptyList(),
+)
+
 interface Operand {
-    fun isType(type: OperandType): Boolean
+    fun getType(): OperandType
 
-    fun getNumber(): Long {
-        throw IllegalStateException("Unsupported interface getNumber() is called.")
+    fun getType(propertyName: String): OperandType {
+        throw IllegalStateException("Unsupported interface getPropertyType() is called.")
     }
 
-    fun getString(): String {
-        throw IllegalStateException("Unsupported interface getString() is called.")
-    }
+    fun haveObject(): Boolean = false
 
-    fun getBoolean(): Boolean {
-        throw IllegalStateException("Unsupported interface isTrue() is called.")
-    }
-
-    fun supportHave(): Boolean = false
-
-    fun isExist(): Boolean {
-        throw IllegalStateException("Unsupported interface isExist() is called.")
+    fun getProperty(propertyName: String): ValueContainer {
+        throw IllegalStateException("Unsupported interface getProperty() is called.")
     }
 }

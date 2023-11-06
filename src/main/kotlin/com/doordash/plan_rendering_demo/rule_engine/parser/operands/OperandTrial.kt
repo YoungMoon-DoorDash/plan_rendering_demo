@@ -5,7 +5,5 @@ import com.doordash.plan_rendering_demo.rule_engine.model.RuleEngineContext
 class OperandTrial(
     private val context: RuleEngineContext,
 ): Operand {
-    override fun isType(type: OperandType): Boolean = type == OperandType.BOOLEAN
-
-    override fun getBoolean(): Boolean = context.plan.isTrial
+    override fun getType(): OperandType = OperandType.OBJECT
 }

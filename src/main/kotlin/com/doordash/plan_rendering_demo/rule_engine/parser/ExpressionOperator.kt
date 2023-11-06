@@ -12,7 +12,6 @@ enum class ExpressionOperator(val value: String) {
     GREATER(">"),
     LESS_OR_EQUAL("<="),
     GREATER_OR_EQUAL(">="),
-    TO("to"),
     LEFT_BRACE("{"),
     LEFT_BRACKET("("),
 }

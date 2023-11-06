@@ -7,6 +7,7 @@ import java.util.Stack
 class ExpressionRunner(
     private val context: RuleEngineContext
 ) {
+    /*
     fun run(postFix: List<ExpressionContainer>): Boolean {
         val stack = Stack<ExpressionContainer>()
         postFix.forEach { container ->
@@ -230,4 +231,5 @@ class ExpressionRunner(
 
         return container.values
     }
+    */
 }

@@ -5,7 +5,8 @@ import com.doordash.plan_rendering_demo.rule_engine.model.RuleEngineContext
 class OperandCountry(
     private val context: RuleEngineContext
 ): Operand {
-    override fun isType(type: OperandType): Boolean = type == OperandType.STRING
+    override fun getType(): OperandType = OperandType.STRING
 
-    override fun getString(): String = context.country
+    override fun getProperty(propertyName: String): ValueContainer =
+        ValueContainer(value = context.country)
 }
