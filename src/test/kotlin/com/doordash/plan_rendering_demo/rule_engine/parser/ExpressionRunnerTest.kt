@@ -4,20 +4,21 @@ import com.doordash.plan_rendering_demo.rule_engine.model.Expression
 import com.doordash.plan_rendering_demo.rule_engine.model.Plan
 import com.doordash.plan_rendering_demo.rule_engine.model.PlanType
 import com.doordash.plan_rendering_demo.rule_engine.model.RuleEngineContext
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
 class ExpressionRunnerTest {
-    /*
     @Test
     fun `ExpressionRunner - plan eligibility happy path`() {
         val expression = Expression(
             id = 1,
             name = "plan_eligibility_1",
             expression = "country in (US, USA, CA, CAN) and\n" +
-                "        not plan.is_employee_only and\n" +
+                "        plan.is_employee_only is false and\n" +
                 "        plan.type in (standard_plan, annual_plan) and\n" +
-                "        have plan.trial"
+                "        have plan.signup_email_campaign_id"
         )
         val postFix = ExpressionParser().convertToInfix(expression.expression)
 
@@ -26,14 +27,9 @@ class ExpressionRunnerTest {
             ExpressionRunner(
                 RuleEngineContext(
                     consumerId = 10,
-                    plan = Plan(
-                        id = 1,
-                        planType = PlanType.STANDARD_PLAN,
-                        isEmployeeOnly = false
-                    ),
+                    plan = Plan(id = 1),
                     subMarketId = 10L,
-                    country = "US",
-                    overrideConfig = mapOf("override_plan_trial" to "true")
+                    country = "US"
                 )
             ).run(postFix)
         )
@@ -43,14 +39,9 @@ class ExpressionRunnerTest {
             ExpressionRunner(
                 RuleEngineContext(
                     consumerId = 10,
-                    plan = Plan(
-                        id = 1,
-                        planType = PlanType.STANDARD_PLAN,
-                        isEmployeeOnly = true
-                    ),
+                    plan = Plan(id = 1, isEmployeeOnly = true),
                     subMarketId = 10L,
-                    country = "US",
-                    overrideConfig = mapOf("override_plan_trial" to "true")
+                    country = "US"
                 )
             ).run(postFix)
         )
@@ -60,14 +51,9 @@ class ExpressionRunnerTest {
             ExpressionRunner(
                 RuleEngineContext(
                     consumerId = 10,
-                    plan = Plan(
-                        id = 1,
-                        planType = PlanType.PARTNER_PLAN,
-                        isEmployeeOnly = false
-                    ),
+                    plan = Plan(id = 1, planType = PlanType.PLAN_TYPE_PARTNER_PLAN),
                     subMarketId = 10L,
-                    country = "US",
-                    overrideConfig = mapOf("override_plan_trial" to "true")
+                    country = "US"
                 )
             ).run(postFix)
         )
@@ -77,17 +63,24 @@ class ExpressionRunnerTest {
             ExpressionRunner(
                 RuleEngineContext(
                     consumerId = 10,
-                    plan = Plan(
-                        id = 1,
-                        planType = PlanType.STANDARD_PLAN,
-                        isEmployeeOnly = true
-                    ),
+                    plan = Plan(id = 1),
                     subMarketId = 10L,
-                    country = "AUS",
-                    overrideConfig = mapOf("override_plan_trial" to "true")
+                    country = "AU"
                 )
             ).run(postFix)
         )
+
+        // PLAN not exists
+        assertThrows<ExpressionException> {
+            ExpressionRunner(
+                RuleEngineContext(
+                    consumerId = 10,
+                    plan = null,
+                    subMarketId = 10L,
+                    country = "AU"
+                )
+            ).run(postFix)
+        }
     }
 
     @Test
@@ -95,8 +88,8 @@ class ExpressionRunnerTest {
         val expression = Expression(
             id = 1,
             name = "plan_eligibility_1",
-            expression = "{country in (US, USA, CA, CAN) and {is plan.is_employee_only}} or\n" +
-                "        {plan.type in (standard_plan, annual_plan) and have plan.trial}\n"
+            expression = "{country in (US, USA, CA, CAN) and {plan.is_employee_only is false}} or\n" +
+                "        {plan.type in (standard_plan, annual_plan) and have plan.signup_email_campaign_id}\n"
         )
         val postFix = ExpressionParser().convertToInfix(expression.expression)
 
@@ -105,14 +98,9 @@ class ExpressionRunnerTest {
             ExpressionRunner(
                 RuleEngineContext(
                     consumerId = 10,
-                    plan = Plan(
-                        id = 1,
-                        planType = PlanType.STANDARD_PLAN,
-                        isEmployeeOnly = true
-                    ),
+                    plan = Plan(id = 1),
                     subMarketId = 10L,
-                    country = "US",
-                    overrideConfig = mapOf("override_plan_trial" to "true")
+                    country = "US"
                 )
             ).run(postFix)
         )
@@ -122,31 +110,33 @@ class ExpressionRunnerTest {
             ExpressionRunner(
                 RuleEngineContext(
                     consumerId = 10,
-                    plan = Plan(
-                        id = 1,
-                        planType = PlanType.STANDARD_PLAN,
-                        isEmployeeOnly = false
-                    ),
+                    plan = Plan(id = 1, isEmployeeOnly = true),
                     subMarketId = 10L,
-                    country = "US",
-                    overrideConfig = mapOf("override_plan_trial" to "true")
+                    country = "US"
                 )
             ).run(postFix)
         )
 
-        // employee only pland and partner plan are not matched
+        // partner plan is not matched
+        assertTrue(
+            ExpressionRunner(
+                RuleEngineContext(
+                    consumerId = 10,
+                    plan = Plan(id = 1, planType = PlanType.PLAN_TYPE_PARTNER_PLAN),
+                    subMarketId = 10L,
+                    country = "US"
+                )
+            ).run(postFix)
+        )
+
+        // employee only plan and partner plan are not matched
         assertFalse(
             ExpressionRunner(
                 RuleEngineContext(
                     consumerId = 10,
-                    plan = Plan(
-                        id = 1,
-                        planType = PlanType.PARTNER_PLAN,
-                        isEmployeeOnly = false
-                    ),
+                    plan = Plan(id = 1, isEmployeeOnly = true, planType = PlanType.PLAN_TYPE_PARTNER_PLAN),
                     subMarketId = 10L,
-                    country = "US",
-                    overrideConfig = mapOf("override_plan_trial" to "true")
+                    country = "US"
                 )
             ).run(postFix)
         )
@@ -167,11 +157,7 @@ class ExpressionRunnerTest {
             ExpressionRunner(
                 RuleEngineContext(
                     consumerId = 10,
-                    plan = Plan(
-                        id = 1,
-                        name = "DASHPASS_CORPORATE_PLAN",
-                        planType = PlanType.CORP_PLAN
-                    ),
+                    plan = Plan(id = 1, name="DASHPASS_CORPORATE_PLAN"),
                     subMarketId = 10L,
                     country = "US"
                 )
@@ -183,12 +169,8 @@ class ExpressionRunnerTest {
             ExpressionRunner(
                 RuleEngineContext(
                     consumerId = 10,
-                    plan = Plan(
-                        id = 1,
-                        name = "DASHPASS_CORPORATE_PLAN",
-                        planType = PlanType.CORP_PLAN
-                    ),
-                    subMarketId = 200L,
+                    plan = Plan(id = 1, name="DASHPASS_CORPORATE_PLAN"),
+                    subMarketId = 1000L,
                     country = "US"
                 )
             ).run(postFix)
@@ -199,11 +181,7 @@ class ExpressionRunnerTest {
             ExpressionRunner(
                 RuleEngineContext(
                     consumerId = 10,
-                    plan = Plan(
-                        id = 1,
-                        name = "DASHPASS_STANDARD_PLAN",
-                        planType = PlanType.STANDARD_PLAN
-                    ),
+                    plan = Plan(id = 1, name="DASHPASS_STANDARD_MONTHLY_PLAN"),
                     subMarketId = 10L,
                     country = "US"
                 )
@@ -216,8 +194,8 @@ class ExpressionRunnerTest {
         val expression = Expression(
             id = 1,
             name = "plan_eligibility_1",
-            expression = "{country in (US, USA, CA, CAN) and {not plan.is_employee_only}} or\n" +
-                "        {plan.type in (standard_plan, annual_plan) and is trial}\n"
+            expression = "{country in (US, USA, CA, CAN) and {plan.is_employee_only is true}} or\n" +
+                "        {plan.type in (standard_plan, annual_plan) and have trial}\n"
         )
         val postFix = ExpressionParser().convertToInfix(expression.expression)
 
@@ -226,15 +204,10 @@ class ExpressionRunnerTest {
             ExpressionRunner(
                 RuleEngineContext(
                     consumerId = 10,
-                    plan = Plan(
-                        id = 1,
-                        name = "DASHPASS_CORPORATE_PLAN",
-                        planType = PlanType.STANDARD_PLAN,
-                        isEmployeeOnly = false,
-                        isTrial = true
-                    ),
+                    plan = Plan(id = 1, isEmployeeOnly = true),
                     subMarketId = 10L,
-                    country = "US"
+                    country = "US",
+                    overrideConfig = mapOf("override_have_trial" to "true")
                 )
             ).run(postFix)
         )
@@ -244,29 +217,20 @@ class ExpressionRunnerTest {
             ExpressionRunner(
                 RuleEngineContext(
                     consumerId = 10,
-                    plan = Plan(
-                        id = 1,
-                        planType = PlanType.STANDARD_PLAN,
-                        isEmployeeOnly = true,
-                        isTrial = true
-                    ),
+                    plan = Plan(id = 1, isEmployeeOnly = false),
                     subMarketId = 10L,
-                    country = "US"
+                    country = "US",
+                    overrideConfig = mapOf("override_have_trial" to "true")
                 )
             ).run(postFix)
         )
 
-        // trail is not matched
+        // trial is not exists
         assertTrue(
             ExpressionRunner(
                 RuleEngineContext(
                     consumerId = 10,
-                    plan = Plan(
-                        id = 1,
-                        planType = PlanType.STANDARD_PLAN,
-                        isEmployeeOnly = false,
-                        isTrial = false
-                    ),
+                    plan = Plan(id = 1, isEmployeeOnly = true),
                     subMarketId = 10L,
                     country = "US"
                 )
@@ -278,14 +242,10 @@ class ExpressionRunnerTest {
             ExpressionRunner(
                 RuleEngineContext(
                     consumerId = 10,
-                    plan = Plan(
-                        id = 1,
-                        planType = PlanType.CORP_PLAN,
-                        isEmployeeOnly = false,
-                        isTrial = true
-                    ),
+                    plan = Plan(id = 1, isEmployeeOnly = true, planType = PlanType.PLAN_TYPE_PARTNER_PLAN),
                     subMarketId = 10L,
-                    country = "US"
+                    country = "US",
+                    overrideConfig = mapOf("override_have_trial" to "true")
                 )
             ).run(postFix)
         )
@@ -295,12 +255,7 @@ class ExpressionRunnerTest {
             ExpressionRunner(
                 RuleEngineContext(
                     consumerId = 10,
-                    plan = Plan(
-                        id = 1,
-                        planType = PlanType.STANDARD_PLAN,
-                        isEmployeeOnly = true,
-                        isTrial = false
-                    ),
+                    plan = Plan(id = 1, isEmployeeOnly = false),
                     subMarketId = 10L,
                     country = "US"
                 )
@@ -323,11 +278,13 @@ class ExpressionRunnerTest {
             ExpressionRunner(
                 RuleEngineContext(
                     consumerId = 10,
-                    plan = Plan(id = 1),
+                    plan = Plan(id = 1, isEmployeeOnly = false),
+                    subMarketId = 10L,
+                    country = "US",
                     treatments = mapOf("new_trial_upsell_messaging_experiment" to "treatment1"),
                     overrideConfig = mapOf(
-                        "override_min_subtotal" to "3600",
-                        "override_membership_sharing" to "false"
+                        "override_min_subtotal" to "6000",
+                        "override_have_membership_sharing" to "false"
                     )
                 )
             ).run(postFix)
@@ -338,10 +295,13 @@ class ExpressionRunnerTest {
             ExpressionRunner(
                 RuleEngineContext(
                     consumerId = 10,
-                    plan = Plan(id = 1),
+                    plan = Plan(id = 1, isEmployeeOnly = false),
+                    subMarketId = 10L,
+                    country = "US",
+                    treatments = mapOf("new_trial_upsell_messaging_experiment" to "control"),
                     overrideConfig = mapOf(
-                        "override_min_subtotal" to "3600",
-                        "override_membership_sharing" to "false"
+                        "override_min_subtotal" to "6000",
+                        "override_have_membership_sharing" to "false"
                     )
                 )
             ).run(postFix)
@@ -352,11 +312,13 @@ class ExpressionRunnerTest {
             ExpressionRunner(
                 RuleEngineContext(
                     consumerId = 10,
-                    plan = Plan(id = 1),
+                    plan = Plan(id = 1, isEmployeeOnly = false),
+                    subMarketId = 10L,
+                    country = "US",
                     treatments = mapOf("new_trial_upsell_messaging_experiment" to "treatment1"),
                     overrideConfig = mapOf(
-                        "override_min_subtotal" to "1500",
-                        "override_membership_sharing" to "false"
+                        "override_min_subtotal" to "2000",
+                        "override_have_membership_sharing" to "false"
                     )
                 )
             ).run(postFix)
@@ -367,11 +329,13 @@ class ExpressionRunnerTest {
             ExpressionRunner(
                 RuleEngineContext(
                     consumerId = 10,
-                    plan = Plan(id = 1),
+                    plan = Plan(id = 1, isEmployeeOnly = false),
+                    subMarketId = 10L,
+                    country = "US",
                     treatments = mapOf("new_trial_upsell_messaging_experiment" to "treatment1"),
                     overrideConfig = mapOf(
-                        "override_min_subtotal" to "3600",
-                        "override_membership_sharing" to "true"
+                        "override_min_subtotal" to "6000",
+                        "override_have_membership_sharing" to "true"
                     )
                 )
             ).run(postFix)
@@ -383,9 +347,9 @@ class ExpressionRunnerTest {
         val expression = Expression(
             id = 1,
             name = "plan_eligibility_1",
-            expression = "{schedule.type in (monthly, yearly)} and\n" +
-                "        {schedule.payment_method in (CreditCard, ApplePay, GooglePay)} and\n" +
-                "        {have subscription or have transition to partner_plan}"
+            expression = "{payment_schedule.type in (monthly, yearly)} and\n" +
+                "        {payment_schedule.payment_method in (CreditCard, ApplePay, GooglePay)} and\n" +
+                "        {have subscription or {have transition and transition.type is partner_plan}}"
         )
         val postFix = ExpressionParser().convertToInfix(expression.expression)
 
@@ -394,11 +358,15 @@ class ExpressionRunnerTest {
                 RuleEngineContext(
                     consumerId = 10,
                     plan = Plan(id = 1),
+                    subMarketId = 10L,
+                    country = "US",
                     overrideConfig = mapOf(
-                        "override_schedule_type" to "monthly",
-                        "override_schedule_payment_method" to "applepay",
-                        "override_subscription" to "true",
-                        "override_transition_to" to "partner_plan"
+                        "override_have_payment_schedule" to "true",
+                        "override_payment_schedule_type" to "monthly",
+                        "override_payment_schedule_payment_method" to "creditcard",
+                        "override_have_subscription" to "true",
+                        "override_have_transition" to "true",
+                        "override_transition_type" to "partner_plan"
                     )
                 )
             ).run(postFix)
@@ -410,11 +378,15 @@ class ExpressionRunnerTest {
                 RuleEngineContext(
                     consumerId = 10,
                     plan = Plan(id = 1),
+                    subMarketId = 10L,
+                    country = "US",
                     overrideConfig = mapOf(
-                        "override_schedule_type" to "weekly",
-                        "override_schedule_payment_method" to "applepay",
-                        "override_subscription" to "true",
-                        "override_transition_to" to "partner_plan"
+                        "override_have_payment_schedule" to "true",
+                        "override_payment_schedule_type" to "daily",
+                        "override_payment_schedule_payment_method" to "creditcard",
+                        "override_have_subscription" to "true",
+                        "override_have_transition" to "true",
+                        "override_transition_type" to "partner_plan"
                     )
                 )
             ).run(postFix)
@@ -426,11 +398,14 @@ class ExpressionRunnerTest {
                 RuleEngineContext(
                     consumerId = 10,
                     plan = Plan(id = 1),
+                    subMarketId = 10L,
+                    country = "US",
                     overrideConfig = mapOf(
-                        "override_schedule_type" to "monthly",
-                        "override_schedule_payment_method" to "visa",
-                        "override_subscription" to "true",
-                        "override_transition_to" to "partner_plan"
+                        "override_have_payment_schedule" to "true",
+                        "override_payment_schedule_type" to "monthly",
+                        "override_have_subscription" to "true",
+                        "override_have_transition" to "true",
+                        "override_transition_type" to "partner_plan"
                     )
                 )
             ).run(postFix)
@@ -442,10 +417,14 @@ class ExpressionRunnerTest {
                 RuleEngineContext(
                     consumerId = 10,
                     plan = Plan(id = 1),
+                    subMarketId = 10L,
+                    country = "US",
                     overrideConfig = mapOf(
-                        "override_schedule_type" to "monthly",
-                        "override_schedule_payment_method" to "applepay",
-                        "override_transition_to" to "partner_plan"
+                        "override_have_payment_schedule" to "true",
+                        "override_payment_schedule_type" to "monthly",
+                        "override_payment_schedule_payment_method" to "creditcard",
+                        "override_have_transition" to "true",
+                        "override_transition_type" to "partner_plan"
                     )
                 )
             ).run(postFix)
@@ -458,11 +437,15 @@ class ExpressionRunnerTest {
                 RuleEngineContext(
                     consumerId = 10,
                     plan = Plan(id = 1),
+                    subMarketId = 10L,
+                    country = "US",
                     overrideConfig = mapOf(
-                        "override_schedule_type" to "monthly",
-                        "override_schedule_payment_method" to "applepay",
-                        "override_subscription" to "true",
-                        "override_transition_to" to "corp_plan"
+                        "override_have_payment_schedule" to "true",
+                        "override_payment_schedule_type" to "monthly",
+                        "override_payment_schedule_payment_method" to "creditcard",
+                        "override_have_subscription" to "true",
+                        "override_have_transition" to "true",
+                        "override_transition_type" to "standard_plan"
                     )
                 )
             ).run(postFix)
@@ -474,13 +457,34 @@ class ExpressionRunnerTest {
                 RuleEngineContext(
                     consumerId = 10,
                     plan = Plan(id = 1),
+                    subMarketId = 10L,
+                    country = "US",
                     overrideConfig = mapOf(
-                        "override_schedule_type" to "monthly",
-                        "override_schedule_payment_method" to "applepay"
+                        "override_have_payment_schedule" to "true",
+                        "override_payment_schedule_type" to "monthly",
+                        "override_payment_schedule_payment_method" to "creditcard",
+                        "override_have_transition" to "true",
+                        "override_transition_type" to "standard_plan"
+                    )
+                )
+            ).run(postFix)
+        )
+
+        assertFalse(
+            ExpressionRunner(
+                RuleEngineContext(
+                    consumerId = 10,
+                    plan = Plan(id = 1),
+                    subMarketId = 10L,
+                    country = "US",
+                    overrideConfig = mapOf(
+                        "override_have_payment_schedule" to "true",
+                        "override_payment_schedule_type" to "monthly",
+                        "override_payment_schedule_payment_method" to "creditcard",
+                        "override_transition_type" to "standard_plan"
                     )
                 )
             ).run(postFix)
         )
     }
-    */
 }

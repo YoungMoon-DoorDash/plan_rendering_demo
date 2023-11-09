@@ -2,6 +2,7 @@ package com.doordash.plan_rendering_demo.rule_engine.parser
 
 import com.doordash.plan_rendering_demo.rule_engine.model.RuleEngineContext
 import com.doordash.plan_rendering_demo.rule_engine.parser.operands.OperandType
+import com.doordash.plan_rendering_demo.rule_engine.parser.operands.ValueContainer
 import com.doordash.plan_rendering_demo.rule_engine.parser.operands.ValueType
 import java.util.Stack
 
@@ -16,8 +17,8 @@ class ExpressionRunner(
         val stack = Stack<ExpressionContainer>()
         postFix.forEach { container ->
             when (container.type) {
-                ExpressionContainerType.OPERAND, ExpressionContainerType.VALUE -> stack.push(container)
-                else -> runOperator(container.operator, stack)
+                ExpressionContainerType.OPERATOR -> runOperator(container.operator, stack)
+                else -> stack.push(container)
             }
         }
 
@@ -62,32 +63,14 @@ class ExpressionRunner(
             val left = context.treatments[getContainerValue(stack)] ?: "control"
             addResult(left in valueList, stack)
         } else {
-            val operand = container.operand.toOperand(context)
-            when (operand.getType()) {
-                OperandType.OBJECT -> {
-                    val propertyName = getContainerProperty(stack)
-                    val propertyValue = operand.getProperty(propertyName)
-                    when (propertyValue.type) {
-                        ValueType.NUMBER -> addResult(propertyValue.number.toString() in valueList, stack)
-                        ValueType.STRING -> addResult(propertyValue.value in valueList, stack)
-                        ValueType.BOOLEAN -> addResult(propertyValue.flag.toString() in valueList, stack)
-                    }
+            getOperandValue(container, stack)?.let {
+                when (it.type) {
+                    ValueType.NUMBER -> addResult(it.number.toString() in valueList, stack)
+                    ValueType.STRING -> addResult(it.value.lowercase() in valueList, stack)
+                    ValueType.BOOLEAN -> addResult(it.flag.toString() in valueList, stack)
                 }
-
-                OperandType.NUMBER -> {
-                    val value = operand.getProperty(DEFAULT_PROPERTY_NAME).number.toString()
-                    addResult(value in valueList, stack)
-                }
-
-                OperandType.STRING -> {
-                    val value = operand.getProperty(DEFAULT_PROPERTY_NAME).value
-                    addResult(value in valueList, stack)
-                }
-
-                OperandType.BOOLEAN -> {
-                    val value = operand.getProperty(DEFAULT_PROPERTY_NAME).flag.toString()
-                    addResult(value in valueList, stack)
-                }
+            } ?: run {
+                addResult(false, stack)
             }
         }
     }
@@ -99,33 +82,16 @@ class ExpressionRunner(
         when (container.type) {
             ExpressionContainerType.PROPERTY, ExpressionContainerType.OPERATOR ->
                 throw ExpressionException("Expected an operand, but got ${container.type} at ${container.index}")
+
             ExpressionContainerType.OPERAND -> {
-                val operand = container.operand.toOperand(context)
-                when (operand.getType()) {
-                    OperandType.OBJECT -> {
-                        val propertyName = getContainerProperty(stack)
-                        val propertyValue = operand.getProperty(propertyName)
-                        when (propertyValue.type) {
-                            ValueType.NUMBER -> addResult(propertyValue.number.toString() == right, stack)
-                            ValueType.STRING -> addResult(propertyValue.value == right, stack)
-                            ValueType.BOOLEAN -> addResult(propertyValue.flag.toString() == right, stack)
-                        }
+                getOperandValue(container, stack)?.let {
+                    when (it.type) {
+                        ValueType.NUMBER -> addResult(it.number.toString() == right, stack)
+                        ValueType.STRING -> addResult(it.value.lowercase() == right, stack)
+                        ValueType.BOOLEAN -> addResult(it.flag.toString() == right, stack)
                     }
-
-                    OperandType.NUMBER -> {
-                        val value = operand.getProperty(DEFAULT_PROPERTY_NAME).number.toString()
-                        addResult(value == right, stack)
-                    }
-
-                    OperandType.STRING -> {
-                        val value = operand.getProperty(DEFAULT_PROPERTY_NAME).value
-                        addResult(value == right, stack)
-                    }
-
-                    OperandType.BOOLEAN -> {
-                        val value = operand.getProperty(DEFAULT_PROPERTY_NAME).flag.toString()
-                        addResult(value == right, stack)
-                    }
+                } ?: run {
+                    addResult(false, stack)
                 }
             }
 
@@ -133,6 +99,24 @@ class ExpressionRunner(
                 val left = getContainerValue(stack)
                 addResult(left == right, stack)
             }
+        }
+    }
+
+    private fun getOperandValue(container: ExpressionContainer, stack: Stack<ExpressionContainer>): ValueContainer? {
+        val operand = container.operand.toOperand(context)
+        return when (operand.getType()) {
+            OperandType.OBJECT ->
+                if (operand.haveObject()) {
+                    val propertyName = getContainerProperty(stack)
+                    operand.getProperty(propertyName)
+                } else {
+                    if (stack.isNotEmpty() && stack.peek().type == ExpressionContainerType.PROPERTY) {
+                        stack.pop()
+                    }
+                    null
+                }
+
+            else -> operand.getProperty(DEFAULT_PROPERTY_NAME)
         }
     }
 
@@ -171,7 +155,20 @@ class ExpressionRunner(
             throw ExpressionException("Expected an object operand, but got ${operand.getType()} at ${container.index}")
         }
 
-        addResult(operand.haveObject(), stack)
+        // check this object have property
+        val result = if (operand.haveObject()) {
+            if (stack.isNotEmpty() && stack.peek().type == ExpressionContainerType.PROPERTY) {
+                val operandObject = container.operand.toOperand(context)
+                val propertyName = getContainerProperty(stack)
+                try {
+                    operandObject.getProperty(propertyName)
+                    true
+                } catch (ex: ExpressionException) {
+                    false
+                }
+            } else true
+        } else false
+        addResult(result, stack)
     }
 
     private fun calcNot(stack: Stack<ExpressionContainer>) {
@@ -210,10 +207,15 @@ class ExpressionRunner(
                         if (propertyValue.type == ValueType.BOOLEAN) {
                             propertyValue.flag
                         } else {
-                            throw ExpressionException("Expected boolean operand, but got $propertyName with ${propertyValue.type} at ${container.index}")
+                            throw ExpressionException(
+                                "Expected boolean operand, but got $propertyName with ${propertyValue.type} at ${container.index}"
+                            )
                         }
                     }
-                    else -> throw ExpressionException("Expected boolean operand, but got ${container.operand} at ${container.index}")
+                    else ->
+                        throw ExpressionException(
+                            "Expected boolean operand, but got ${container.operand} at ${container.index}"
+                        )
                 }
             }
         }
